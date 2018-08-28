@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private float offsetPerfect, offsetGreat, offsetOkay, offsetPoor;
 
+	[SerializeField]
+	private GameObject accuracyText;
+
     private RhythmController rhythmController;
     private EnemyManager enemyManager;
     private AudioSource audioSource;
@@ -45,7 +48,7 @@ public class GameManager : MonoBehaviour {
     private void OnBeatTrigger() {
         audioSource.Play();
         if (Random.value <= enemySpawnChance) {
-            enemyManager.SpawnEnemy();
+            //enemyManager.SpawnEnemy();
         }
     }
 
@@ -55,16 +58,27 @@ public class GameManager : MonoBehaviour {
 
 		if (rhythmState < offsetPerfect || 1 - offsetPerfect < rhythmState) {
 			Debug.Log("Tapped at " + rhythmState + "s. Pefect");
+			spawnText ("Perfect", enemy.transform);
 		} else if (rhythmState < offsetGreat || 1 - offsetGreat < rhythmState) {
 			Debug.Log("Tapped at " + rhythmState + "s. Great");
+			spawnText ("Great", enemy.transform);
 		} else if (rhythmState < offsetOkay || 1 - offsetOkay < rhythmState) {
 			Debug.Log("Tapped at " + rhythmState + "s. Okay");
+			spawnText ("Okay", enemy.transform);
 		} else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState) {
 			Debug.Log("Tapped at " + rhythmState + "s. Poor");
+			spawnText ("Poor", enemy.transform);
 		} else {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
 		}
 
 		Destroy (enemy);
+
+
+	}
+
+	private void spawnText(string text, Transform transform) {
+		GameObject newText = Instantiate (accuracyText, transform);
+		newText.GetComponent<TMPro.TextMeshPro>().text = text;
 	}
 }
