@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
+	int id;
+	int health;
+
+
+
 	// Use this for initialization
 	void Start () {
 		

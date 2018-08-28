@@ -8,9 +8,13 @@ public class GameManager : MonoBehaviour {
     private KeyCode triggerKey;
 
     [SerializeField]
+    private float enemySpawnChance;
+
+    [SerializeField]
     private float offsetPerfect, offsetGreat, offsetOkay, offsetPoor;
 
     private RhythmController rhythmController;
+    private EnemyManager enemyManager;
     private AudioSource audioSource;
 
     void OnEnable() {
@@ -25,6 +29,7 @@ public class GameManager : MonoBehaviour {
 
     void Start() {
         rhythmController = this.GetComponentInChildren<RhythmController>();
+        enemyManager = this.GetComponent<EnemyManager>();
         audioSource = this.GetComponent<AudioSource>();
 
         if (rhythmController == null) {
@@ -37,13 +42,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void Update() {
-		
-        
-    }
-
     private void OnBeatTrigger() {
         audioSource.Play();
+        if (Random.value <= enemySpawnChance) {
+            enemyManager.SpawnEnemy();
+        }
     }
 
 	private void OnShotFired(GameObject enemy){
@@ -61,5 +64,7 @@ public class GameManager : MonoBehaviour {
 		} else {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
 		}
+
+		Destroy (enemy);
 	}
 }

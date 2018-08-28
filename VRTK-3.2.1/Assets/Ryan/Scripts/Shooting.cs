@@ -15,7 +15,6 @@ public class Shooting : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (controllerEvents.triggerPressed && Time.time > nextFire) {
-			Debug.Log ("FIRE!");
 
 			nextFire = Time.time + fireDelay;
 
@@ -25,6 +24,7 @@ public class Shooting : MonoBehaviour {
 			bool test = Physics.Raycast (rayOrigin, gun.fireDirection, out hit, gun.range);
 			Debug.Log (test);
 			if (test) {
+				
 				GameObject hitObject = hit.collider.gameObject;
 				Debug.Log (hitObject.name + " has been hit.");
 				if (hitObject.CompareTag("Enemy")) {
