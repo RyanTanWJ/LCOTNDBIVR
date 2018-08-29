@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour {
     private void OnBeatTrigger() {
         audioSource.Play();
         if (Random.value <= enemySpawnChance) {
-            //enemyManager.SpawnEnemy();
+            enemyManager.SpawnEnemy();
         }
     }
 
@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour {
 			spawnText ("Great", enemy.transform);
 		} else if (rhythmState < offsetOkay || 1 - offsetOkay < rhythmState) {
 			Debug.Log("Tapped at " + rhythmState + "s. Okay");
+			enemy.GetComponent<MeshRenderer> ().enabled = false;
 			spawnText ("Okay", enemy.transform);
 		} else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState) {
 			Debug.Log("Tapped at " + rhythmState + "s. Poor");
@@ -78,7 +79,10 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void spawnText(string text, Transform transform) {
-		GameObject newText = Instantiate (accuracyText, transform);
+		Debug.Log ("hi");
+		GameObject newText = Instantiate (accuracyText);
+		newText.GetComponent<RectTransform> ().SetPositionAndRotation (transform.position, transform.localRotation);
 		newText.GetComponent<TMPro.TextMeshPro>().text = text;
+		Destroy (newText, 0.5f);
 	}
 }

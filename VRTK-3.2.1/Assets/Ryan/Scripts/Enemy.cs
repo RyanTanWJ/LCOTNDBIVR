@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour {
 	private void Move() {
 		count++;
 		//Debug.Log ("hi");
-		transform.Translate(new Vector3 (0,0, 2 * Mathf.Pow (-1.0f, count)));
+		//transform.Translate(new Vector3 (0,0, 2 * Mathf.Pow (-1.0f, count)));
 	}
+
 }
