@@ -9,8 +9,8 @@ public class Enemy : MonoBehaviour {
     private Vector2 currentPosition;
     private Vector2 nextPosition;
 
-    //private int columnLimit;
-    private int rowLimit;
+    private int columnLimit;
+    //private int rowLimit;
 
     private Vector2[] movementPattern;
     private int movementCycle = 0;
@@ -18,13 +18,13 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     private int movementCycleLength;
 
-    private void Start() {
+    void Start() {
         UpdateNextPosition();
     }
 
-    private void OnMove() {
-        //TODO: Movment Code
-        // Do fancy stuff here wooooo!
+    private void OnMove(Vector3 newPosition, Quaternion newRotation) {
+        //Currently set to teleportation movement
+        transform.SetPositionAndRotation(newPosition, newRotation);
 
         OnUpdateCurrentPosition();
     }
@@ -34,8 +34,8 @@ public class Enemy : MonoBehaviour {
     }
 
     private void OnUpdateNextPosition() {
-        nextPosition[0] += movementPattern[movementCycle][0];
-        nextPosition[1] += movementPattern[movementCycle][1] % rowLimit;
+        nextPosition[0] += movementPattern[movementCycle][0] % columnLimit;
+        nextPosition[1] += movementPattern[movementCycle][1];
 
         movementCycle = movementCycle + 1 % movementCycleLength;
     }
@@ -48,8 +48,8 @@ public class Enemy : MonoBehaviour {
         OnUpdateNextPosition();
     }
 
-    public void MoveAndUpdateNextPosition() {
-        OnMove();
+    public void MoveAndUpdateNextPosition(Vector3 newPosition, Quaternion newRotation) {
+        OnMove(newPosition, newRotation);
         OnUpdateNextPosition();
 	}
 
@@ -60,5 +60,4 @@ public class Enemy : MonoBehaviour {
     public Vector2 GetNextPosition() {
         return nextPosition;
     }
-
 }

@@ -9,6 +9,7 @@ public class EnemyManager : MonoBehaviour {
 
     [SerializeField]
     private float columnCount, rowCount, arenaIncline, tileSpacing;
+    private float inclineAngleRad, tileAngleRad;
 
     private bool[,] enemyGrid;
     private Transform enemyHolder;
@@ -16,32 +17,26 @@ public class EnemyManager : MonoBehaviour {
     void Start() {
         enemyGrid = new bool[(int)columnCount, (int)rowCount];
         enemyHolder = new GameObject("Enemies").transform;
+
+        inclineAngleRad = arenaIncline * Mathf.Deg2Rad;
+        tileAngleRad = 2 * Mathf.PI / columnCount;
     }
 
     private void OnSpawnCommand() {
         //Spawn on the outermost row
-        int spawnColumnPosition = (int)columnCount - 1;
-        int spawnRowPosition = Random.Range((int)0, (int)rowCount);
+        int spawnRowPosition = (int)rowCount - 1;
+        int spawnColumnPosition = Random.Range((int)0, (int)columnCount);
 
         //TODO: Verify valid spawn position
 
         //Calculate spawn position and rotation
-        float angle = 2 * Mathf.PI / columnCount;
-        float radius = spawnColumnPosition * (spawnColumnPosition + 1);
-        float inclineRad = arenaIncline * Mathf.Deg2Rad;
-
-        float spawnX = radius * Mathf.Cos(angle);
-        float spawnZ = radius * Mathf.Sin(angle);
-        float spawnY = radius * Mathf.Tan(inclineRad);
-
-        Vector3 spawnPosition = new Vector3(spawnX, spawnY, spawnZ);
-        Quaternion spawnRotation = Quaternion.LookRotation(-spawnPosition);
+        Vector3 spawnPosition;
+        Quaternion spawnRotation;
+        CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
         //Create enemy and assign attributes
         Instantiate(enemyPrefab, spawnPosition, spawnRotation, enemyHolder);
         EnterGrid(spawnColumnPosition, spawnRowPosition);
-
-        //TODO: Abstract position & rotation calculations (Above)
 
         //TODO: Assign Health <- Might use a common health/damage system for player & enemy
         //TODO: Assign Movement Cycles - List of Vector2 of relative movements
@@ -68,7 +63,14 @@ public class EnemyManager : MonoBehaviour {
                 } else if (enemyGrid[(int)enemyNextPosition[0], (int)enemyNextPosition[1]] == false) {
                     //Valid movement tile
                     LeaveGrid((int)enemyCurrentPosition[0], (int)enemyCurrentPosition[1]);
-                    enemy.MoveAndUpdateNextPosition();
+
+                    //Calculate new positions
+                    Vector3 newPosition;
+                    Quaternion newRotation;
+                    CalculatePositionAndRotation((int)enemyNextPosition[0], (int)enemyNextPosition[1], out newPosition, out newRotation);
+                    
+                    //Update values
+                    enemy.MoveAndUpdateNextPosition(newPosition, newRotation);
                     EnterGrid((int)enemyNextPosition[0], (int)enemyNextPosition[1]);
 
                 } else {
@@ -89,6 +91,18 @@ public class EnemyManager : MonoBehaviour {
 
     private void EnterGrid(int x, int y) {
         enemyGrid[x, y] = true;
+    }
+
+    private void CalculatePositionAndRotation(int column, int row, out Vector3 position, out Quaternion rotation) {
+        float angle = tileAngleRad * (float)column;
+        float radius = tileSpacing * (float)(row + 1);
+
+        float posX = radius * Mathf.Cos(angle);
+        float posZ = radius * Mathf.Sin(angle);
+        float posY = radius * Mathf.Tan(inclineAngleRad);
+
+        position = new Vector3(posX, posY, posZ);
+        rotation = Quaternion.LookRotation(-position);
     }
 
     /**
