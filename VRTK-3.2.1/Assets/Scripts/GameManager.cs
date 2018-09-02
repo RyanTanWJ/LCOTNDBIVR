@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour {
 
     private void OnBeatTrigger() {
         audioSource.Play();
+
+        enemyManager.MoveEnemy();
+
         if (Random.value <= enemySpawnChance) {
             enemyManager.SpawnEnemy();
         }
@@ -74,12 +77,9 @@ public class GameManager : MonoBehaviour {
 		}
 
 		Destroy (enemy);
-
-
 	}
 
 	private void spawnText(string text, Transform transform) {
-		Debug.Log ("hi");
 		GameObject newText = Instantiate (accuracyText);
 		newText.GetComponent<RectTransform> ().SetPositionAndRotation (transform.position, transform.localRotation);
 		newText.GetComponent<TMPro.TextMeshPro>().text = text;
