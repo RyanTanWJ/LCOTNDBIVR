@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
 		}
 
-		Destroy (enemy);
+		enemyManager.DestroyEnemy(enemy);
 	}
 
 	private void spawnText(string text, Transform transform) {

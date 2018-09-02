@@ -81,6 +81,17 @@ public class EnemyManager : MonoBehaviour {
         }
     }
 
+    private void OnDestroyCommand(GameObject enemyObject) {
+        Enemy enemy = enemyObject.GetComponent<Enemy>();
+
+        if (enemy != null) {
+            Vector2 enemyCurrentPosition = enemy.GetCurrentPosition();
+            LeaveGrid((int)enemyCurrentPosition[0], (int)enemyCurrentPosition[1]);
+
+            Destroy(enemyObject);
+        }
+    }
+
     /**
      * Private API
      **/
@@ -115,6 +126,11 @@ public class EnemyManager : MonoBehaviour {
 
     public void MoveEnemy(){
         OnMoveCommand();
+    }
+
+    public void DestroyEnemy(GameObject enemy)
+    {
+        OnDestroyCommand(enemy);
     }
 
 }
