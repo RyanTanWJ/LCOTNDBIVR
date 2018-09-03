@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-	private int health;
+	private HealthController health = new HealthController(2);
 
     private Vector2 currentPosition;
     private Vector2 nextPosition;
@@ -65,4 +65,19 @@ public class Enemy : MonoBehaviour {
         columnLimit = column;
         rowLimit = row;
     }
+
+	public void TakeDamage(int dmg)
+	{
+		health.TakeDamage (dmg);
+	}
+
+	public bool IsDead
+	{
+		get{ return health.IsDead; }
+	}
+
+	public int Health
+	{
+		get{ return health.Health; }
+	}
 }

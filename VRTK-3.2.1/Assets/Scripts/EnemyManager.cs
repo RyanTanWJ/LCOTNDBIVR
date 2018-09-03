@@ -76,7 +76,7 @@ public class EnemyManager : MonoBehaviour {
 
                     //TODO: Hurt the player
 
-                    Destroy(enemy.gameObject);
+                    //Destroy(enemy.gameObject);
 
                 } else if (enemyGrid[(int)enemyNextPosition[0], (int)enemyNextPosition[1]] == false) {
                     //Valid movement tile

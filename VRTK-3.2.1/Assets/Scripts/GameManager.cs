@@ -76,7 +76,11 @@ public class GameManager : MonoBehaviour {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
 		}
 
-		enemyManager.DestroyEnemy(enemy);
+		Enemy enemyHit = enemy.GetComponent<Enemy> ();
+		enemyHit.TakeDamage (1);
+		if (enemyHit.IsDead) {
+			enemyManager.DestroyEnemy (enemy);
+		}
 	}
 
 	private void spawnText(string text, Transform transform) {
