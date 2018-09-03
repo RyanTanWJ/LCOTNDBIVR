@@ -8,14 +8,20 @@ public class EnemyManager : MonoBehaviour {
     private GameObject enemyPrefab;
 
     [SerializeField]
-    private float columnCount, rowCount, arenaIncline, tileSpacing;
+    private int columnCount, rowCount;
+
+    [SerializeField]
+    private float arenaIncline, tileSpacing;
     private float inclineAngleRad, tileAngleRad;
 
     private bool[,] enemyGrid;
     private Transform enemyHolder;
 
+    private int spawnAttempts = 0;
+    private int maxSpawnAttempts = 3;
+
     void Start() {
-        enemyGrid = new bool[(int)columnCount, (int)rowCount];
+        enemyGrid = new bool[columnCount, rowCount];
         enemyHolder = new GameObject("Enemies").transform;
 
         inclineAngleRad = arenaIncline * Mathf.Deg2Rad;
@@ -24,10 +30,19 @@ public class EnemyManager : MonoBehaviour {
 
     private void OnSpawnCommand() {
         //Spawn on the outermost row
-        int spawnRowPosition = (int)rowCount - 1;
-        int spawnColumnPosition = Random.Range((int)0, (int)columnCount);
+        int spawnRowPosition = rowCount - 1;
+        int spawnColumnPosition = Random.Range(0, columnCount);
 
-        //TODO: Verify valid spawn position
+        //Verify valid spawn position
+        while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {
+            spawnColumnPosition = Random.Range(0, columnCount);
+
+            if (spawnAttempts >= maxSpawnAttempts) {
+                break;
+            } else {
+                spawnAttempts++;
+            }
+        }
 
         //Calculate spawn position and rotation
         Vector3 spawnPosition;
@@ -35,11 +50,14 @@ public class EnemyManager : MonoBehaviour {
         CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
         //Create enemy and assign attributes
-        Instantiate(enemyPrefab, spawnPosition, spawnRotation, enemyHolder);
+        GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, spawnRotation, enemyHolder);
         EnterGrid(spawnColumnPosition, spawnRowPosition);
 
         //TODO: Assign Health <- Might use a common health/damage system for player & enemy
+        newEnemy.GetComponent<Enemy>().SetGridLimits(columnCount, rowCount);
+
         //TODO: Assign Movement Cycles - List of Vector2 of relative movements
+        // Currently hardcoded in Enemy.cs
     }
 
     private void OnMoveCommand() {

@@ -10,15 +10,15 @@ public class Enemy : MonoBehaviour {
     private Vector2 nextPosition;
 
     private int columnLimit;
-    //private int rowLimit;
+    private int rowLimit;
 
     private Vector2[] movementPattern;
     private int movementCycle = 0;
 
-    [SerializeField]
-    private int movementCycleLength;
-
     void Start() {
+        //Temporary Hardcoding of movement pattern
+        movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
+
         UpdateNextPosition();
     }
 
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour {
         nextPosition[0] += movementPattern[movementCycle][0] % columnLimit;
         nextPosition[1] += movementPattern[movementCycle][1];
 
-        movementCycle = movementCycle + 1 % movementCycleLength;
+        movementCycle = (movementCycle + 1) % movementPattern.Length;
     }
 
     /**
@@ -59,5 +59,10 @@ public class Enemy : MonoBehaviour {
 
     public Vector2 GetNextPosition() {
         return nextPosition;
+    }
+
+    public void SetGridLimits(int column, int row) {
+        columnLimit = column;
+        rowLimit = row;
     }
 }
