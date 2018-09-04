@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject accuracyText;
 
+	[SerializeField]
+	private Player player;
     private RhythmController rhythmController;
     private EnemyManager enemyManager;
     private AudioSource audioSource;
@@ -23,11 +25,13 @@ public class GameManager : MonoBehaviour {
     void OnEnable() {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
 		Shooting.ShotFiredEvent += OnShotFired;
+		EnemyManager.PlayerHurtEvent += HurtPlayer;
     }
 
     void OnDisable() {
 		RhythmController.BeatTriggeredEvent -= OnBeatTrigger;
 		Shooting.ShotFiredEvent -= OnShotFired;
+		EnemyManager.PlayerHurtEvent -= HurtPlayer;
     }
 
     void Start() {
@@ -88,5 +92,9 @@ public class GameManager : MonoBehaviour {
 		newText.GetComponent<RectTransform> ().SetPositionAndRotation (transform.position, transform.localRotation);
 		newText.GetComponent<TMPro.TextMeshPro>().text = text;
 		Destroy (newText, 0.5f);
+	}
+
+	private void HurtPlayer(int damage){
+		player.TakeDamage (damage);
 	}
 }

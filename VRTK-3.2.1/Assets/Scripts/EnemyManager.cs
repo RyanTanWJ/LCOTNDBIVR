@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour {
 
+	public delegate void PlayerHurt(int damage);
+	public static event PlayerHurt PlayerHurtEvent;
+
     [SerializeField]
     private GameObject enemyPrefab;
 
@@ -16,6 +19,7 @@ public class EnemyManager : MonoBehaviour {
 
     private bool[,] enemyGrid;
     private Transform enemyHolder;
+
 
     private int spawnAttempts = 0;
     private int maxSpawnAttempts = 3;
@@ -51,10 +55,18 @@ public class EnemyManager : MonoBehaviour {
 
         //Create enemy and assign attributes
         GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, spawnRotation, enemyHolder);
+	
         EnterGrid(spawnColumnPosition, spawnRowPosition);
 
         //TODO: Assign Health <- Might use a common health/damage system for player & enemy
-        newEnemy.GetComponent<Enemy>().SetGridLimits(columnCount, rowCount);
+		Enemy newEnemyController = newEnemy.GetComponent<Enemy>();
+
+        newEnemyController.SetGridLimits(columnCount, rowCount);
+		newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
+		newEnemyController.movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
+
+
+		newEnemyController.UpdateNextPosition();
 
         //TODO: Assign Movement Cycles - List of Vector2 of relative movements
         // Currently hardcoded in Enemy.cs
@@ -75,8 +87,8 @@ public class EnemyManager : MonoBehaviour {
                     LeaveGrid((int)enemyCurrentPosition[0], (int)enemyCurrentPosition[1]);
 
                     //TODO: Hurt the player
-
-                    //Destroy(enemy.gameObject);
+					PlayerHurtEvent(1); //Replace with Enemy's damage
+                    Destroy(enemy.gameObject);
 
                 } else if (enemyGrid[(int)enemyNextPosition[0], (int)enemyNextPosition[1]] == false) {
                     //Valid movement tile

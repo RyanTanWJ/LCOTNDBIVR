@@ -82,15 +82,11 @@
 
 		private void DoTriggerPressed (object sender, ControllerInteractionEventArgs e)
 		{
-			triggerState = true;
-			Debug.Log("TriggerState set to " + triggerState);
 			//DebugLogger (VRTK_ControllerReference.GetRealIndex (e.controllerReference), "TRIGGER", "pressed", e);
 		}
 
 		private void DoTriggerReleased (object sender, ControllerInteractionEventArgs e)
 		{
-			triggerState = false;
-			Debug.Log("TriggerState set to " + triggerState);
 			//DebugLogger (VRTK_ControllerReference.GetRealIndex (e.controllerReference), "TRIGGER", "released", e);
 		}
 
@@ -116,11 +112,15 @@
 
 		private void DoTriggerClicked (object sender, ControllerInteractionEventArgs e)
 		{
+			triggerState = true;
+			Debug.Log("TriggerState set to " + triggerState);
 			//DebugLogger (VRTK_ControllerReference.GetRealIndex (e.controllerReference), "TRIGGER", "clicked", e);
 		}
 
 		private void DoTriggerUnclicked (object sender, ControllerInteractionEventArgs e)
 		{
+			triggerState = false;
+			Debug.Log("TriggerState set to " + triggerState);
 			//DebugLogger (VRTK_ControllerReference.GetRealIndex (e.controllerReference), "TRIGGER", "unclicked", e);
 		}
 

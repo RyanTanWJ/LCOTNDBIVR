@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-	private HealthController health = new HealthController(2);
+	private HealthController health = new HealthController(1);
 
     private Vector2 currentPosition;
     private Vector2 nextPosition;
@@ -12,20 +12,19 @@ public class Enemy : MonoBehaviour {
     private int columnLimit;
     private int rowLimit;
 
-    private Vector2[] movementPattern;
+    public Vector2[] movementPattern;
     private int movementCycle = 0;
 
     void Start() {
         //Temporary Hardcoding of movement pattern
-        movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
+        //movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
 
-        UpdateNextPosition();
+        //UpdateNextPosition();
     }
 
     private void OnMove(Vector3 newPosition, Quaternion newRotation) {
         //Currently set to teleportation movement
         transform.SetPositionAndRotation(newPosition, newRotation);
-
         OnUpdateCurrentPosition();
     }
 
@@ -60,6 +59,13 @@ public class Enemy : MonoBehaviour {
     public Vector2 GetNextPosition() {
         return nextPosition;
     }
+
+	public void SetStartingPosition(int column, int row) {
+		currentPosition[0] = column;
+		currentPosition[1] = row;
+		nextPosition [0] = column;
+		nextPosition [1] = row;
+	}
 
     public void SetGridLimits(int column, int row) {
         columnLimit = column;

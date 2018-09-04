@@ -14,11 +14,15 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		health.TakeDamage (1);
 	}
 
 	public int Health
 	{
 		get { return health.Health; }
+	}
+
+	public void TakeDamage(int dmg)
+	{
+		health.TakeDamage (dmg);
 	}
 }
