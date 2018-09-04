@@ -8,8 +8,7 @@ public class Player : MonoBehaviour {
 	int maxHealth;
 	HealthController health;
 
-	// Use this for initialization
-	void Start () {
+	void Awake () {
 		health = new HealthController (maxHealth);
 	}
 	
