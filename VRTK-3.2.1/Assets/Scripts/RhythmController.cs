@@ -22,7 +22,6 @@ public class RhythmController : MonoBehaviour {
 
     private AudioSource musicTrack;
 
-
 	void Start () {
         musicTrack = GetComponent<AudioSource>();
 
@@ -55,4 +54,8 @@ public class RhythmController : MonoBehaviour {
     public float GetCurrentBeat() {
         return beatPosition;
     }
+
+	public float GetSecondsPerBeat(){
+		return secondsPerBeat;
+	}
 }

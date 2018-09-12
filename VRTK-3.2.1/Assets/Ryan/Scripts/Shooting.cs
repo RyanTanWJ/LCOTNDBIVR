@@ -7,7 +7,9 @@ public class Shooting : MonoBehaviour {
 	public delegate void ShotFired(GameObject enemy);
 	public static event ShotFired ShotFiredEvent;
 	public VRTK.VRTK_ControllerEvents controllerEvents;
+	public VRTK.AdditionalControllerInput extraInput;
 
+	private bool triggerReleased = true;
 	private WaitForSeconds shotDuration = new WaitForSeconds (0.07f);
 
 	private LineRenderer laserline;
@@ -23,7 +25,7 @@ public class Shooting : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		laserline.SetPosition (0, gun.transform.position);
-		if (controllerEvents.triggerPressed && Time.time > nextFire) {
+		if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
 
 			nextFire = Time.time + fireDelay;
 
@@ -40,9 +42,12 @@ public class Shooting : MonoBehaviour {
 				if (hitObject.CompareTag ("Enemy")) {
 					ShotFiredEvent (hitObject);
 				}
-			} else {
-				
 			}
+
+			triggerReleased = false;
+		}
+		if (!extraInput.TriggerState && !triggerReleased) {
+			triggerReleased = true;
 		}
 		laserline.SetPosition (1, gun.transform.position + gun.range * gun.fireDirection);
 	}
