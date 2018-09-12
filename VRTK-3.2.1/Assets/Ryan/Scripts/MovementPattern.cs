@@ -105,6 +105,7 @@ public class MovementPattern : MonoBehaviour{
             {
                 posChange[0] = 1;
             }
+			left = !left;
             posChange[1] = -1;
         }
     }

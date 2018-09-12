@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pattern: 0
+  pattern: 4
   MoveCycle: 
 --- !u!114 &114844819823880026
 MonoBehaviour:
