@@ -63,7 +63,7 @@ public class EnemyManager : MonoBehaviour {
 
         newEnemyController.SetGridLimits(columnCount, rowCount);
 		newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
-		newEnemyController.movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
+		//newEnemyController.movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
 
 
 		newEnemyController.UpdateNextPosition();
@@ -82,7 +82,7 @@ public class EnemyManager : MonoBehaviour {
                 Vector2 enemyCurrentPosition = enemy.GetCurrentPosition();
                 Vector2 enemyNextPosition = enemy.GetNextPosition();
 
-                if (enemyNextPosition[1] <= 0) {
+				if (enemyNextPosition[1] <= 0) {
                     //Enemy has reached the player
                     LeaveGrid((int)enemyCurrentPosition[0], (int)enemyCurrentPosition[1]);
 

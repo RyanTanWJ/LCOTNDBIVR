@@ -12,14 +12,15 @@ public class Enemy : MonoBehaviour {
     private int columnLimit;
     private int rowLimit;
 
-    public Vector2[] movementPattern;
+    //public Vector2[] movementPattern;
+	public MovementPattern movementPattern;
     private int movementCycle = 0;
 
     void Start() {
         //Temporary Hardcoding of movement pattern
         //movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
 
-        //UpdateNextPosition();
+        UpdateNextPosition();
     }
 
     private void OnMove(Vector3 newPosition, Quaternion newRotation) {
@@ -33,10 +34,15 @@ public class Enemy : MonoBehaviour {
     }
 
     private void OnUpdateNextPosition() {
-        nextPosition[0] = (nextPosition[0] + movementPattern[movementCycle][0] + columnLimit) % columnLimit; //in case of negative numbers
+        /*
+		nextPosition[0] = (nextPosition[0] + movementPattern[movementCycle][0] + columnLimit) % columnLimit; //in case of negative numbers
         nextPosition[1] += movementPattern[movementCycle][1];
+		*/
+		Vector2 positionChange = movementPattern.PositionChange(movementCycle);
+		nextPosition[0] = (((nextPosition[0] + positionChange[0]) % columnLimit)  + columnLimit) % columnLimit; //in case of negative numbers
+		nextPosition[1] += positionChange[1];
 
-        movementCycle = (movementCycle + 1) % movementPattern.Length;
+		movementCycle = (movementCycle + 1) % movementPattern.Beats;
     }
 
     /**

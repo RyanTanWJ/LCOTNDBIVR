@@ -6,10 +6,12 @@ using UnityEngine;
 /*
  * This class serves to represent the CHANGE from the current position to the next position.
  */
-public class MovementPattern {
+public class MovementPattern : MonoBehaviour{
 
     [SerializeField]
     int pattern;
+
+	int beats = 4;
 
     [SerializeField]
     List<int> MoveCycle = new List<int>(4);
@@ -70,7 +72,7 @@ public class MovementPattern {
         }
         else
         {
-            posChange[1] = 1;
+            posChange[1] = -1;
         }
     }
 
@@ -87,7 +89,7 @@ public class MovementPattern {
             {
                 posChange[0] = -1;
             }
-            posChange[1] = 1;
+            posChange[1] = -1;
         }
     }
 
@@ -103,7 +105,7 @@ public class MovementPattern {
             {
                 posChange[0] = 1;
             }
-            posChange[1] = 1;
+            posChange[1] = -1;
         }
     }
 
@@ -126,7 +128,7 @@ public class MovementPattern {
             }
             else
             {
-                posChange[1] = 1;
+                posChange[1] = -1;
             }
             //Change Axis Direction
             horizontal = !horizontal;
@@ -137,7 +139,7 @@ public class MovementPattern {
     {
         if (beat == 1)
         {
-            posChange[1] = 1;
+            posChange[1] = -1;
         }
     }
 
@@ -145,7 +147,7 @@ public class MovementPattern {
     {
         if (beat == 1 || beat == 3)
         {
-            posChange[1] = 1;
+            posChange[1] = -1;
         }
     }
 
@@ -153,7 +155,7 @@ public class MovementPattern {
     {
         if (beat != 4)
         {
-            posChange[1] = 1;
+            posChange[1] = -1;
         }
     }
 
@@ -162,4 +164,9 @@ public class MovementPattern {
         assignPosChange(beatNum);
         return posChange;
     }
+
+	public int Beats
+	{
+		get { return beats; }
+	}
 }
