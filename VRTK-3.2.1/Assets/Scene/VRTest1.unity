@@ -1708,8 +1708,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949392c7c75f17a43925538098dd2410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 1958654980689476, guid: 784fab86ecf54e340b147788f15d003e,
-    type: 2}
+  enemyPrefabs:
+  - {fileID: 1958654980689476, guid: 784fab86ecf54e340b147788f15d003e, type: 2}
+  - {fileID: 1233282468439946, guid: 1173e6781ea2e5244a664ca6ccf550e9, type: 2}
+  - {fileID: 1362227394337334, guid: 672e58a5208ebb84981ebc3483799c1d, type: 2}
   columnCount: 8
   rowCount: 8
   arenaIncline: 30
@@ -2406,7 +2408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1215530000
 Transform:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class EnemyManager : MonoBehaviour {
 	public static event PlayerHurt PlayerHurtEvent;
 
     [SerializeField]
-    private GameObject enemyPrefab;
+    private List<GameObject> enemyPrefabs;
 
     [SerializeField]
     private int columnCount, rowCount;
@@ -19,6 +19,7 @@ public class EnemyManager : MonoBehaviour {
 
     private bool[,] enemyGrid;
     private Transform enemyHolder;
+
 
 
     private int spawnAttempts = 0;
@@ -54,7 +55,9 @@ public class EnemyManager : MonoBehaviour {
         CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
         //Create enemy and assign attributes
-        GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, spawnRotation, enemyHolder);
+		System.Random randomiseEnemy = new System.Random();
+		int enemyPrefabType = randomiseEnemy.Next(enemyPrefabs.Count);
+		GameObject newEnemy = Instantiate(enemyPrefabs[enemyPrefabType], spawnPosition, spawnRotation, enemyHolder);
 	
         EnterGrid(spawnColumnPosition, spawnRowPosition);
 
