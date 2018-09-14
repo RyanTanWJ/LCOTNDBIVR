@@ -34,9 +34,7 @@ public class Shooting : MonoBehaviour {
 			Vector3 rayOrigin = gun.transform.position;
 			RaycastHit hit;
 
-			bool test = Physics.Raycast (rayOrigin, gun.fireDirection, out hit, gun.range);
-
-			if (test) {
+			if (Physics.Raycast (rayOrigin, gun.fireDirection, out hit, gun.range)) {
 				laserline.SetPosition (1, hit.point);
 				GameObject hitObject = hit.collider.gameObject;
 				if (hitObject.CompareTag ("Enemy")) {
