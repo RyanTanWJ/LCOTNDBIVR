@@ -50,8 +50,8 @@ public class Enemy : MonoBehaviour {
         nextPosition[1] += movementPattern[movementCycle][1];
 		*/
 		Vector2 positionChange = movementPattern.PositionChange(movementCycle);
-		nextPosition[0] = (((nextPosition[0] + positionChange[0]) % columnLimit)  + columnLimit) % columnLimit; //in case of negative numbers
-		nextPosition[1] += positionChange[1];
+		nextPosition[0] = (((currentPosition[0] + positionChange[0]) % columnLimit)  + columnLimit) % columnLimit; //in case of negative numbers
+		nextPosition[1] = currentPosition[1] + positionChange[1];
 
 		movementCycle = (movementCycle + 1) % movementPattern.Beats;
     }
