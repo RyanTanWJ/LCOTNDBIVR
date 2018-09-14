@@ -11,11 +11,11 @@ public class HealthDisplay : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		text.text = "Player Health = " + player.Health;
+		text.text = "Flow: " + player.Health;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		text.text = "Player Health = " + player.Health;
+		text.text = "Flow: " + player.Health;
 	}
 }
