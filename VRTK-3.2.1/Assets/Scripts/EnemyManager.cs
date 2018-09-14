@@ -20,7 +20,8 @@ public class EnemyManager : MonoBehaviour {
     private bool[,] enemyGrid;
     private Transform enemyHolder;
 
-
+	[SerializeField]
+	private List<int> validColumns;
 
     private int spawnAttempts = 0;
     private int maxSpawnAttempts = 3;
@@ -29,6 +30,9 @@ public class EnemyManager : MonoBehaviour {
         enemyGrid = new bool[columnCount, rowCount];
         enemyHolder = new GameObject("Enemies").transform;
 
+		validColumns = new List<int> ();
+		UpdateValidColumns (0);
+
         inclineAngleRad = arenaIncline * Mathf.Deg2Rad;
         tileAngleRad = 2 * Mathf.PI / columnCount;
     }
@@ -36,7 +40,9 @@ public class EnemyManager : MonoBehaviour {
     private void OnSpawnCommand() {
         //Spawn on the outermost row
         int spawnRowPosition = rowCount - 1;
-        int spawnColumnPosition = Random.Range(0, columnCount);
+		int test = Random.Range (0, validColumns.Count);
+		Debug.Log (test);
+		int spawnColumnPosition = validColumns[test];
 
         //Verify valid spawn position
         while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {
@@ -55,9 +61,7 @@ public class EnemyManager : MonoBehaviour {
         CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
         //Create enemy and assign attributes
-		System.Random randomiseEnemy = new System.Random();
-		int enemyPrefabType = randomiseEnemy.Next(enemyPrefabs.Count);
-		GameObject newEnemy = Instantiate(enemyPrefabs[enemyPrefabType], spawnPosition, spawnRotation, enemyHolder);
+		GameObject newEnemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], spawnPosition, spawnRotation, enemyHolder);
 	
         EnterGrid(spawnColumnPosition, spawnRowPosition);
 
@@ -148,6 +152,21 @@ public class EnemyManager : MonoBehaviour {
         position = new Vector3(posX, posY, posZ);
         rotation = Quaternion.LookRotation(-position);
     }
+
+	//Quadrant count starts from 0
+	private void UpdateValidColumns(int quadrantNum){
+		//Debug.Log ("Updating Valid Columns");
+		int colPerQuad = columnCount / 4;
+		//Debug.Log ("colPerQuad = " + colPerQuad);
+		int quadStartCol = colPerQuad * quadrantNum;
+		//Debug.Log ("quadStartCol = " + quadStartCol);
+		int quadEndCol = (int) Mathf.Min ((quadStartCol + colPerQuad), columnCount); //Min in case not exactly divisible by 4
+		//Debug.Log ("quadEndCol = " + quadEndCol);
+		for (int i = quadStartCol; i < quadEndCol; i++) {
+			validColumns.Add (i);
+			//Debug.Log (i + " has been added to Valid Columns");
+		}
+	}
 
     /**
      * Public API
