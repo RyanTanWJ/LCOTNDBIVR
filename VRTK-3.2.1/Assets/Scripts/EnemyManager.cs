@@ -40,9 +40,7 @@ public class EnemyManager : MonoBehaviour {
     private void OnSpawnCommand() {
         //Spawn on the outermost row
         int spawnRowPosition = rowCount - 1;
-		int test = Random.Range (0, validColumns.Count);
-		Debug.Log (test);
-		int spawnColumnPosition = validColumns[test];
+		int spawnColumnPosition = validColumns[Random.Range (0, validColumns.Count)];
 
         //Verify valid spawn position
         while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {

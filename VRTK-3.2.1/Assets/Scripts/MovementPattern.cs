@@ -55,6 +55,8 @@ public class MovementPattern : MonoBehaviour{
                 //T-Movement
                 TMovement(beat);
                 break;
+			default:
+				break;
         }
     }
 
