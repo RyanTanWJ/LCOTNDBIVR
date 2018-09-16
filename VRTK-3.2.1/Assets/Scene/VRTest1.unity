@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1714,9 +1714,10 @@ MonoBehaviour:
   - {fileID: 1362227394337334, guid: 672e58a5208ebb84981ebc3483799c1d, type: 2}
   columnCount: 8
   rowCount: 8
+  sectors: 4
   arenaIncline: 30
   tileSpacing: 1
-  validColumns: 
+  startingSectors: 00000000
 --- !u!43 &935716118
 Mesh:
   m_ObjectHideFlags: 0

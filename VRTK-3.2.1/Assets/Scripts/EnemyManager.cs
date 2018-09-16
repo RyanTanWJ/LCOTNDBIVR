@@ -11,7 +11,7 @@ public class EnemyManager : MonoBehaviour {
     private List<GameObject> enemyPrefabs;
 
     [SerializeField]
-    private int columnCount, rowCount;
+    private int columnCount, rowCount, sectors;
 
     [SerializeField]
     private float arenaIncline, tileSpacing;
@@ -20,7 +20,8 @@ public class EnemyManager : MonoBehaviour {
     private bool[,] enemyGrid;
     private Transform enemyHolder;
 
-	[SerializeField]
+    [SerializeField]
+    private List<int> startingSectors;
 	private List<int> validColumns;
 
     private int spawnAttempts = 0;
@@ -31,7 +32,8 @@ public class EnemyManager : MonoBehaviour {
         enemyHolder = new GameObject("Enemies").transform;
 
 		validColumns = new List<int> ();
-		UpdateValidColumns (0);
+        //UpdateValidColumns(4);
+        UpdateValidColumns(sectors, startingSectors);
 
         inclineAngleRad = arenaIncline * Mathf.Deg2Rad;
         tileAngleRad = 2 * Mathf.PI / columnCount;
@@ -164,7 +166,39 @@ public class EnemyManager : MonoBehaviour {
 			validColumns.Add (i);
 			//Debug.Log (i + " has been added to Valid Columns");
 		}
-	}
+    }
+
+    /// <summary>
+    /// Updates the valid columns where enemies will spawn from.
+    /// </summary>
+    /// <param name="sectors">Number of Sectors the grid is divided into. Sector count starts from 0.</param>
+    /// <param name="activeSectors">A list of all Sectors that are valid on the grid.</param>
+    private void UpdateValidColumns(int sectors, List<int> activeSectors)
+    {
+        //Debug.Log ("Updating Valid Columns");
+        validColumns.Clear();
+
+        //Find the number of columns in each sector
+        int colPerSect = columnCount / sectors;
+        //Debug.Log ("colPerSect = " + colPerSect);
+
+        foreach (int sectorNum in activeSectors)
+        {
+            //Find the column on which the sector begins
+            int sectStartCol = colPerSect * sectorNum;
+            //Debug.Log ("sectStartCol = " + sectStartCol);
+
+            //Find the column before which the sector ends
+            int sectEndCol = (int)Mathf.Min((sectStartCol + colPerSect), columnCount); //Min in case not exactly divisible by 4
+            //Debug.Log ("sectEndCol = " + sectEndCol);
+
+            for (int j = sectStartCol; j < sectEndCol; j++)
+            {
+                validColumns.Add(j);
+                //Debug.Log (j + " has been added to Valid Columns");
+            }
+        }
+    }
 
     /**
      * Public API
