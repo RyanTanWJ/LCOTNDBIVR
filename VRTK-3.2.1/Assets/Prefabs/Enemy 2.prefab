@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pattern: 0
+  pattern: 1
   MoveCycle: 
 --- !u!114 &114622802244413144
 MonoBehaviour:
@@ -193,4 +193,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b717671474c2f24e8123ec438b3cfe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 100
   movementPattern: {fileID: 114085741471448022}

@@ -1333,6 +1333,7 @@ GameObject:
   - component: {fileID: 853850634}
   - component: {fileID: 853850633}
   - component: {fileID: 853850636}
+  - component: {fileID: 853850637}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1475,6 +1476,22 @@ MonoBehaviour:
   arenaIncline: 30
   tileSpacing: 1
   startingSectors: 00000000
+--- !u!114 &853850637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 853850632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f7453e3414ec246bf71028fbb214dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wave0Types: 00000000
+  wave1Types: 01000000
+  wave2Types: 0000000001000000
+  wave3Types: 02000000
+  wave4Types: 000000000100000002000000
 --- !u!1 &904379175
 GameObject:
   m_ObjectHideFlags: 0

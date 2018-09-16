@@ -24,15 +24,18 @@ public class EnemyManager : MonoBehaviour {
     private List<int> startingSectors;
 	private List<int> validColumns;
 
+	private EnemyWaveManager enemyWaveManager;
+
     private int spawnAttempts = 0;
     private int maxSpawnAttempts = 3;
 
     void Start() {
         enemyGrid = new bool[columnCount, rowCount];
-        enemyHolder = new GameObject("Enemies").transform;
+		enemyHolder = new GameObject("Enemies").transform;
+
+		enemyWaveManager = this.GetComponent<EnemyWaveManager>();
 
 		validColumns = new List<int> ();
-        //UpdateValidColumns(4);
         UpdateValidColumns(sectors, startingSectors);
 
         inclineAngleRad = arenaIncline * Mathf.Deg2Rad;
@@ -151,21 +154,6 @@ public class EnemyManager : MonoBehaviour {
 
         position = new Vector3(posX, posY, posZ);
         rotation = Quaternion.LookRotation(-position);
-    }
-
-	//Quadrant count starts from 0
-	private void UpdateValidColumns(int quadrantNum){
-		//Debug.Log ("Updating Valid Columns");
-		int colPerQuad = columnCount / 4;
-		//Debug.Log ("colPerQuad = " + colPerQuad);
-		int quadStartCol = colPerQuad * quadrantNum;
-		//Debug.Log ("quadStartCol = " + quadStartCol);
-		int quadEndCol = (int) Mathf.Min ((quadStartCol + colPerQuad), columnCount); //Min in case not exactly divisible by 4
-		//Debug.Log ("quadEndCol = " + quadEndCol);
-		for (int i = quadStartCol; i < quadEndCol; i++) {
-			validColumns.Add (i);
-			//Debug.Log (i + " has been added to Valid Columns");
-		}
     }
 
     /// <summary>

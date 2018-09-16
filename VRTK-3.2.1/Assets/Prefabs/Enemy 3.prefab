@@ -517,6 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b717671474c2f24e8123ec438b3cfe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 100
   movementPattern: {fileID: 114665436651030092}
 --- !u!114 &114665436651030092
 MonoBehaviour:
@@ -529,7 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pattern: 1
+  pattern: 4
   MoveCycle: 
 --- !u!135 &135829849784591998
 SphereCollider:
