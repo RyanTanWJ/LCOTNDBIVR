@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour {
 		Enemy enemyHit = enemy.GetComponent<Enemy> ();
 		enemyHit.TakeDamage (1);
 		if (enemyHit.IsDead) {
+			player.AddScore (enemyHit.score);
 			enemyManager.DestroyEnemy (enemy);
 		}
 	}

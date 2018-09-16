@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour {
     private int columnLimit;
     private int rowLimit;
 
+	public int score = 100;
+
 	private static float MoveTime;
 	private static float InverseMoveTime;
 
