@@ -571,11 +571,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -83.6
+      value: -55
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -603,7 +603,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1000
+      value: 650
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalScale.z
@@ -1470,11 +1470,13 @@ MonoBehaviour:
   - {fileID: 1958654980689476, guid: 784fab86ecf54e340b147788f15d003e, type: 2}
   - {fileID: 1233282468439946, guid: 1173e6781ea2e5244a664ca6ccf550e9, type: 2}
   - {fileID: 1362227394337334, guid: 672e58a5208ebb84981ebc3483799c1d, type: 2}
-  columnCount: 8
-  rowCount: 8
+  columnCount: 20
+  rowCount: 6
   sectors: 4
   arenaIncline: 30
   tileSpacing: 1
+  arenaRadius: 13.5
+  arenaHeight: 5.5
   startingSectors: 00000000
 --- !u!114 &853850637
 MonoBehaviour:
@@ -2742,11 +2744,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -83.6
+      value: -55
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2774,7 +2776,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1000
+      value: 650
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
       propertyPath: m_LocalScale.z

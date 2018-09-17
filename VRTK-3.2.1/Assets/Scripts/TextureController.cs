@@ -27,8 +27,6 @@ public class TextureController : MonoBehaviour {
     void Start () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         renderMaterial = GetComponent<Renderer>();
-
-        Debug.Log("Hello. Player is at " + player.Health + "% Flow");
 	}
 
     private void UpdatePattern() {
@@ -45,7 +43,7 @@ public class TextureController : MonoBehaviour {
             renderMaterial.material = materialPatternNormal[beat % materialPatternNormal.Length];
 
         }
-        Debug.Log(renderMaterial.material.name);
+
         beat++;
     }
 }

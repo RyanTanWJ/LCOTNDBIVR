@@ -17,6 +17,9 @@ public class EnemyManager : MonoBehaviour {
     private float arenaIncline, tileSpacing;
     private float inclineAngleRad, tileAngleRad;
 
+    [SerializeField]
+    private float arenaRadius, arenaHeight;
+
     private bool[,] enemyGrid;
     private Transform enemyHolder;
 
@@ -145,12 +148,12 @@ public class EnemyManager : MonoBehaviour {
     }
 
     private void CalculatePositionAndRotation(int column, int row, out Vector3 position, out Quaternion rotation) {
-        float angle = tileAngleRad * (float)column;
-        float radius = tileSpacing * (float)(row + 1);
+        float theta = (2 * Mathf.PI / (float)columnCount) * ((float)column + 0.5f);
+        float t = (Mathf.PI / 2) * ((float)(rowCount - row) / (float)rowCount);
 
-        float posX = radius * Mathf.Cos(angle);
-        float posZ = radius * Mathf.Sin(angle);
-        float posY = radius * Mathf.Tan(inclineAngleRad);
+        float posX = arenaRadius * Mathf.Cos(t) * Mathf.Cos(theta);
+        float posZ = arenaRadius * Mathf.Cos(t) * Mathf.Sin(theta);
+        float posY = arenaHeight - ((arenaHeight-0.25f) * Mathf.Sin(t));
 
         position = new Vector3(posX, posY, posZ);
         rotation = Quaternion.LookRotation(-position);
