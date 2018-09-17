@@ -2683,6 +2683,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
+  maxFlow: 500
+  startingFlow: 100
 --- !u!114 &1711060534
 MonoBehaviour:
   m_ObjectHideFlags: 0

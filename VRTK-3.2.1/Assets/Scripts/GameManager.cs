@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour {
     private EnemyManager enemyManager;
     private AudioSource audioSource;
 
+    private bool isGameOver = false;
+
     void OnEnable() {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
 		Shooting.ShotFiredEvent += OnShotFired;
@@ -82,6 +84,8 @@ public class GameManager : MonoBehaviour {
 
 		Enemy enemyHit = enemy.GetComponent<Enemy> ();
 		enemyHit.TakeDamage (1);
+        player.Heal(enemyHit.score);
+
 		if (enemyHit.IsDead) {
 			player.AddScore (enemyHit.score);
 			enemyManager.DestroyEnemy (enemy);
@@ -97,5 +101,9 @@ public class GameManager : MonoBehaviour {
 
 	private void HurtPlayer(int damage){
 		player.TakeDamage (damage);
+
+        if (player.IsDead()) {
+            isGameOver = true;
+        }
 	}
 }

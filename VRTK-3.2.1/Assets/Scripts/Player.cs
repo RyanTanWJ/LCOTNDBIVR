@@ -6,16 +6,25 @@ public class Player : MonoBehaviour {
 
 	[SerializeField]
 	int maxHealth;
-	int score = 0;
+
+    [SerializeField]
+    int maxFlow, startingFlow;
+
+    int score = 0;
+
 	HealthController health;
+    FlowController flow;
 
 	void Awake () {
-		health = new HealthController (maxHealth);
+        //health = new HealthController (maxHealth);
+        //flow = gameObject.AddComponent<FlowController>();
+        flow = new FlowController(maxFlow, startingFlow);
 	}
 
 	public int Health
 	{
-		get { return health.Health; }
+		//get { return health.Health; }
+        get { return flow.Flow; }
 	}
 
 	public int Score
@@ -23,14 +32,24 @@ public class Player : MonoBehaviour {
 		get { return score; }
 	}
 
-	public void TakeDamage(int dmg)
-	{
-		health.TakeDamage (dmg);
-	}
+    public void TakeDamage(int dmg)
+    {
+        //health.TakeDamage (dmg);
+        flow.TakeDamage(Multiplier(dmg));
+    }
+
+    public void Heal(int health)
+    {
+        flow.Heal(Multiplier(health));
+    }
+
+    public bool IsDead() {
+        return flow.IsDead;
+    }
 
 	//TODO: Implement Score Multiplier based on flow
 	private int Multiplier(int value){
-		return value;
+		return flow.Flow / 100 * 5 * value;
 	}
 
 	/// <summary>
