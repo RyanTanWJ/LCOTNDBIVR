@@ -4,61 +4,79 @@ using UnityEngine;
 
 public class EnemyWaveManager : MonoBehaviour {
 
-	private int currWave, totalWaves, enemiesLeft;
+    public GameObject[] Enemies;
 
-	[SerializeField]
-	List<int> wave0Types;
-	[SerializeField]
-	List<int> wave1Types;
-	[SerializeField]
-	List<int> wave2Types;
-	[SerializeField]
-	List<int> wave3Types;
-	[SerializeField]
-	List<int> wave4Types;
+    [SerializeField]
+    private float enemySpawnChance;
 
-	[SerializeField]
-	private List<EnemyWave> enemyWaves;
+    [SerializeField]
+    private int beatsBetweenWaves;
 
-	void Start(){
-		int currWave = 0;
-		int totalWaves = 5;
+    private int currentWave = 0;
+    private int noWaveCounter = 0;
 
-		int wave0Enemies = 5;
-		EnemyWave wave0 = new EnemyWave (wave0Enemies, wave0Types);
+    private bool isWave = false;
 
-		int wave1Enemies = 5;
-		EnemyWave wave1 = new EnemyWave (wave1Enemies, wave1Types);
+    private List<int> validEnemies;
 
-		int wave2Enemies = 10;
-		EnemyWave wave2 = new EnemyWave (wave2Enemies, wave2Types);
+    //Possible to get GameManager to manage the listening of the beats instead,
+    //so we can start/stop spawning at will.
+    private void OnEnable() {
+        RhythmController.BeatTriggeredEvent += OnBeat;
+    }
 
-		int wave3Enemies = 5;
-		EnemyWave wave3 = new EnemyWave (wave3Enemies, wave3Types);
+    private void OnDisable() {
+        RhythmController.BeatTriggeredEvent -= OnBeat;
+    }
 
-		int wave4Enemies = 20;
-		EnemyWave wave4 = new EnemyWave (wave4Enemies, wave4Types);
+    private void Start() {
+        UpdateWave();
+    }
 
-		enemyWaves.Add (wave0);
-		enemyWaves.Add (wave1);
-		enemyWaves.Add (wave2);
-		enemyWaves.Add (wave3);
-		enemyWaves.Add (wave4);
-	}
+    private void OnBeat() {
+        if (isWave) {
+            if(Random.value <= enemySpawnChance) {
+                // Call Enemy Manager To Spawn Selected Enemy
+                //EnemyManager.SpawnEnemy(SelectEnemy());
+            }
+        } else {
+            OnNoWave();
+        }
+    }
 
-	public bool NextWave(){
-		if (currWave < totalWaves) {
-			currWave += 1;
-			return true;
-		}
-		return false;
-	}
+    private void OnNoWave() {
+        noWaveCounter++;
 
-	public List<int> GetCurrentWaveEnemyTypes(){
-		return enemyWaves [currWave].EnemyTypes;
-	}
+        if (noWaveCounter % 0 == 0) {
+            UpdateWave();
+            isWave = true;
+        }
+    }
 
-	public int GetCurrentWaveEnemiesLeft(){
-		return enemyWaves [currWave].EnemiesLeft;
-	}
+    private void UpdateWave() {
+        currentWave++;
+        validEnemies.Clear();
+
+        //Binary Wave Creator
+        // Split wave number into binary, and based on these select which enemy types will spawn during the wave
+        int i = currentWave;
+        int j = 0;
+        while (i > 0) {
+            if (i % 2 == 1) {
+                if (j < Enemies.Length) {
+                    int k = j;
+                    validEnemies.Add(k);
+                } else {
+                    break;
+                }
+            }
+
+            i /= 2;
+            j++;
+        }
+    }
+
+    private GameObject SelectEnemy() {
+        return Enemies[validEnemies[Random.Range(0, validEnemies.Count - 1)]];
+    }
 }
