@@ -2666,7 +2666,7 @@ GameObject:
   - component: {fileID: 1711060533}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2787,10 +2787,60 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
   m_IsPrefabParent: 0
+--- !u!1 &1892389323 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100008, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
+  m_PrefabInternal: {fileID: 548358140}
+--- !u!114 &1892389325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1892389323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03911314adf789d489598c346b295158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowThreshold: 100
+  highThreshold: 250
+  materialPatternLow:
+  - {fileID: 2100000, guid: ba2c3a25c610f314ab3f7922c47cae48, type: 2}
+  materialPatternNormal:
+  - {fileID: 2100000, guid: ba2c3a25c610f314ab3f7922c47cae48, type: 2}
+  - {fileID: 2100000, guid: c4b6044114856d1488f989ad4e14753d, type: 2}
+  materialPatternHigh:
+  - {fileID: 2100000, guid: f3bdcb3f757748542865aa796eeeb04b, type: 2}
+  - {fileID: 2100000, guid: c4b6044114856d1488f989ad4e14753d, type: 2}
 --- !u!1 &2003861074 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 124034, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
   m_PrefabInternal: {fileID: 802388092}
+--- !u!1 &2034603898 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100008, guid: ed55451bb3287a64d8c303e61f09f02a, type: 3}
+  m_PrefabInternal: {fileID: 1892230616}
+--- !u!114 &2034603902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2034603898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03911314adf789d489598c346b295158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lowThreshold: 100
+  highThreshold: 250
+  materialPatternLow:
+  - {fileID: 2100000, guid: ba2c3a25c610f314ab3f7922c47cae48, type: 2}
+  materialPatternNormal:
+  - {fileID: 2100000, guid: c4b6044114856d1488f989ad4e14753d, type: 2}
+  - {fileID: 2100000, guid: ba2c3a25c610f314ab3f7922c47cae48, type: 2}
+  materialPatternHigh:
+  - {fileID: 2100000, guid: c4b6044114856d1488f989ad4e14753d, type: 2}
+  - {fileID: 2100000, guid: f3bdcb3f757748542865aa796eeeb04b, type: 2}
 --- !u!1 &2131225762
 GameObject:
   m_ObjectHideFlags: 0
