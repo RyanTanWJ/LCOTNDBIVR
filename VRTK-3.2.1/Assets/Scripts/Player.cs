@@ -35,12 +35,12 @@ public class Player : MonoBehaviour {
     public void TakeDamage(int dmg)
     {
         //health.TakeDamage (dmg);
-        flow.TakeDamage(Multiplier(dmg));
+		flow.TakeDamage(FlowMultiplier(dmg));
     }
 
     public void Heal(int health)
     {
-        flow.Heal(Multiplier(health));
+		flow.Heal(FlowMultiplier(health));
     }
 
     public bool IsDead() {
@@ -48,7 +48,13 @@ public class Player : MonoBehaviour {
     }
 
 	//TODO: Implement Score Multiplier based on flow
-	private int Multiplier(int value){
+	private int FlowMultiplier(int value){
+		return value;
+	}
+
+
+	//TODO: Implement Score Multiplier based on flow
+	private int ScoreMultiplier(int value){
 		return flow.Flow / 100 * 5 * value;
 	}
 
@@ -57,6 +63,6 @@ public class Player : MonoBehaviour {
 	/// </summary>
 	/// <param name="value">The destroyed enemy's base score.</param>
 	public void AddScore(int value){
-		score += Multiplier (value);
+		score += ScoreMultiplier (value);
 	}
 }

@@ -47,7 +47,7 @@ public class EnemyWaveManager : MonoBehaviour {
     private void OnNoWave() {
         noWaveCounter++;
 
-        if (noWaveCounter % 0 == 0) {
+		if (noWaveCounter % beatsBetweenWaves == 0) {
             UpdateWave();
             isWave = true;
         }
