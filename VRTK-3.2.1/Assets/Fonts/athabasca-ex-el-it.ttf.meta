@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 154358c4e5cc2a34fbc6519464695eb3
+timeCreated: 1537082321
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Athabasca
+  fontNames:
+  - Athabasca
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 02ce88da082e7ba48bc32467bd1c8da2, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

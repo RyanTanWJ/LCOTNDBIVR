@@ -1,0 +1,36 @@
+fileFormatVersion: 2
+guid: 6f8b90e7f72365342ab9bd5289cf8590
+timeCreated: 1537082322
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Athabasca
+  fontNames:
+  - Athabasca
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 51f38b01d132cea4090a65dfa526505a, type: 3}
+  - {fileID: 12800000, guid: 48d8c5216beadcb4681bdcfaffe24317, type: 3}
+  - {fileID: 12800000, guid: 603d9352b8c26ae478b80d3e2f33373e, type: 3}
+  - {fileID: 12800000, guid: 154358c4e5cc2a34fbc6519464695eb3, type: 3}
+  - {fileID: 12800000, guid: 450750a5c5abdac4dbce92d423d3fecb, type: 3}
+  - {fileID: 12800000, guid: 56ea777605528474e9e54c618942e4b8, type: 3}
+  - {fileID: 12800000, guid: 5186fbb698b0145488da023b6c3efae8, type: 3}
+  - {fileID: 12800000, guid: 36114117dcb1f494f94fbc1ab52ecd8a, type: 3}
+  - {fileID: 12800000, guid: 33875d273bef11e4eb57493687819753, type: 3}
+  - {fileID: 12800000, guid: 33caa72a0d845b1469342ed42e835320, type: 3}
+  - {fileID: 12800000, guid: 02ce88da082e7ba48bc32467bd1c8da2, type: 3}
+  - {fileID: 12800000, guid: 4215c3cce33546748913d8408add07e4, type: 3}
+  - {fileID: 12800000, guid: 1f74eebddce462643b63a5bca7cfdc45, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

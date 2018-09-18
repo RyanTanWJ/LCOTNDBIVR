@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour {
     private float offsetPerfect, offsetGreat, offsetOkay, offsetPoor;
 
 	[SerializeField]
+	private float flowPerfect, flowGreat, flowOkay, flowPoor;
+
+	[SerializeField]
 	private GameObject accuracyText;
 
 	[SerializeField]
@@ -21,6 +24,8 @@ public class GameManager : MonoBehaviour {
     private RhythmController rhythmController;
     private EnemyManager enemyManager;
     private AudioSource audioSource;
+
+    private bool isGameOver = false;
 
     void OnEnable() {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
@@ -62,27 +67,30 @@ public class GameManager : MonoBehaviour {
 	private void OnShotFired(GameObject enemy){
 		//Do something when shot fired
 		float rhythmState = rhythmController.GetCurrentBeat() % 1;
+		float flowMultiplier = 0;
 
 		if (rhythmState < offsetPerfect || 1 - offsetPerfect < rhythmState) {
-			Debug.Log("Tapped at " + rhythmState + "s. Pefect");
 			spawnText ("Perfect", enemy.transform);
+			flowMultiplier = flowPerfect;
 		} else if (rhythmState < offsetGreat || 1 - offsetGreat < rhythmState) {
-			Debug.Log("Tapped at " + rhythmState + "s. Great");
 			spawnText ("Great", enemy.transform);
+			flowMultiplier = flowPerfect;
 		} else if (rhythmState < offsetOkay || 1 - offsetOkay < rhythmState) {
-			Debug.Log("Tapped at " + rhythmState + "s. Okay");
-			enemy.GetComponent<MeshRenderer> ().enabled = false;
 			spawnText ("Okay", enemy.transform);
+			flowMultiplier = flowOkay;
 		} else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState) {
-			Debug.Log("Tapped at " + rhythmState + "s. Poor");
 			spawnText ("Poor", enemy.transform);
+			flowMultiplier = flowPoor;
 		} else {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
 		}
 
 		Enemy enemyHit = enemy.GetComponent<Enemy> ();
 		enemyHit.TakeDamage (1);
+		player.Heal((int)flowMultiplier);
+
 		if (enemyHit.IsDead) {
+			player.AddScore (enemyHit.score);
 			enemyManager.DestroyEnemy (enemy);
 		}
 	}
@@ -96,5 +104,9 @@ public class GameManager : MonoBehaviour {
 
 	private void HurtPlayer(int damage){
 		player.TakeDamage (damage);
+
+        if (player.IsDead()) {
+            isGameOver = true;
+        }
 	}
 }
