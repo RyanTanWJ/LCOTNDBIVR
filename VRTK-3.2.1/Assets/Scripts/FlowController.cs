@@ -17,7 +17,12 @@ public class FlowController : MonoBehaviour {
     }
 
     public void TakeDamage(int damage) {
-        currentFlow = Mathf.Max(currentFlow - damage, 0);
+        if (currentFlow > 100)
+        {
+            currentFlow = 100;
+            return;
+        }
+        currentFlow = Mathf.Max(currentFlow - damage*10, 0);
     }
 
     public void Heal(int heal) {

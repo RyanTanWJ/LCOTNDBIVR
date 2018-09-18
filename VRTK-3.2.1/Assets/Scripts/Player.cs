@@ -21,8 +21,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public int Health
-	{
-		//get { return health.Health; }
+    {
         get { return flow.Flow; }
 	}
 
@@ -33,7 +32,6 @@ public class Player : MonoBehaviour {
 
     public void TakeDamage(int dmg)
     {
-        //health.TakeDamage (dmg);
 		flow.TakeDamage(FlowMultiplier(dmg));
     }
 

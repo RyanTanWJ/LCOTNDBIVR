@@ -135,6 +135,12 @@ public class EnemyManager : MonoBehaviour {
         }
     }
 
+    public void DestroyAllEnemies() {
+        foreach(Transform enemy in enemyHolder) {
+            Destroy(enemy.gameObject);
+        }
+    }
+
     /**
      * Private API
      **/

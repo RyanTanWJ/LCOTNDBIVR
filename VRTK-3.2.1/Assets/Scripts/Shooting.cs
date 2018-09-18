@@ -6,7 +6,14 @@ public class Shooting : MonoBehaviour {
 
 	public delegate void ShotFired(GameObject enemy);
 	public static event ShotFired ShotFiredEvent;
-	public VRTK.VRTK_ControllerEvents controllerEvents;
+
+    public delegate void GameStart();
+    public static event GameStart GameStartEvent;
+
+    public delegate void GameRestart();
+    public static event GameRestart GameRestartEvent;
+
+    public VRTK.VRTK_ControllerEvents controllerEvents;
 	public VRTK.AdditionalControllerInput extraInput;
 
 	private bool triggerReleased = true;
@@ -40,7 +47,16 @@ public class Shooting : MonoBehaviour {
 				if (hitObject.CompareTag ("Enemy")) {
 					ShotFiredEvent (hitObject);
 				}
-			}
+                else if (hitObject.CompareTag("Start"))
+                {
+                    GameStartEvent();
+                    //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
+                }
+                else if (hitObject.CompareTag("Retry"))
+                {
+                    GameRestartEvent();
+                }
+            }
 
 			triggerReleased = false;
 		}

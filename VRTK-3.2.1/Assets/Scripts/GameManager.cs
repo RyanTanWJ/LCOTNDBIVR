@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -21,32 +22,43 @@ public class GameManager : MonoBehaviour {
 
 	[SerializeField]
 	private Player player;
+
+    [SerializeField]
+    private GameObject rhythmControllerPrefab;
+
+    [SerializeField]
+    private GameObject menu;
+
     private RhythmController rhythmController;
     private EnemyManager enemyManager;
     private AudioSource audioSource;
 
-    private bool isGameOver = false;
-
     void OnEnable() {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
 		Shooting.ShotFiredEvent += OnShotFired;
-		EnemyManager.PlayerHurtEvent += HurtPlayer;
+        Shooting.GameStartEvent += OnGameStart;
+        Shooting.GameRestartEvent += OnGameRestart;
+        EnemyManager.PlayerHurtEvent += HurtPlayer;
     }
 
     void OnDisable() {
 		RhythmController.BeatTriggeredEvent -= OnBeatTrigger;
 		Shooting.ShotFiredEvent -= OnShotFired;
-		EnemyManager.PlayerHurtEvent -= HurtPlayer;
+        Shooting.GameStartEvent -= OnGameStart;
+        Shooting.GameRestartEvent -= OnGameRestart;
+        EnemyManager.PlayerHurtEvent -= HurtPlayer;
     }
 
     void Start() {
-        rhythmController = this.GetComponentInChildren<RhythmController>();
+        //rhythmController = this.GetComponentInChildren<RhythmController>();
         enemyManager = this.GetComponent<EnemyManager>();
         audioSource = this.GetComponent<AudioSource>();
 
+        /*
         if (rhythmController == null) {
             Debug.LogError("No RhythmController attached to this object");
         }
+        */
 
         if (audioSource == null)
         {
@@ -95,7 +107,18 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	private void spawnText(string text, Transform transform) {
+    private void OnGameStart()
+    {
+        menu.SetActive(false);
+        rhythmController = Instantiate(rhythmControllerPrefab, this.transform).GetComponent<RhythmController>();
+    }
+
+    private void OnGameRestart()
+    {
+        SceneManager.LoadScene("VRTest1");
+    }
+
+    private void spawnText(string text, Transform transform) {
 		GameObject newText = Instantiate (accuracyText);
 		newText.GetComponent<RectTransform> ().SetPositionAndRotation (transform.position, transform.localRotation);
 		newText.GetComponent<TMPro.TextMeshPro>().text = text;
@@ -106,7 +129,19 @@ public class GameManager : MonoBehaviour {
 		player.TakeDamage (damage);
 
         if (player.IsDead()) {
-            isGameOver = true;
+            GameOver();
         }
 	}
+
+    private void GameOver()
+    {
+        //Destroy all Enemies
+        enemyManager.DestroyAllEnemies();
+        //Destroy RhythmController
+        Destroy(rhythmController);
+        //Reactivate Game Over Screen
+        menu.SetActive(true);
+        //Switch to Game Over menu
+        menu.GetComponent<MenuController>().GameOverMenu(player.Score);
+    }
 }
