@@ -12,7 +12,6 @@ public class Player : MonoBehaviour {
 
     int score = 0;
 
-	HealthController health;
     FlowController flow;
 
 	void Awake () {
@@ -47,15 +46,12 @@ public class Player : MonoBehaviour {
         return flow.IsDead;
     }
 
-	//TODO: Implement Score Multiplier based on flow
 	private int FlowMultiplier(int value){
 		return value;
 	}
-
-
-	//TODO: Implement Score Multiplier based on flow
+		
 	private int ScoreMultiplier(int value){
-		return flow.Flow / 100 * 5 * value;
+		return flow.Flow * value;
 	}
 
 	/// <summary>

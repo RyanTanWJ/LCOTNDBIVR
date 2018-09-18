@@ -8,9 +8,6 @@ public class EnemyManager : MonoBehaviour {
 	public static event PlayerHurt PlayerHurtEvent;
 
     [SerializeField]
-    private List<GameObject> enemyPrefabs;
-
-    [SerializeField]
     private int columnCount, rowCount, sectors;
 
     [SerializeField]
@@ -48,7 +45,8 @@ public class EnemyManager : MonoBehaviour {
     private void OnSpawnCommand() {
         //Spawn on the outermost row
         int spawnRowPosition = rowCount - 1;
-		int spawnColumnPosition = validColumns[Random.Range (0, validColumns.Count)];
+		//Spawn only in valid columns
+		int spawnColumnPosition = validColumns[Random.Range (0, validColumns.Count-1)];
 
         //Verify valid spawn position
         while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {
@@ -67,22 +65,24 @@ public class EnemyManager : MonoBehaviour {
         CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
         //Create enemy and assign attributes
-		GameObject newEnemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], spawnPosition, spawnRotation, enemyHolder);
-	
-        EnterGrid(spawnColumnPosition, spawnRowPosition);
+		GameObject enemyType = enemyWaveManager.GetEnemy();
 
-        //TODO: Assign Health <- Might use a common health/damage system for player & enemy
-		Enemy newEnemyController = newEnemy.GetComponent<Enemy>();
+		if (enemyType != null) {
+			GameObject newEnemy = Instantiate(enemyType, spawnPosition, spawnRotation, enemyHolder);
 
-        newEnemyController.SetGridLimits(columnCount, rowCount);
-		newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
-		//newEnemyController.movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
+			EnterGrid(spawnColumnPosition, spawnRowPosition);
+
+			//TODO: Assign Health <- Might use a common health/damage system for player & enemy
+			Enemy newEnemyController = newEnemy.GetComponent<Enemy>();
+
+			newEnemyController.SetGridLimits(columnCount, rowCount);
+			newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
+			//newEnemyController.movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
 
 
-		newEnemyController.UpdateNextPosition();
+			newEnemyController.UpdateNextPosition();
+		}
 
-        //TODO: Assign Movement Cycles - List of Vector2 of relative movements
-        // Currently hardcoded in Enemy.cs
     }
 
     private void OnMoveCommand() {
@@ -166,27 +166,22 @@ public class EnemyManager : MonoBehaviour {
     /// <param name="activeSectors">A list of all Sectors that are valid on the grid.</param>
     private void UpdateValidColumns(int sectors, List<int> activeSectors)
     {
-        //Debug.Log ("Updating Valid Columns");
         validColumns.Clear();
 
         //Find the number of columns in each sector
         int colPerSect = columnCount / sectors;
-        //Debug.Log ("colPerSect = " + colPerSect);
 
         foreach (int sectorNum in activeSectors)
         {
             //Find the column on which the sector begins
             int sectStartCol = colPerSect * sectorNum;
-            //Debug.Log ("sectStartCol = " + sectStartCol);
 
             //Find the column before which the sector ends
             int sectEndCol = (int)Mathf.Min((sectStartCol + colPerSect), columnCount); //Min in case not exactly divisible by 4
-            //Debug.Log ("sectEndCol = " + sectEndCol);
 
             for (int j = sectStartCol; j < sectEndCol; j++)
             {
                 validColumns.Add(j);
-                //Debug.Log (j + " has been added to Valid Columns");
             }
         }
     }
@@ -195,9 +190,17 @@ public class EnemyManager : MonoBehaviour {
      * Public API
      **/
 
+	public void UpdateValidColumns(List<int> activeSectors){
+		UpdateValidColumns (sectors, activeSectors);
+	}
+
     public void SpawnEnemy() {
         OnSpawnCommand();
-    }
+	}
+
+	public void SpawnEnemy(GameObject enemy) {
+		//OnSpawnCommand(enemy);
+	}
 
     public void MoveEnemy(){
         OnMoveCommand();

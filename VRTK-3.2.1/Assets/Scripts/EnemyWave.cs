@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class EnemyWave {
 
-	public int EnemiesLeft;
+	public List<int> ActiveSectors;
 	public List<int> EnemyTypes;
+	public int EnemiesInWave;
 
-	public EnemyWave(int enemiesInWave, List<int> enemyTypes){
-		EnemiesLeft = enemiesInWave;
-		EnemyTypes = enemyTypes;
+	public EnemyWave(){
+		ActiveSectors = new List<int> ();
+		EnemyTypes = new List<int> ();
+		EnemiesInWave = 10;
 	}
 }

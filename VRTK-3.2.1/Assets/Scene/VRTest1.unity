@@ -1438,6 +1438,10 @@ MonoBehaviour:
   offsetGreat: 0.1
   offsetOkay: 0.25
   offsetPoor: 0.5
+  flowPerfect: 10
+  flowGreat: 5
+  flowOkay: 0
+  flowPoor: -10
   accuracyText: {fileID: 1360421005805558, guid: babf494ebfadf92468d67bdec641989d,
     type: 2}
   player: {fileID: 1711060533}
@@ -1466,10 +1470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 949392c7c75f17a43925538098dd2410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 1958654980689476, guid: 784fab86ecf54e340b147788f15d003e, type: 2}
-  - {fileID: 1233282468439946, guid: 1173e6781ea2e5244a664ca6ccf550e9, type: 2}
-  - {fileID: 1362227394337334, guid: 672e58a5208ebb84981ebc3483799c1d, type: 2}
   columnCount: 20
   rowCount: 6
   sectors: 4
@@ -1489,11 +1489,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f7453e3414ec246bf71028fbb214dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wave0Types: 00000000
-  wave1Types: 01000000
-  wave2Types: 0000000001000000
-  wave3Types: 02000000
-  wave4Types: 000000000100000002000000
+  Enemies:
+  - {fileID: 1958654980689476, guid: 784fab86ecf54e340b147788f15d003e, type: 2}
+  - {fileID: 1233282468439946, guid: 1173e6781ea2e5244a664ca6ccf550e9, type: 2}
+  - {fileID: 1362227394337334, guid: 672e58a5208ebb84981ebc3483799c1d, type: 2}
+  enemySpawnChance: 0.75
+  beatsBetweenWaves: 4
 --- !u!1 &904379175
 GameObject:
   m_ObjectHideFlags: 0

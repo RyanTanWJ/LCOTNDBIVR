@@ -15,47 +15,44 @@ public class EnemyWaveManager : MonoBehaviour {
     private int currentWave = 0;
     private int noWaveCounter = 0;
 
-    private bool isWave = false;
+	private EnemyManager enemyManager;
 
-    private List<int> validEnemies;
-
-    //Possible to get GameManager to manage the listening of the beats instead,
-    //so we can start/stop spawning at will.
-    private void OnEnable() {
-        RhythmController.BeatTriggeredEvent += OnBeat;
-    }
-
-    private void OnDisable() {
-        RhythmController.BeatTriggeredEvent -= OnBeat;
-    }
+	private EnemyWave wave = new EnemyWave();
 
     private void Start() {
         UpdateWave();
+		enemyManager = this.GetComponent<EnemyManager> ();
+    }
+		
+    public GameObject GetEnemy() {
+		if (wave.EnemiesInWave > 0) {
+			if (Random.value <= enemySpawnChance) {
+				return SelectEnemy ();
+			}
+		} else {
+			OnNoWave ();
+		}
+
+		return null;
     }
 
-    private void OnBeat() {
-        if (isWave) {
-            if(Random.value <= enemySpawnChance) {
-                // Call Enemy Manager To Spawn Selected Enemy
-                //EnemyManager.SpawnEnemy(SelectEnemy());
-            }
-        } else {
-            OnNoWave();
-        }
-    }
-
+	//TODO: Customisbable number of enemies in wave
     private void OnNoWave() {
         noWaveCounter++;
-
 		if (noWaveCounter % beatsBetweenWaves == 0) {
             UpdateWave();
-            isWave = true;
+
+			wave.EnemiesInWave = 10;
+
+			UpdateWaveActiveSectors (Random.Range (0, 3));
+			// Call Enemy Manager to Update the Valid Columns
+			enemyManager.UpdateValidColumns(wave.ActiveSectors);
         }
     }
 
     private void UpdateWave() {
         currentWave++;
-        validEnemies.Clear();
+		wave.EnemyTypes.Clear();
 
         //Binary Wave Creator
         // Split wave number into binary, and based on these select which enemy types will spawn during the wave
@@ -64,8 +61,7 @@ public class EnemyWaveManager : MonoBehaviour {
         while (i > 0) {
             if (i % 2 == 1) {
                 if (j < Enemies.Length) {
-                    int k = j;
-                    validEnemies.Add(k);
+					wave.EnemyTypes.Add(j);
                 } else {
                     break;
                 }
@@ -76,7 +72,32 @@ public class EnemyWaveManager : MonoBehaviour {
         }
     }
 
+	/*
+	private void UpdateFixedWave(string jsonFilename) {
+		currentWave++;
+		wave.EnemyTypes.Clear();
+
+		List<int> fixedWave = new List<int> ();
+		//Read JSON file, parse and populate fixedWave
+
+		wave.EnemyTypes = fixedWave;
+	}
+	*/
+
     private GameObject SelectEnemy() {
+		List<int> validEnemies = wave.EnemyTypes;
+		wave.EnemiesInWave--;
         return Enemies[validEnemies[Random.Range(0, validEnemies.Count - 1)]];
-    }
+	}
+
+	private void UpdateWaveActiveSectors(params int[] actSects){
+		wave.ActiveSectors.Clear ();
+		if (actSects.Length == 0) {
+			wave.ActiveSectors.Add (0);
+		} else {
+			foreach (int sect in actSects) {
+				wave.ActiveSectors.Add (sect);
+			}
+		}
+	}
 }
