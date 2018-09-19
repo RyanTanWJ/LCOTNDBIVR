@@ -6,7 +6,10 @@ public class FlowController : MonoBehaviour {
 
     private int maxFlow;
     private int currentFlow;
-    
+
+    public delegate void PlayerDead();
+    public static event PlayerDead PlayerDeadEvent;
+
     public FlowController(int maxFlow, int startingFlow) {
         this.maxFlow = maxFlow;
         this.currentFlow = startingFlow;
@@ -22,7 +25,8 @@ public class FlowController : MonoBehaviour {
             currentFlow = 100;
             return;
         }
-        currentFlow = Mathf.Max(currentFlow - damage*10, 0);
+        currentFlow = Mathf.Max(currentFlow - damage*20, 0);
+        if (IsDead) { PlayerDeadEvent(); }
     }
 
     public void Heal(int heal) {

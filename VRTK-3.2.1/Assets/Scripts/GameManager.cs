@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour {
         Shooting.GameStartEvent += OnGameStart;
         Shooting.GameRestartEvent += OnGameRestart;
         EnemyManager.PlayerHurtEvent += HurtPlayer;
+        FlowController.PlayerDeadEvent += OnPlayerDead;
     }
 
     void OnDisable() {
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour {
         Shooting.GameStartEvent -= OnGameStart;
         Shooting.GameRestartEvent -= OnGameRestart;
         EnemyManager.PlayerHurtEvent -= HurtPlayer;
+        FlowController.PlayerDeadEvent -= OnPlayerDead;
     }
 
     void Start() {
@@ -127,11 +129,12 @@ public class GameManager : MonoBehaviour {
 
 	private void HurtPlayer(int damage){
 		player.TakeDamage (damage);
+    }
 
-        if (player.IsDead()) {
-            GameOver();
-        }
-	}
+    private void OnPlayerDead()
+    {
+        GameOver();
+    }
 
     private void GameOver()
     {
