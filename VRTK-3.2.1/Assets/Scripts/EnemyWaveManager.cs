@@ -6,6 +6,8 @@ public class EnemyWaveManager : MonoBehaviour {
 
     public GameObject[] Enemies;
 
+    private int wavesLeft = 5;
+
     [SerializeField]
     private float enemySpawnChance;
 
