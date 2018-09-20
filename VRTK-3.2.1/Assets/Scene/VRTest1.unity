@@ -1802,11 +1802,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerKey: 32
-  enemySpawnChance: 0.25
-  offsetPerfect: 0.05
-  offsetGreat: 0.1
-  offsetOkay: 0.25
-  offsetPoor: 0.5
+  offsetPerfect: 0.1
+  offsetGreat: 0.2
+  offsetOkay: 0.3
+  offsetPoor: 0.4
   flowPerfect: 10
   flowGreat: 5
   flowOkay: 0
@@ -1867,8 +1866,8 @@ MonoBehaviour:
   - {fileID: 1362227394337334, guid: 672e58a5208ebb84981ebc3483799c1d, type: 2}
   - {fileID: 1233282468439946, guid: 1e6b9339cfe1adc48a65c7300a12490c, type: 2}
   - {fileID: 1233282468439946, guid: 44eb2dc6a8a3ad842a52b932181a4832, type: 2}
-  enemySpawnChance: 0.75
-  beatsBetweenWaves: 4
+  enemySpawnChance: 0.45
+  beatsBetweenWaves: 8
 --- !u!1 &872228114
 GameObject:
   m_ObjectHideFlags: 0

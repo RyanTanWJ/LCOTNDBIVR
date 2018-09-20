@@ -9,9 +9,6 @@ public class GameManager : MonoBehaviour {
     private KeyCode triggerKey;
 
     [SerializeField]
-    private float enemySpawnChance;
-
-    [SerializeField]
     private float offsetPerfect, offsetGreat, offsetOkay, offsetPoor;
 
 	[SerializeField]
@@ -73,9 +70,7 @@ public class GameManager : MonoBehaviour {
 
         enemyManager.MoveEnemy();
 
-        if (Random.value <= enemySpawnChance) {
-            enemyManager.SpawnEnemy();
-        }
+        enemyManager.SpawnEnemy();
     }
 
 	private void OnShotFired(GameObject enemy){
