@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour {
         //Temporary Hardcoding of movement pattern
         //movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
 
-        UpdateNextPosition();
+        UpdateNextPosition(movementCycle);
 
 		if (MoveTime <= 0)
 		{
@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour {
         currentPosition = nextPosition;
     }
 
-    private void OnUpdateNextPosition() {
+    private void OnUpdateNextPosition(int beat) {
         /*
 		nextPosition[0] = (nextPosition[0] + movementPattern[movementCycle][0] + columnLimit) % columnLimit; //in case of negative numbers
         nextPosition[1] += movementPattern[movementCycle][1];
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour {
 		nextPosition[0] = (((currentPosition[0] + positionChange[0]) % columnLimit)  + columnLimit) % columnLimit; //in case of negative numbers
 		nextPosition[1] = currentPosition[1] + positionChange[1];
 
-		movementCycle = (movementCycle + 1) % movementPattern.Beats;
+		movementCycle = beat % movementPattern.Beats;
     }
 
 	//Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
@@ -100,13 +100,13 @@ public class Enemy : MonoBehaviour {
     * Public API
     **/
 
-    public void UpdateNextPosition() {
-        OnUpdateNextPosition();
+    public void UpdateNextPosition(int beat) {
+        OnUpdateNextPosition(beat);
     }
 
-    public void MoveAndUpdateNextPosition(Vector3 newPosition, Quaternion newRotation) {
+    public void MoveAndUpdateNextPosition(Vector3 newPosition, Quaternion newRotation, int beat) {
         OnMove(newPosition, newRotation);
-        OnUpdateNextPosition();
+        OnUpdateNextPosition(beat);
 	}
 
     public Vector2 GetCurrentPosition() {

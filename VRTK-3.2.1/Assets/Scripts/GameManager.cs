@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
     private void OnBeatTrigger() {
         audioSource.Play();
 
-        enemyManager.MoveEnemy();
+        enemyManager.MoveEnemy(rhythmController.Beat);
 
         enemyManager.SpawnEnemy();
     }

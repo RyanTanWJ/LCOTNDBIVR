@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlowController : MonoBehaviour {
+public class FlowController {
 
     private int maxFlow;
     private int currentFlow;
@@ -31,6 +31,7 @@ public class FlowController : MonoBehaviour {
 
     public void Heal(int heal) {
         currentFlow = Mathf.Min(currentFlow + heal, maxFlow);
+        if (IsDead) { PlayerDeadEvent(); }
     }
 
     public bool IsDead {

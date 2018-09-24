@@ -156,7 +156,7 @@ public class MovementPattern : MonoBehaviour{
 
     void QuickForwardMovement(int beat)
     {
-        if (beat != 4)
+        if (beat != 0)
         {
             posChange[1] = -1;
         }

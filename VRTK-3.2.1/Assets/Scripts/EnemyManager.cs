@@ -29,6 +29,8 @@ public class EnemyManager : MonoBehaviour {
     private int spawnAttempts = 0;
     private int maxSpawnAttempts = 3;
 
+    private int currBeat = 0;
+
     void Start() {
         enemyGrid = new bool[columnCount, rowCount];
 		enemyHolder = new GameObject("Enemies").transform;
@@ -80,7 +82,7 @@ public class EnemyManager : MonoBehaviour {
 			//newEnemyController.movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
 
 
-			newEnemyController.UpdateNextPosition();
+			newEnemyController.UpdateNextPosition(currBeat);
 		}
 
     }
@@ -113,12 +115,12 @@ public class EnemyManager : MonoBehaviour {
                     CalculatePositionAndRotation((int)enemyNextPosition[0], (int)enemyNextPosition[1], out newPosition, out newRotation);
                     
                     //Update values
-                    enemy.MoveAndUpdateNextPosition(newPosition, newRotation);
+                    enemy.MoveAndUpdateNextPosition(newPosition, newRotation, currBeat);
                     EnterGrid((int)enemyNextPosition[0], (int)enemyNextPosition[1]);
 
                 } else {
                     //Invalid movement tile
-                    enemy.UpdateNextPosition();
+                    enemy.UpdateNextPosition(currBeat);
                 }
             }
         }
@@ -208,7 +210,8 @@ public class EnemyManager : MonoBehaviour {
 		//OnSpawnCommand(enemy);
 	}
 
-    public void MoveEnemy(){
+    public void MoveEnemy(int beat){
+        currBeat = beat;
         OnMoveCommand();
     }
 
