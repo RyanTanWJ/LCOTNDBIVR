@@ -859,7 +859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &405023347
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2334,12 +2334,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   columnCount: 20
   rowCount: 6
-  sectors: 4
+  sectors: 20
   arenaIncline: 30
   tileSpacing: 1
   arenaRadius: 13.5
   arenaHeight: 5.5
-  startingSectors: 00000000
+  startingSectors: 02000000030000000400000005000000060000000700000008000000
 --- !u!114 &853850637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4034,7 +4034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1436820446
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5438,7 +5438,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25.6, y: -35}
+  m_AnchoredPosition: {x: -2.454557, y: -35}
   m_SizeDelta: {x: 9.1, y: 2.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2057469003

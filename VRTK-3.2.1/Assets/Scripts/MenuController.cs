@@ -15,6 +15,6 @@ public class MenuController : MonoBehaviour {
     {
         StartTarget.SetActive(false);
         RetryTarget.SetActive(true);
-        Score.text = score;
+        Score.text = "" + score;
     }
 }

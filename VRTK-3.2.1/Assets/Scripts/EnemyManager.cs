@@ -50,7 +50,7 @@ public class EnemyManager : MonoBehaviour {
 
         //Verify valid spawn position
         while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {
-            spawnColumnPosition = Random.Range(0, columnCount);
+            spawnColumnPosition = validColumns[Random.Range(0, validColumns.Count - 1)];
 
             if (spawnAttempts >= maxSpawnAttempts) {
                 break;
@@ -197,7 +197,7 @@ public class EnemyManager : MonoBehaviour {
      **/
 
 	public void UpdateValidColumns(List<int> activeSectors){
-		UpdateValidColumns (sectors, activeSectors);
+		//UpdateValidColumns (sectors, activeSectors);
 	}
 
     public void SpawnEnemy() {
