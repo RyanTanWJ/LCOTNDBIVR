@@ -9,14 +9,12 @@ public class MenuController : MonoBehaviour {
     [SerializeField]
     GameObject RetryTarget;
     [SerializeField]
-    TMPro.TextMeshPro Title;
+    TMPro.TextMeshPro Score;
 
     public void GameOverMenu(int score)
     {
         StartTarget.SetActive(false);
         RetryTarget.SetActive(true);
-        Title.text = "Game Over!\nScore: " + score;
-        Title.alignment = TMPro.TextAlignmentOptions.Center;
-        Title.fontSize = 20f;
+        Score.text = score;
     }
 }
