@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour {
         enemyManager.SpawnEnemy();
     }
 
-	private void OnShotFired(GameObject enemy){
+	private void OnShotFired(GameObject enemy, Vector3 hitPoint){
 		//Do something when shot fired
 		float rhythmState = rhythmController.GetCurrentBeat() % 1;
 		float flowMultiplier = 0;
@@ -99,19 +99,23 @@ public class GameManager : MonoBehaviour {
 		}
 
 		Enemy enemyHit = enemy.GetComponent<Enemy> ();
-        GameObject HitFX = Instantiate(OnHitFX.gameObject);
-        HitFX.transform.position = hit.point;
-        ParticleSystem HitFXPS = HitFX.GetComponent<ParticleSystem>();
-        HitFXPS.Play();
-        Destroy(HitFX.gameObject, HitFXPS.main.startLifetime.constantMax + HitFXPS.main.duration);
 
 		enemyHit.TakeDamage (1);
 		player.Heal((int)flowMultiplier);
 
+        print(enemyHit.IsDead);
+
 		if (enemyHit.IsDead) {
 			player.AddScore (enemyHit.score);
 			enemyManager.DestroyEnemy (enemy);
-		}
+
+
+            GameObject HitFX = Instantiate(OnHitFX.gameObject);
+            HitFX.transform.position = hitPoint;
+            ParticleSystem HitFXPS = HitFX.GetComponent<ParticleSystem>();
+            HitFXPS.Play();
+            Destroy(HitFX.gameObject, HitFXPS.main.startLifetime.constantMax + HitFXPS.main.duration);
+        }
 	}
 
     private void OnGameStart()

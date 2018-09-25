@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour {
 
-	public delegate void ShotFired(GameObject enemy);
+	public delegate void ShotFired(GameObject enemy, Vector3 hitPoint);
 	public static event ShotFired ShotFiredEvent;
 
     public delegate void GameStart();
@@ -48,7 +48,6 @@ public class Shooting : MonoBehaviour {
         laserline.SetPosition(1, gun.transform.position + 0.5f * gun.fireDirection);
 
         if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
-
 			nextFire = Time.time + fireDelay;
 
 			//StartCoroutine (ShotEffect ());
@@ -59,7 +58,7 @@ public class Shooting : MonoBehaviour {
 			if (Physics.Raycast (rayOrigin, gun.fireDirection, out hit, gun.range)) {
 				GameObject hitObject = hit.collider.gameObject;
 				if (hitObject.CompareTag ("Enemy")) {
-					ShotFiredEvent (hitObject);
+					ShotFiredEvent (hitObject, hit.point);
 				}
                 else if (hitObject.CompareTag("Start"))
                 {

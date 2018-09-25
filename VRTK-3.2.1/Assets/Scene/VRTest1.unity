@@ -175,83 +175,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &49770590
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4849929955547572, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849929955547572, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849929955547572, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849929955547572, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849929955547572, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849929955547572, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849929955547572, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4849929955547572, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 198766089611401644, guid: 953866431fcfc7745abaa7097d1451c2,
-        type: 2}
-      propertyPath: looping
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198766089611401644, guid: 953866431fcfc7745abaa7097d1451c2,
-        type: 2}
-      propertyPath: randomSeed
-      value: 778980202
-      objectReference: {fileID: 0}
-    - target: {fileID: 199423569515343422, guid: 953866431fcfc7745abaa7097d1451c2,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 483110a781f98ce488273b51c976bcdf, type: 2}
-    - target: {fileID: 198766089611401644, guid: 953866431fcfc7745abaa7097d1451c2,
-        type: 2}
-      propertyPath: lengthInSec
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 198766089611401644, guid: 953866431fcfc7745abaa7097d1451c2,
-        type: 2}
-      propertyPath: EmissionModule.rateOverTime.scalar
-      value: 400
-      objectReference: {fileID: 0}
-    - target: {fileID: 198766089611401644, guid: 953866431fcfc7745abaa7097d1451c2,
-        type: 2}
-      propertyPath: InitialModule.startSpeed.scalar
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 198766089611401644, guid: 953866431fcfc7745abaa7097d1451c2,
-        type: 2}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 0.25
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &116160314
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,6 +2223,7 @@ MonoBehaviour:
   rhythmControllerPrefab: {fileID: 1090751832616136, guid: 534ba709233aa384fa76ddca32fc91dc,
     type: 2}
   menu: {fileID: 872228114}
+  OnHitFX: {fileID: 198766089611401644, guid: 953866431fcfc7745abaa7097d1451c2, type: 2}
 --- !u!4 &853850635
 Transform:
   m_ObjectHideFlags: 0
