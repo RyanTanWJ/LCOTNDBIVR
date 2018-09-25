@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour {
     private EnemyManager enemyManager;
     private AudioSource audioSource;
 
+    private bool deactivatedModel = false;
+
     void OnEnable() {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
 		Shooting.ShotFiredEvent += OnShotFired;
@@ -65,6 +67,20 @@ public class GameManager : MonoBehaviour {
         if (audioSource == null)
         {
             Debug.LogError("No AudioSource attached to this object");
+        }
+    }
+
+    void Update()
+    {
+        //Expensive but calling on start doesn't work
+        if (!deactivatedModel)
+        {
+            GameObject controllerModel = GameObject.Find("Model");
+            if (controllerModel != null)
+            {
+                controllerModel.SetActive(false);
+                deactivatedModel = true;
+            }
         }
     }
 
