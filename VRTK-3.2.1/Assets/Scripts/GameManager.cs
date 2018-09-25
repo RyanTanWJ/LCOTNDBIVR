@@ -26,6 +26,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private GameObject menu;
 
+    [SerializeField]
+    private ParticleSystem OnHitFX;
+
     private RhythmController rhythmController;
     private EnemyManager enemyManager;
     private AudioSource audioSource;
@@ -92,9 +95,16 @@ public class GameManager : MonoBehaviour {
 			flowMultiplier = flowPoor;
 		} else {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
+            return;
 		}
 
 		Enemy enemyHit = enemy.GetComponent<Enemy> ();
+        GameObject HitFX = Instantiate(OnHitFX.gameObject);
+        HitFX.transform.position = hit.point;
+        ParticleSystem HitFXPS = HitFX.GetComponent<ParticleSystem>();
+        HitFXPS.Play();
+        Destroy(HitFX.gameObject, HitFXPS.main.startLifetime.constantMax + HitFXPS.main.duration);
+
 		enemyHit.TakeDamage (1);
 		player.Heal((int)flowMultiplier);
 
@@ -119,7 +129,6 @@ public class GameManager : MonoBehaviour {
 		GameObject newText = Instantiate (accuracyText);
 		newText.GetComponent<RectTransform> ().SetPositionAndRotation (transform.position, transform.localRotation);
 		newText.GetComponent<TMPro.TextMeshPro>().text = text;
-		Destroy (newText, 0.5f);
 	}
 
 	private void HurtPlayer(int damage){
