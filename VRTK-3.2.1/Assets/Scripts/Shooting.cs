@@ -20,6 +20,8 @@ public class Shooting : MonoBehaviour {
 	private WaitForSeconds shotDuration = new WaitForSeconds (0.07f);
 
 	private LineRenderer laserline;
+    [SerializeField]
+    private GameObject dot;
 
 	public Gun gun;
 	float nextFire = 0;
@@ -31,8 +33,21 @@ public class Shooting : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		laserline.SetPosition (0, gun.transform.position);
-		if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
+        RaycastHit dotHit;
+        if (Physics.Raycast(gun.transform.position, gun.fireDirection, out dotHit, gun.range))
+        {
+            dot.SetActive(true);
+            dot.transform.position = dotHit.point;
+        }
+        else
+        {
+            dot.SetActive(false);
+        }
+
+        laserline.SetPosition (0, gun.transform.position);
+        laserline.SetPosition(1, gun.transform.position + 0.5f * gun.fireDirection);
+
+        if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
 
 			nextFire = Time.time + fireDelay;
 
@@ -42,7 +57,6 @@ public class Shooting : MonoBehaviour {
 			RaycastHit hit;
 
 			if (Physics.Raycast (rayOrigin, gun.fireDirection, out hit, gun.range)) {
-				laserline.SetPosition (1, hit.point);
 				GameObject hitObject = hit.collider.gameObject;
 				if (hitObject.CompareTag ("Enemy")) {
 					ShotFiredEvent (hitObject);
@@ -62,9 +76,9 @@ public class Shooting : MonoBehaviour {
 		}
 		if (!extraInput.TriggerState && !triggerReleased) {
 			triggerReleased = true;
-		}
-		laserline.SetPosition (1, gun.transform.position + gun.range * gun.fireDirection);
-	}
+        }
+        
+    }
 
 	private IEnumerator ShotEffect(){
 		laserline.enabled = true;
