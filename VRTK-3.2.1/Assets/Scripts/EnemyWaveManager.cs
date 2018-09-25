@@ -72,6 +72,10 @@ public class EnemyWaveManager : MonoBehaviour {
             i /= 2;
             j++;
         }
+        if (currentWave == 10)
+        {
+            //TODO: Game Over
+        }
     }
 
 	/*
