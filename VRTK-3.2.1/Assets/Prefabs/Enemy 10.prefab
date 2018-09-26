@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114622802244413144}
   - component: {fileID: 114085741471448022}
   m_Layer: 0
-  m_Name: Enemy 2
+  m_Name: Enemy 10
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +88,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: fc164ebe3e758eb4fb7a1628c7003fff, type: 2}
+  - {fileID: 2100000, guid: 68f59ebfb44efa7419cf026ff16c8f12, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pattern: 5
+  pattern: 6
   MoveCycle: 
 --- !u!114 &114622802244413144
 MonoBehaviour:
@@ -160,5 +160,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 1
   movementPattern: {fileID: 114085741471448022}
-  deathFXPrefab: {fileID: 1692706201937976, guid: 8b0cf9f0cf838154aa2121e2c1a80a81,
+  deathFXPrefab: {fileID: 1692706201937976, guid: acadde7c7e0d7394a9f290a8993d600e,
     type: 2}

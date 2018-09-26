@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 4510823276612198}
   - component: {fileID: 114927986433285442}
   m_Layer: 0
-  m_Name: EnemyDeath
+  m_Name: Enemy2DeathFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20850,7 +20850,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: a0c636d66ed303e49b250c5023ba7110, type: 2}
+  - {fileID: 2100000, guid: fc164ebe3e758eb4fb7a1628c7003fff, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -20885,7 +20885,7 @@ ParticleSystemRenderer:
   m_UseCustomVertexStreams: 0
   m_VertexStreams: 00010304
   m_Mesh: {fileID: 4300000, guid: 2182be096f656704581fc85ed758f5c5, type: 3}
-  m_Mesh1: {fileID: 4300000, guid: e2723ce579589c747832f3a2bee572d9, type: 3}
+  m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
