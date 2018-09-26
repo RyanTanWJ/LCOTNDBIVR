@@ -23,6 +23,9 @@ public class Enemy : MonoBehaviour {
 
     private AudioSource deathAudio;
 
+    [SerializeField]
+    private GameObject deathFXPrefab;
+
     void Start() {
         //Temporary Hardcoding of movement pattern
         //movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
@@ -147,4 +150,9 @@ public class Enemy : MonoBehaviour {
 	{
 		get{ return health.Health; }
 	}
+
+    public GameObject GetDeathFX()
+    {
+        return deathFXPrefab;
+    }
 }

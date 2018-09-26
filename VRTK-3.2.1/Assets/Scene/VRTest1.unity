@@ -1309,75 +1309,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4306895182595252, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 4306895182595252, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4306895182595252, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4306895182595252, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198113972819185296, guid: 17b09f21c72d98b429a949c15e38ef43,
-        type: 2}
-      propertyPath: randomSeed
-      value: 209275530
-      objectReference: {fileID: 0}
-    - target: {fileID: 4800829870420326, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4053523760726348, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4263145939817540, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4801516469235992, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4800829870420326, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4053523760726348, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4263145939817540, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4801516469235992, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4800829870420326, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4053523760726348, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4263145939817540, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4801516469235992, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0.1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17b09f21c72d98b429a949c15e38ef43, type: 2}
   m_IsPrefabParent: 0
@@ -2817,7 +2748,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f9826f195045dbf4b81a30f888e9c021, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4307cb846e6cf2d40a101cab301c0c96, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

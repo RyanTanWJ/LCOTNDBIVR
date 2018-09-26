@@ -471,6 +471,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 100
   movementPattern: {fileID: 114665436651030092}
+  deathFXPrefab: {fileID: 1692706201937976, guid: acadde7c7e0d7394a9f290a8993d600e,
+    type: 2}
 --- !u!114 &114665436651030092
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -225,6 +225,12 @@ public class EnemyManager : MonoBehaviour {
 
     public void DestroyEnemy(GameObject enemy)
     {
+        FXPlayer deathFX = Instantiate(enemy.GetComponent<Enemy>().GetDeathFX(), enemy.transform.position, enemy.transform.rotation, transform).GetComponent<FXPlayer>();
+
+        deathFX.PlayFXes();
+
+        Destroy(deathFX.gameObject, 3.0f);
+
         OnDestroyCommand(enemy);
     }
 

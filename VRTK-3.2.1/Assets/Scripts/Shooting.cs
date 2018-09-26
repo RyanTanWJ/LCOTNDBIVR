@@ -27,7 +27,7 @@ public class Shooting : MonoBehaviour {
     [SerializeField]
     private GameObject dot;
     [SerializeField]
-    private GunPulse gunPulse;
+    private FXPlayer gunPulse;
 
     public Gun gun;
 	float nextFire = 0;
@@ -56,7 +56,7 @@ public class Shooting : MonoBehaviour {
         if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
 			nextFire = Time.time + fireDelay;
 
-            gunPulse.PlayPulse();
+            gunPulse.PlayFXes();
 
 			//StartCoroutine (ShotEffect ());
 
