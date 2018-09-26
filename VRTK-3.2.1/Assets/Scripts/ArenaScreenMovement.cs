@@ -6,12 +6,19 @@ public class ArenaScreenMovement : MonoBehaviour {
 
     [SerializeField]
     GameObject cameraVR;
-    float distance = 15;
-    float height = 10;
+    float distance = 12;
+    float height = 7;
+
+    void Start()
+    {
+        cameraVR = GameObject.FindWithTag("MainCamera");
+    }
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        Vector3 newPosition = cameraVR.transform.forward.normalized * distance + new Vector3(0, height, 0);
+        Vector3 cameraFoward = cameraVR.transform.forward.normalized;
+
+        Vector3 newPosition = new Vector3(cameraFoward.x * distance, height, cameraFoward.z * distance);
         Quaternion newRotation = Quaternion.LookRotation(-newPosition);
 
         transform.SetPositionAndRotation(newPosition, newRotation);
