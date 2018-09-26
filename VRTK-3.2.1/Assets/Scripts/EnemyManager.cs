@@ -34,6 +34,9 @@ public class EnemyManager : MonoBehaviour {
     [SerializeField]
     AudioSource[] deathAudio;
 
+    [SerializeField]
+    AudioSource spawnAudio, hitPlayerAudio;
+
     void Start() {
         enemyGrid = new bool[columnCount, rowCount];
 		enemyHolder = new GameObject("Enemies").transform;
@@ -75,15 +78,13 @@ public class EnemyManager : MonoBehaviour {
 		if (enemyType != null) {
 			GameObject newEnemy = Instantiate(enemyType, spawnPosition, spawnRotation, enemyHolder);
 
+            spawnAudio.Play();
+
 			EnterGrid(spawnColumnPosition, spawnRowPosition);
 
-			//TODO: Assign Health <- Might use a common health/damage system for player & enemy
 			Enemy newEnemyController = newEnemy.GetComponent<Enemy>();
-
 			newEnemyController.SetGridLimits(columnCount, rowCount);
 			newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
-			//newEnemyController.movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
-
 
 			newEnemyController.UpdateNextPosition(currBeat);
 		}
@@ -106,6 +107,8 @@ public class EnemyManager : MonoBehaviour {
 
                     //TODO: Hurt the player
 					PlayerHurtEvent(1); //Replace with Enemy's damage
+                    hitPlayerAudio.Play();
+
                     Destroy(enemy.gameObject);
 
                 } else if (enemyGrid[(int)enemyNextPosition[0], (int)enemyNextPosition[1]] == false) {
