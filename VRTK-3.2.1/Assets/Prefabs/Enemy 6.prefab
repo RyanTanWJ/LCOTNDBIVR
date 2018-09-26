@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b717671474c2f24e8123ec438b3cfe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 100
+  score: 1
   movementPattern: {fileID: 114665436651030092}
   deathFXPrefab: {fileID: 1692706201937976, guid: acadde7c7e0d7394a9f290a8993d600e,
     type: 2}

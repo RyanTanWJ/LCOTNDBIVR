@@ -19,7 +19,7 @@ public class ArenaScreenMovement : MonoBehaviour {
         Vector3 cameraFoward = cameraVR.transform.forward.normalized;
 
         Vector3 newPosition = new Vector3(cameraFoward.x * distance, height, cameraFoward.z * distance);
-        Quaternion newRotation = Quaternion.LookRotation(-newPosition);
+        Quaternion newRotation = Quaternion.LookRotation(newPosition);
 
         transform.SetPositionAndRotation(newPosition, newRotation);
     }

@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour {
 
     private bool deactivatedModel = false;
 
+    [SerializeField]
+    private GameObject ArenaScoreDisplay;
+
     void OnEnable() {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
 		Shooting.ShotFiredEvent += OnShotFired;
@@ -59,7 +62,7 @@ public class GameManager : MonoBehaviour {
         //rhythmController = this.GetComponentInChildren<RhythmController>();
         enemyManager = this.GetComponent<EnemyManager>();
         //beatSource = this.GetComponent<AudioSource>();
-
+        ArenaScoreDisplay.SetActive(false);
         /*
         if (rhythmController == null) {
             Debug.LogError("No RhythmController attached to this object");
@@ -123,8 +126,6 @@ public class GameManager : MonoBehaviour {
 		enemyHit.TakeDamage (1);
 		player.Heal((int)flowMultiplier);
 
-        print(enemyHit.IsDead);
-
 		if (enemyHit.IsDead) {
 			player.AddScore (enemyHit.score);
 			enemyManager.DestroyEnemy (enemy);
@@ -140,6 +141,7 @@ public class GameManager : MonoBehaviour {
 
     private void OnGameStart()
     {
+        ArenaScoreDisplay.SetActive(true);
         menu.SetActive(false);
         rhythmController = Instantiate(rhythmControllerPrefab, this.transform).GetComponent<RhythmController>();
     }
@@ -166,6 +168,7 @@ public class GameManager : MonoBehaviour {
 
     private void GameOver()
     {
+        ArenaScoreDisplay.SetActive(false);
         //Destroy all Enemies
         enemyManager.DestroyAllEnemies();
         //Destroy RhythmController
