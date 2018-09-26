@@ -20,6 +20,10 @@ public class Shooting : MonoBehaviour {
 	private WaitForSeconds shotDuration = new WaitForSeconds (0.07f);
 
 	private LineRenderer laserline;
+
+    [SerializeField]
+    private AudioSource buttonSource, missSource;
+
     [SerializeField]
     private GameObject dot;
     [SerializeField]
@@ -67,11 +71,17 @@ public class Shooting : MonoBehaviour {
                 else if (hitObject.CompareTag("Start"))
                 {
                     GameStartEvent();
+                    buttonSource.Play();
                     //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
                 }
                 else if (hitObject.CompareTag("Retry"))
                 {
+                    buttonSource.Play();
                     GameRestartEvent();
+
+                }else
+                {
+                    missSource.Play();
                 }
             }
 

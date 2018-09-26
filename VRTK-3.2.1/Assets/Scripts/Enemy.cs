@@ -21,9 +21,13 @@ public class Enemy : MonoBehaviour {
 	public MovementPattern movementPattern;
     private int movementCycle = 0;
 
+    private AudioSource deathAudio;
+
     void Start() {
         //Temporary Hardcoding of movement pattern
         //movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
+
+        deathAudio = GetComponent<AudioSource>();
 
         UpdateNextPosition(movementCycle);
 
