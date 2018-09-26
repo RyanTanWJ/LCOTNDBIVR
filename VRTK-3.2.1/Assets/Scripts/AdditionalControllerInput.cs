@@ -113,8 +113,9 @@
 		private void DoTriggerClicked (object sender, ControllerInteractionEventArgs e)
 		{
 			triggerState = true;
-			//DebugLogger (VRTK_ControllerReference.GetRealIndex (e.controllerReference), "TRIGGER", "clicked", e);
-		}
+            VRTK_ControllerHaptics.TriggerHapticPulse(e.controllerReference, 0.5f);
+            //DebugLogger (VRTK_ControllerReference.GetRealIndex (e.controllerReference), "TRIGGER", "clicked", e);
+        }
 
 		private void DoTriggerUnclicked (object sender, ControllerInteractionEventArgs e)
 		{
