@@ -11,18 +11,31 @@ public class MenuController : MonoBehaviour {
     [SerializeField]
     TMPro.TextMeshPro Score;
     [SerializeField]
-    AudioSource countSource;
+    AudioSource countSource, gameOverSource;
 
     public void GameOverMenu(int score)
     {
         StartTarget.SetActive(false);
-        RetryTarget.SetActive(true);
-        //Score.text = "" + score;
         StartCoroutine(IncreaseScore(score));
+    }
+
+    IEnumerator GameOverTriggered()
+    {
+        gameOverSource.Play();
+
+        while(gameOverSource.isPlaying)
+        {
+            yield return null;
+        }
+        yield return null;
     }
 
     IEnumerator IncreaseScore(int score)
     {
+        yield return StartCoroutine(GameOverTriggered());
+
+        RetryTarget.SetActive(true);
+
         int displayScore = 0;
         int scoreIncrement = (int) ((float)score / (4f * 60f));
         countSource.Play();
