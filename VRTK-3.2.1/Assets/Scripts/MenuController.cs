@@ -10,11 +10,30 @@ public class MenuController : MonoBehaviour {
     GameObject RetryTarget;
     [SerializeField]
     TMPro.TextMeshPro Score;
+    [SerializeField]
+    AudioSource countSource;
 
     public void GameOverMenu(int score)
     {
         StartTarget.SetActive(false);
         RetryTarget.SetActive(true);
-        Score.text = "" + score;
+        //Score.text = "" + score;
+        StartCoroutine(IncreaseScore(score));
+    }
+
+    IEnumerator IncreaseScore(int score)
+    {
+        int displayScore = 0;
+        int scoreIncrement = (int) ((float)score / (4f * 60f));
+        countSource.Play();
+        while (displayScore < score)
+        {
+            displayScore = Mathf.Min(displayScore + scoreIncrement, score);
+            Score.text = "" + displayScore;
+            
+            yield return null;
+        }
+        countSource.Stop();
+        yield return null;
     }
 }
