@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour {
 
     private RhythmController rhythmController;
     private EnemyManager enemyManager;
-    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioSource beatSource, hitSource, missSource;
 
     private bool deactivatedModel = false;
 
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviour {
     void Start() {
         //rhythmController = this.GetComponentInChildren<RhythmController>();
         enemyManager = this.GetComponent<EnemyManager>();
-        audioSource = this.GetComponent<AudioSource>();
+        //beatSource = this.GetComponent<AudioSource>();
 
         /*
         if (rhythmController == null) {
@@ -64,7 +66,7 @@ public class GameManager : MonoBehaviour {
         }
         */
 
-        if (audioSource == null)
+        if (beatSource == null)
         {
             Debug.LogError("No AudioSource attached to this object");
         }
@@ -85,7 +87,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void OnBeatTrigger() {
-        audioSource.Play();
+        beatSource.Play();
 
         enemyManager.MoveEnemy(rhythmController.Beat);
 
@@ -111,9 +113,11 @@ public class GameManager : MonoBehaviour {
 			flowMultiplier = flowPoor;
 		} else {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
+            missSource.Play();
             return;
 		}
 
+        hitSource.Play();
 		Enemy enemyHit = enemy.GetComponent<Enemy> ();
 
 		enemyHit.TakeDamage (1);
