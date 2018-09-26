@@ -31,6 +31,9 @@ public class EnemyManager : MonoBehaviour {
 
     private int currBeat = 0;
 
+    [SerializeField]
+    AudioSource[] deathAudio;
+
     void Start() {
         enemyGrid = new bool[columnCount, rowCount];
 		enemyHolder = new GameObject("Enemies").transform;
@@ -132,6 +135,8 @@ public class EnemyManager : MonoBehaviour {
         if (enemy != null) {
             Vector2 enemyCurrentPosition = enemy.GetCurrentPosition();
             LeaveGrid((int)enemyCurrentPosition[0], (int)enemyCurrentPosition[1]);
+
+            deathAudio[Random.Range(0, deathAudio.Length - 1)].Play();
 
             Destroy(enemyObject);
         }

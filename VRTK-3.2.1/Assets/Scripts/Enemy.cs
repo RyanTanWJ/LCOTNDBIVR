@@ -38,11 +38,6 @@ public class Enemy : MonoBehaviour {
 		}
     }
 
-    private void OnDestroy()
-    {
-        deathAudio.Play();
-    }
-
     private void OnMove(Vector3 newPosition, Quaternion newRotation) {
         //Currently set to teleportation movement
         //transform.SetPositionAndRotation(newPosition, newRotation);

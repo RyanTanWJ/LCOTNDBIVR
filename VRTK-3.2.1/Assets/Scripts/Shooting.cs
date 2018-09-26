@@ -20,7 +20,9 @@ public class Shooting : MonoBehaviour {
 	private WaitForSeconds shotDuration = new WaitForSeconds (0.07f);
 
 	private LineRenderer laserline;
-    private AudioSource buttonSource;
+
+    [SerializeField]
+    private AudioSource buttonSource, missSource;
 
     [SerializeField]
     private GameObject dot;
@@ -33,7 +35,6 @@ public class Shooting : MonoBehaviour {
 
 	void Start(){
 		laserline = GetComponent<LineRenderer> ();
-        buttonSource = GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
@@ -78,6 +79,9 @@ public class Shooting : MonoBehaviour {
                     buttonSource.Play();
                     GameRestartEvent();
 
+                }else
+                {
+                    missSource.Play();
                 }
             }
 
