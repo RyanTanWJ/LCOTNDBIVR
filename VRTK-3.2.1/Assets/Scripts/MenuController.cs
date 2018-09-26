@@ -24,7 +24,7 @@ public class MenuController : MonoBehaviour {
     IEnumerator IncreaseScore(int score)
     {
         int displayScore = 0;
-        int scoreIncrement = (int)((float)score / (4f * 60f / Time.deltaTime));
+        int scoreIncrement = (int) ((float)score / (4f * 60f));
         countSource.Play();
         while (displayScore < score)
         {
