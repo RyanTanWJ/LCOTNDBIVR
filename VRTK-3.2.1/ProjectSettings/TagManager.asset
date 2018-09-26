@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - RhythmController
+  - Start
+  - Retry
   layers:
   - Default
   - TransparentFX

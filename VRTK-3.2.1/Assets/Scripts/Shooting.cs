@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour {
 
-	public delegate void ShotFired(GameObject enemy);
+	public delegate void ShotFired(GameObject enemy, Vector3 hitPoint);
 	public static event ShotFired ShotFiredEvent;
-	public VRTK.VRTK_ControllerEvents controllerEvents;
+
+    public delegate void GameStart();
+    public static event GameStart GameStartEvent;
+
+    public delegate void GameRestart();
+    public static event GameRestart GameRestartEvent;
+
+    public VRTK.VRTK_ControllerEvents controllerEvents;
 	public VRTK.AdditionalControllerInput extraInput;
 
 	private bool triggerReleased = true;
@@ -14,7 +21,15 @@ public class Shooting : MonoBehaviour {
 
 	private LineRenderer laserline;
 
-	public Gun gun;
+    [SerializeField]
+    private AudioSource buttonSource, missSource;
+
+    [SerializeField]
+    private GameObject dot;
+    [SerializeField]
+    private GunPulse gunPulse;
+
+    public Gun gun;
 	float nextFire = 0;
 	float fireDelay = 0.5f;
 
@@ -24,10 +39,24 @@ public class Shooting : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		laserline.SetPosition (0, gun.transform.position);
-		if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
+        RaycastHit dotHit;
+        if (Physics.Raycast(gun.transform.position, gun.fireDirection, out dotHit, gun.range))
+        {
+            dot.SetActive(true);
+            dot.transform.position = dotHit.point;
+        }
+        else
+        {
+            dot.SetActive(false);
+        }
 
+        laserline.SetPosition (0, gun.transform.position);
+        laserline.SetPosition(1, gun.transform.position + 0.5f * gun.fireDirection);
+
+        if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
 			nextFire = Time.time + fireDelay;
+
+            gunPulse.PlayPulse();
 
 			//StartCoroutine (ShotEffect ());
 
@@ -35,20 +64,34 @@ public class Shooting : MonoBehaviour {
 			RaycastHit hit;
 
 			if (Physics.Raycast (rayOrigin, gun.fireDirection, out hit, gun.range)) {
-				laserline.SetPosition (1, hit.point);
 				GameObject hitObject = hit.collider.gameObject;
 				if (hitObject.CompareTag ("Enemy")) {
-					ShotFiredEvent (hitObject);
+					ShotFiredEvent (hitObject, hit.point);
 				}
-			}
+                else if (hitObject.CompareTag("Start"))
+                {
+                    GameStartEvent();
+                    buttonSource.Play();
+                    //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
+                }
+                else if (hitObject.CompareTag("Retry"))
+                {
+                    buttonSource.Play();
+                    GameRestartEvent();
+
+                }else
+                {
+                    missSource.Play();
+                }
+            }
 
 			triggerReleased = false;
 		}
 		if (!extraInput.TriggerState && !triggerReleased) {
 			triggerReleased = true;
-		}
-		laserline.SetPosition (1, gun.transform.position + gun.range * gun.fireDirection);
-	}
+        }
+        
+    }
 
 	private IEnumerator ShotEffect(){
 		laserline.enabled = true;

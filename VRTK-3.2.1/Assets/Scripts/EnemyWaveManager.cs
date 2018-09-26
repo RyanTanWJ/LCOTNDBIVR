@@ -6,6 +6,8 @@ public class EnemyWaveManager : MonoBehaviour {
 
     public GameObject[] Enemies;
 
+    private int wavesLeft = 5;
+
     [SerializeField]
     private float enemySpawnChance;
 
@@ -46,7 +48,7 @@ public class EnemyWaveManager : MonoBehaviour {
 
 			UpdateWaveActiveSectors (Random.Range (0, 3));
 			// Call Enemy Manager to Update the Valid Columns
-			enemyManager.UpdateValidColumns(wave.ActiveSectors);
+			//enemyManager.UpdateValidColumns(wave.ActiveSectors);
         }
     }
 
@@ -69,6 +71,10 @@ public class EnemyWaveManager : MonoBehaviour {
 
             i /= 2;
             j++;
+        }
+        if (currentWave == 10)
+        {
+            //TODO: Game Over
         }
     }
 

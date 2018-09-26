@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23377971856075676}
   - component: {fileID: 222306448299066700}
   - component: {fileID: 114556808966973874}
+  - component: {fileID: 114746378291250874}
   m_Layer: 0
   m_Name: Beat Grade
   m_TagString: Untagged
@@ -184,6 +185,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_maskType: 0
+--- !u!114 &114746378291250874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1360421005805558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa268aa9b86e3740bd43b0d0afbb044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &222306448299066700
 CanvasRenderer:
   m_ObjectHideFlags: 1

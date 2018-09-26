@@ -58,4 +58,9 @@ public class RhythmController : MonoBehaviour {
 	public float GetSecondsPerBeat(){
 		return secondsPerBeat;
 	}
+
+    public int Beat
+    {
+        get { return integerBeatPosition; }
+    }
 }
