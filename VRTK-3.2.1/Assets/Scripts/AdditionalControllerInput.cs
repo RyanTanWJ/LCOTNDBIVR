@@ -7,6 +7,7 @@
 	public class AdditionalControllerInput : MonoBehaviour
 	{
 		private bool triggerState = false;
+        private VRTK_ControllerReference theController;
 		private void Start ()
 		{
 			if (GetComponent<VRTK_ControllerEvents> () == null) {
@@ -113,7 +114,7 @@
 		private void DoTriggerClicked (object sender, ControllerInteractionEventArgs e)
 		{
 			triggerState = true;
-            VRTK_ControllerHaptics.TriggerHapticPulse(e.controllerReference, 0.5f);
+            theController = e.controllerReference;
             //DebugLogger (VRTK_ControllerReference.GetRealIndex (e.controllerReference), "TRIGGER", "clicked", e);
         }
 
@@ -265,6 +266,11 @@
 
 		public bool TriggerState {
 			get{ return triggerState; }
-		}
-	}
+        }
+
+        public VRTK_ControllerReference TheController
+        {
+            get { return theController; }
+        }
+    }
 }

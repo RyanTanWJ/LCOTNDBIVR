@@ -109,4 +109,14 @@ public class Shooting : MonoBehaviour {
 		yield return shotDuration;
 		laserline.enabled = false;
 	}
+
+    /// <summary>
+    /// Send a Single haptic pulse of a given strength to the controller referenced. CopyPasta/Move this method to whichever script you want to call haptic feedback then send the controllerReference from Shooting.cs to it.
+    /// </summary>
+    /// <param name="controllerReference">Get this from AdditionalControllerInput game object or script.</param>
+    /// <param name="strength">A float between 0.0 to 1.0f, higher value = greater strength</param>
+    public void HapticPulse(VRTK.VRTK_ControllerReference controllerReference, float strength)
+    {
+        VRTK.VRTK_ControllerHaptics.TriggerHapticPulse(controllerReference, Mathf.Clamp(strength, 0, 1.0f));
+    }
 }
