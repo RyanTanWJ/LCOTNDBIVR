@@ -24,7 +24,11 @@ public class EnemyManager : MonoBehaviour {
     private List<int> startingSectors;
 	private List<int> validColumns;
 
+    private int enemyLimit = 7;
+
 	private EnemyWaveManager enemyWaveManager;
+    private EnemyWave enemyWave = null;
+    private MovementPattern patterns;
 
     private int spawnAttempts = 0;
     private int maxSpawnAttempts = 3;
@@ -42,6 +46,7 @@ public class EnemyManager : MonoBehaviour {
 		enemyHolder = new GameObject("Enemies").transform;
 
 		enemyWaveManager = this.GetComponent<EnemyWaveManager>();
+        patterns = this.GetComponent<MovementPattern>();
 
 		validColumns = new List<int> ();
         UpdateValidColumns(sectors, startingSectors);
@@ -50,7 +55,36 @@ public class EnemyManager : MonoBehaviour {
         tileAngleRad = 2 * Mathf.PI / columnCount;
     }
 
-    private void OnSpawnCommand() {
+    private void OnSpawnCommand()
+    {
+        //If no enemy wave, then try to get from EWM
+        if (enemyWave == null)
+        {
+            if (enemyWaveManager.ReadyForNewWave())
+            {
+                enemyWave = enemyWaveManager.GetEnemyWave();
+            }
+            return;
+        }
+
+        //No more enemies to spawn
+        if (enemyWave.EnemiesInOrder.Count == 0)
+        {
+            //if there are still enemies, don't let EMW start counting yet
+            if (enemyHolder.childCount > 0)
+            {
+                return;
+            }
+            enemyWaveManager.CurrentWaveEnded();
+            enemyWave = null;
+            return;
+        }
+
+        if (!SpawnEnemyRNG())
+        {
+            return;
+        }
+
         //Spawn on the outermost row
         int spawnRowPosition = rowCount - 1;
 		//Spawn only in valid columns
@@ -61,7 +95,8 @@ public class EnemyManager : MonoBehaviour {
             spawnColumnPosition = validColumns[Random.Range(0, validColumns.Count - 1)];
 
             if (spawnAttempts >= maxSpawnAttempts) {
-                break;
+                //breaking causes enemies to spawn on top another enemy
+                return;
             } else {
                 spawnAttempts++;
             }
@@ -73,7 +108,7 @@ public class EnemyManager : MonoBehaviour {
         CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
         //Create enemy and assign attributes
-		GameObject enemyType = enemyWaveManager.GetEnemy();
+		GameObject enemyType = enemyWave.EnemiesInOrder.Dequeue();
 
 		if (enemyType != null) {
 			GameObject newEnemy = Instantiate(enemyType, spawnPosition, spawnRotation, enemyHolder);
@@ -86,7 +121,9 @@ public class EnemyManager : MonoBehaviour {
 			newEnemyController.SetGridLimits(columnCount, rowCount);
 			newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
 
-			newEnemyController.UpdateNextPosition(currBeat);
+            bool randomPattern = false;
+            List<Vector2Int> pattern = patterns.RetrievePattern(newEnemyController.movementPattern, out randomPattern);
+			newEnemyController.UpdateNextPosition(pattern, currBeat, randomPattern);
 		}
 
     }
@@ -119,14 +156,21 @@ public class EnemyManager : MonoBehaviour {
                     Vector3 newPosition;
                     Quaternion newRotation;
                     CalculatePositionAndRotation((int)enemyNextPosition[0], (int)enemyNextPosition[1], out newPosition, out newRotation);
-                    
+
                     //Update values
-                    enemy.MoveAndUpdateNextPosition(newPosition, newRotation, currBeat);
+                    bool randomPattern = false;
+                    List<Vector2Int> pattern = patterns.RetrievePattern(enemy.movementPattern, out randomPattern);
+                    enemy.MoveAndUpdateNextPosition(newPosition, newRotation, pattern, currBeat, randomPattern);
                     EnterGrid((int)enemyNextPosition[0], (int)enemyNextPosition[1]);
 
                 } else {
                     //Invalid movement tile
-                    enemy.UpdateNextPosition(currBeat);
+                    Debug.Log(enemy.name + " cannot move.");
+                    Debug.Log(enemyCurrentPosition);
+                    Debug.Log(enemyNextPosition);
+                    bool randomPattern = false;
+                    List<Vector2Int> pattern = patterns.RetrievePattern(enemy.movementPattern, out randomPattern);
+                    enemy.UpdateNextPosition(pattern, currBeat, randomPattern);
                 }
             }
         }
@@ -202,6 +246,16 @@ public class EnemyManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// RNG to check whether to spawn an enemy.
+    /// </summary>
+    /// <returns>Returns true if an enemy should be spawned, false otherwise.</returns>
+    private bool SpawnEnemyRNG()
+    {
+        float spawnChance = (float) enemyHolder.childCount / (float)enemyLimit;
+        return Random.Range(0, 1.0f) > spawnChance;
+    }
+
     /**
      * Public API
      **/
@@ -212,10 +266,6 @@ public class EnemyManager : MonoBehaviour {
 
     public void SpawnEnemy() {
         OnSpawnCommand();
-	}
-
-	public void SpawnEnemy(GameObject enemy) {
-		//OnSpawnCommand(enemy);
 	}
 
     public void MoveEnemy(int beat){

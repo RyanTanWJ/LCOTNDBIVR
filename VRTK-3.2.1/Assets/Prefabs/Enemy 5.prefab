@@ -54,7 +54,6 @@ GameObject:
   - component: {fileID: 4654391374390412}
   - component: {fileID: 33369488538847412}
   - component: {fileID: 114497897982862392}
-  - component: {fileID: 114484511422195324}
   - component: {fileID: 64325176453619122}
   m_Layer: 0
   m_Name: Enemy 5
@@ -255,19 +254,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114484511422195324
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1455254303076474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pattern: 5
-  MoveCycle: 
 --- !u!114 &114497897982862392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -280,6 +266,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 1
-  movementPattern: {fileID: 114484511422195324}
+  movementPattern: 5
   deathFXPrefab: {fileID: 1692706201937976, guid: f0cdc17e9eea82841a5e0e8cf0358ac0,
     type: 2}

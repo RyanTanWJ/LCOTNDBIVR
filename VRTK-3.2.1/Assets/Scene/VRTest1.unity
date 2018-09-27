@@ -2013,7 +2013,6 @@ MonoBehaviour:
   buttonSource: {fileID: 771630517}
   missSource: {fileID: 771630518}
   dot: {fileID: 2103561126}
-  gunPulse: {fileID: 312486610}
   missGunPulse: {fileID: 542720325}
   gun: {fileID: 1339743883}
 --- !u!120 &771630516
@@ -2450,6 +2449,7 @@ GameObject:
   - component: {fileID: 853850640}
   - component: {fileID: 853850645}
   - component: {fileID: 853850644}
+  - component: {fileID: 853850646}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2567,6 +2567,8 @@ MonoBehaviour:
   beatSource: {fileID: 853850633}
   hitSource: {fileID: 853850639}
   missSource: {fileID: 853850638}
+  gunPulse: {fileID: 312486610}
+  missGunPulse: {fileID: 542720325}
   ArenaScoreDisplay: {fileID: 1535017609}
 --- !u!4 &853850635
 Transform:
@@ -2620,16 +2622,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f7453e3414ec246bf71028fbb214dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemies:
+  beatsBetweenWaves: 8
+  EnemyTypes:
   - {fileID: 1233282468439946, guid: 784fab86ecf54e340b147788f15d003e, type: 2}
   - {fileID: 1233282468439946, guid: 1173e6781ea2e5244a664ca6ccf550e9, type: 2}
-  - {fileID: 0}
+  - {fileID: 1233282468439946, guid: 1e6b9339cfe1adc48a65c7300a12490c, type: 2}
+  - {fileID: 1362227394337334, guid: 2e342bebaeb99d34a8a68c567638baa2, type: 2}
   - {fileID: 1362227394337334, guid: 672e58a5208ebb84981ebc3483799c1d, type: 2}
   - {fileID: 1455254303076474, guid: 5bd76a37737a54445974e8b2e9a190cd, type: 2}
-  - {fileID: 0}
-  - {fileID: 1233282468439946, guid: 1e6b9339cfe1adc48a65c7300a12490c, type: 2}
-  enemySpawnChance: 0.45
-  beatsBetweenWaves: 8
+  - {fileID: 1582196010958536, guid: c3f10e3383d51664b92ebc740a495edd, type: 2}
 --- !u!82 &853850638
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3270,6 +3271,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &853850646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 853850632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &858123415
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33637108519093344}
   - component: {fileID: 65424742708111328}
   - component: {fileID: 114622802244413144}
-  - component: {fileID: 114085741471448022}
   m_Layer: 0
   m_Name: Enemy 10
   m_TagString: Enemy
@@ -134,19 +133,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.1, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114085741471448022
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1233282468439946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pattern: 6
-  MoveCycle: 
 --- !u!114 &114622802244413144
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,6 +145,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 1
-  movementPattern: {fileID: 114085741471448022}
+  movementPattern: 0
   deathFXPrefab: {fileID: 1692706201937976, guid: acadde7c7e0d7394a9f290a8993d600e,
     type: 2}

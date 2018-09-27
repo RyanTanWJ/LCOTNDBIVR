@@ -67,7 +67,6 @@ GameObject:
   - component: {fileID: 4370422729744694}
   - component: {fileID: 33095834247310286}
   - component: {fileID: 114253536650579648}
-  - component: {fileID: 114665436651030092}
   - component: {fileID: 135829849784591998}
   m_Layer: 0
   m_Name: Enemy 4
@@ -470,22 +469,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 1
-  movementPattern: {fileID: 114665436651030092}
+  movementPattern: 4
   deathFXPrefab: {fileID: 1692706201937976, guid: 347ae04e7daff5c40867484a1ffc292e,
     type: 2}
---- !u!114 &114665436651030092
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1362227394337334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pattern: 4
-  MoveCycle: 
 --- !u!135 &135829849784591998
 SphereCollider:
   m_ObjectHideFlags: 1
