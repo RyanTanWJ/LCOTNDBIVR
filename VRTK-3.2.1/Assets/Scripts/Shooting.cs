@@ -28,6 +28,8 @@ public class Shooting : MonoBehaviour {
     private GameObject dot;
     [SerializeField]
     private FXPlayer gunPulse;
+    [SerializeField]
+    private FXPlayer missGunPulse;
 
     public Gun gun;
 	float nextFire = 0;
@@ -56,8 +58,6 @@ public class Shooting : MonoBehaviour {
         if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
 			nextFire = Time.time + fireDelay;
 
-            gunPulse.PlayFXes();
-
 			//StartCoroutine (ShotEffect ());
 
 			Vector3 rayOrigin = gun.transform.position;
@@ -67,22 +67,33 @@ public class Shooting : MonoBehaviour {
 				GameObject hitObject = hit.collider.gameObject;
 				if (hitObject.CompareTag ("Enemy")) {
 					ShotFiredEvent (hitObject, hit.point);
-				}
+
+                    gunPulse.PlayFXes();
+                }
                 else if (hitObject.CompareTag("Start"))
                 {
                     GameStartEvent();
                     buttonSource.Play();
                     //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
+
+                    gunPulse.PlayFXes();
                 }
                 else if (hitObject.CompareTag("Retry"))
                 {
                     buttonSource.Play();
                     GameRestartEvent();
-
-                }else
+                    
+                    gunPulse.PlayFXes();
+                }
+                else
                 {
+                    missGunPulse.PlayFXes();
                     missSource.Play();
                 }
+            }
+            else
+            {
+                missGunPulse.PlayFXes();
             }
 
 			triggerReleased = false;
