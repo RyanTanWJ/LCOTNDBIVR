@@ -7,7 +7,7 @@ public class Shooting : MonoBehaviour {
 	public delegate void ShotFired(GameObject enemy, Vector3 hitPoint);
 	public static event ShotFired ShotFiredEvent;
 
-    public delegate void GameStart();
+    public delegate void GameStart(VRTK.VRTK_ControllerReference CR);
     public static event GameStart GameStartEvent;
 
     public delegate void GameRestart();
@@ -69,14 +69,20 @@ public class Shooting : MonoBehaviour {
 					ShotFiredEvent (hitObject, hit.point);
 
                     gunPulse.PlayFXes();
+
+                    // Short light on hit and any normal action
+                    HapticPulse(extraInput.TheController, 0.2f);
                 }
                 else if (hitObject.CompareTag("Start"))
                 {
-                    GameStartEvent();
+                    GameStartEvent(extraInput.TheController);
                     buttonSource.Play();
                     //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
 
                     gunPulse.PlayFXes();
+
+                    // Short light on hit and any normal action
+                    HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Retry"))
                 {
@@ -84,9 +90,14 @@ public class Shooting : MonoBehaviour {
                     GameRestartEvent();
                     
                     gunPulse.PlayFXes();
+
+                    // Short light on hit and any normal action
+                    HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else
                 {
+                    // Short strong on a miss beat
+                    HapticPulse(extraInput.TheController, 1.0f);
                     missGunPulse.PlayFXes();
                     missSource.Play();
                 }

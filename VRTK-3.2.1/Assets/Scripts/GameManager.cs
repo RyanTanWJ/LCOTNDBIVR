@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private GameObject ArenaScoreDisplay;
 
+    private VRTK.VRTK_ControllerReference controller;
+
     void OnEnable() {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
 		Shooting.ShotFiredEvent += OnShotFired;
@@ -139,8 +141,9 @@ public class GameManager : MonoBehaviour {
         }
 	}
 
-    private void OnGameStart()
+    private void OnGameStart(VRTK.VRTK_ControllerReference CR)
     {
+        controller = CR;
         ArenaScoreDisplay.SetActive(true);
         menu.SetActive(false);
         rhythmController = Instantiate(rhythmControllerPrefab, this.transform).GetComponent<RhythmController>();
@@ -157,7 +160,10 @@ public class GameManager : MonoBehaviour {
 		newText.GetComponent<TMPro.TextMeshPro>().text = text;
 	}
 
-	private void HurtPlayer(int damage){
+	private void HurtPlayer(int damage)
+    {
+        //Long strong on player gets hit
+        HapticPulse(controller, 1.0f, 0.5f, 0.05f);
 		player.TakeDamage (damage);
     }
 
@@ -177,5 +183,10 @@ public class GameManager : MonoBehaviour {
         menu.SetActive(true);
         //Switch to Game Over menu
         menu.GetComponent<MenuController>().GameOverMenu(player.Score);
+    }
+
+    public void HapticPulse(VRTK.VRTK_ControllerReference controllerReference, float strength, float duration, float interval)
+    {
+        VRTK.VRTK_ControllerHaptics.TriggerHapticPulse(controllerReference, Mathf.Clamp(strength, 0, 1.0f), duration, interval);
     }
 }
