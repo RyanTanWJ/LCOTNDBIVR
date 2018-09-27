@@ -132,5 +132,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45943c7823d366e45a70a59dda308ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatsPerMinute: 120
-  beatOffset: -0.12857144
+  beatsPerMinute: 140
+  beatOffset: 0.42857143
