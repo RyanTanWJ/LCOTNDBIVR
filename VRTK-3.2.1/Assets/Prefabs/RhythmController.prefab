@@ -50,7 +50,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 752056e64ec25c94ea0af12b8d45790a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0d98a8de3f3e11a4bb5416a7c3e77cc4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -133,4 +133,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beatsPerMinute: 120
-  beatOffset: 0
+  beatOffset: -0.12857144
