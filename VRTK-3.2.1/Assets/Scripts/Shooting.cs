@@ -27,8 +27,6 @@ public class Shooting : MonoBehaviour {
     [SerializeField]
     private GameObject dot;
     [SerializeField]
-    private FXPlayer gunPulse;
-    [SerializeField]
     private FXPlayer missGunPulse;
 
     public Gun gun;
@@ -68,8 +66,6 @@ public class Shooting : MonoBehaviour {
 				if (hitObject.CompareTag ("Enemy")) {
 					ShotFiredEvent (hitObject, hit.point);
 
-                    gunPulse.PlayFXes();
-
                     // Short light on hit and any normal action
                     HapticPulse(extraInput.TheController, 0.2f);
                 }
@@ -79,8 +75,6 @@ public class Shooting : MonoBehaviour {
                     buttonSource.Play();
                     //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
 
-                    gunPulse.PlayFXes();
-
                     // Short light on hit and any normal action
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
@@ -88,17 +82,15 @@ public class Shooting : MonoBehaviour {
                 {
                     buttonSource.Play();
                     GameRestartEvent();
-                    
-                    gunPulse.PlayFXes();
 
                     // Short light on hit and any normal action
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else
                 {
+                    missGunPulse.PlayFXes();
                     // Short strong on a miss beat
                     HapticPulse(extraInput.TheController, 1.0f);
-                    missGunPulse.PlayFXes();
                     missSource.Play();
                 }
             }

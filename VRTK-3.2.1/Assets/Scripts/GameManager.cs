@@ -35,6 +35,11 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private AudioSource beatSource, hitSource, missSource;
 
+    [SerializeField]
+    private FXPlayer gunPulse;
+    [SerializeField]
+    private FXPlayer missGunPulse;
+
     private bool deactivatedModel = false;
 
     [SerializeField]
@@ -107,18 +112,23 @@ public class GameManager : MonoBehaviour {
 		if (rhythmState < offsetPerfect || 1 - offsetPerfect < rhythmState) {
 			spawnText ("Perfect", enemy.transform);
 			flowMultiplier = flowPerfect;
+            gunPulse.PlayFXes();
 		} else if (rhythmState < offsetGreat || 1 - offsetGreat < rhythmState) {
 			spawnText ("Great", enemy.transform);
 			flowMultiplier = flowPerfect;
-		} else if (rhythmState < offsetOkay || 1 - offsetOkay < rhythmState) {
+            gunPulse.PlayFXes();
+        } else if (rhythmState < offsetOkay || 1 - offsetOkay < rhythmState) {
 			spawnText ("Okay", enemy.transform);
 			flowMultiplier = flowOkay;
-		} else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState) {
+            gunPulse.PlayFXes();
+        } else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState) {
 			spawnText ("Poor", enemy.transform);
 			flowMultiplier = flowPoor;
-		} else {
+            gunPulse.PlayFXes();
+        } else {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
             missSource.Play();
+            missGunPulse.PlayFXes();
             return;
 		}
 

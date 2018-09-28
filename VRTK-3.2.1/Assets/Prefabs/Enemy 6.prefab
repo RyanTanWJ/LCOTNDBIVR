@@ -71,7 +71,6 @@ GameObject:
   - component: {fileID: 4889481039477646}
   - component: {fileID: 33566913489893326}
   - component: {fileID: 114584713354737696}
-  - component: {fileID: 114971118048534840}
   - component: {fileID: 64179851064340522}
   m_Layer: 0
   m_Name: Enemy 6
@@ -339,19 +338,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 1
-  movementPattern: {fileID: 114971118048534840}
+  movementPattern: 6
   deathFXPrefab: {fileID: 1692706201937976, guid: 7b76f5727ee61fe4bbbf8e28e002c232,
     type: 2}
---- !u!114 &114971118048534840
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1582196010958536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1532c55d58c4f64dbdc277672a16783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pattern: 6
-  MoveCycle: 

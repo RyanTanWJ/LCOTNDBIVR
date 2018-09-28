@@ -17,9 +17,7 @@ public class Enemy : MonoBehaviour {
 	private static float MoveTime;
 	private static float InverseMoveTime;
 
-    //public Vector2[] movementPattern;
-	public MovementPattern movementPattern;
-    private int movementCycle = 0;
+    public int movementPattern;
 
     private AudioSource deathAudio;
 
@@ -31,8 +29,6 @@ public class Enemy : MonoBehaviour {
         //movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
 
         deathAudio = GetComponent<AudioSource>();
-
-        UpdateNextPosition(movementCycle);
 
 		if (MoveTime <= 0)
 		{
@@ -53,20 +49,19 @@ public class Enemy : MonoBehaviour {
         currentPosition = nextPosition;
     }
 
-    private void OnUpdateNextPosition(int beat) {
-        /*
-		nextPosition[0] = (nextPosition[0] + movementPattern[movementCycle][0] + columnLimit) % columnLimit; //in case of negative numbers
-        nextPosition[1] += movementPattern[movementCycle][1];
-		*/
-		Vector2 positionChange = movementPattern.PositionChange(movementCycle);
-		nextPosition[0] = (((currentPosition[0] + positionChange[0]) % columnLimit)  + columnLimit) % columnLimit; //in case of negative numbers
-		nextPosition[1] = currentPosition[1] + positionChange[1];
-
-		movementCycle = beat % movementPattern.Beats;
+    private void OnUpdateNextPosition(Vector2Int posChange) {
+		nextPosition[0] = (((currentPosition[0] + posChange[0]) % columnLimit)  + columnLimit) % columnLimit; //in case of negative numbers
+		nextPosition[1] = currentPosition[1] + posChange[1];
     }
 
-	//Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
-	IEnumerator SmoothMovement (Vector3 endPos)
+    private void OnUpdateNextPositionRandom(Vector2Int posChange)
+    {
+        nextPosition[0] = (((currentPosition[0] + posChange[0]) % columnLimit) + columnLimit) % columnLimit; //in case of negative numbers
+        nextPosition[1] = currentPosition[1] + posChange[1];
+    }
+
+    //Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
+    IEnumerator SmoothMovement (Vector3 endPos)
 	{
 		//Calculate the remaining distance to move based on the square magnitude of the difference between current position and end parameter. 
 		//Square magnitude is used instead of magnitude because it's computationally cheaper.
@@ -107,14 +102,29 @@ public class Enemy : MonoBehaviour {
     * Public API
     **/
 
-    public void UpdateNextPosition(int beat) {
-        OnUpdateNextPosition(beat);
+    public void UpdateNextPosition(List<Vector2Int> pattern, int beat, bool randomPattern) {
+        if (randomPattern)
+        {
+            OnUpdateNextPositionRandom(pattern[Random.Range(0, pattern.Count)]);
+        }
+        else
+        {
+            OnUpdateNextPosition(pattern[beat%4]);
+        }
     }
 
-    public void MoveAndUpdateNextPosition(Vector3 newPosition, Quaternion newRotation, int beat) {
+    public void MoveAndUpdateNextPosition(Vector3 newPosition, Quaternion newRotation, List<Vector2Int> pattern, int beat, bool randomPattern) {
         OnMove(newPosition, newRotation);
-        OnUpdateNextPosition(beat);
-	}
+        if (randomPattern)
+        {
+            OnUpdateNextPositionRandom(pattern[Random.Range(0, pattern.Count)]);
+        }
+        else
+        {
+            OnUpdateNextPosition(pattern[beat % 4]);
+        }
+
+    }
 
     public Vector2 GetCurrentPosition() {
         return currentPosition;
