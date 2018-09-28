@@ -24,7 +24,7 @@ public class EnemyManager : MonoBehaviour {
     private List<int> startingSectors;
 	private List<int> validColumns;
 
-    private int enemyLimit = 7;
+    private int enemyLimit = 14;
 
 	private EnemyWaveManager enemyWaveManager;
     private EnemyWave enemyWave = null;

@@ -38,13 +38,13 @@ public class EnemyWaveManager : MonoBehaviour {
     public void CurrentWaveEnded()
     {
         currentWave++;
+        Debug.Log("New Wave: " + currentWave);
         UpdateWave();
         OnNoWave();
     }
 
     private void OnNoWave() {
         noWaveCounter++;
-        Debug.Log("noWaveCounter = " + noWaveCounter);
     }
 
     private void UpdateWave() {
