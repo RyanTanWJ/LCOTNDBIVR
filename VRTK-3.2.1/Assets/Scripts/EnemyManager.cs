@@ -76,6 +76,7 @@ public class EnemyManager : MonoBehaviour {
                 return;
             }
             enemyWaveManager.CurrentWaveEnded();
+            resetGrid();
             enemyWave = null;
             return;
         }
@@ -258,8 +259,24 @@ public class EnemyManager : MonoBehaviour {
     /// <returns>Returns true if an enemy should be spawned, false otherwise.</returns>
     private bool SpawnEnemyRNG()
     {
-        float spawnChance = (float) enemyHolder.childCount / (float)enemyLimit;
+        float numerator = (float)enemyHolder.childCount;
+        if (numerator < 6)
+        {
+            numerator += 6;
+        }
+        float spawnChance =  numerator / (float)enemyLimit;
         return Random.Range(0, 1.0f) > spawnChance;
+    }
+
+    private void resetGrid()
+    {
+        for (int i=0; i< rowCount; i++)
+        {
+            for (int j=0; j< columnCount; j++)
+            {
+                enemyGrid[j, i] = false;
+            }
+        }
     }
 
     /**
