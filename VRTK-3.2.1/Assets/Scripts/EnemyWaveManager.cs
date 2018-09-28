@@ -92,4 +92,14 @@ public class EnemyWaveManager : MonoBehaviour {
     {
         return numEnemyTypes * 3 - numEnemyTypes;
     }
+
+    public bool isTutorial()
+    {
+        return !tutorialEnded;
+    }
+
+    public int CurrentWave()
+    {
+        return currentWave;
+    }
 }

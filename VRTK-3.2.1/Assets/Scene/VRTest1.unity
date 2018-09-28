@@ -2511,6 +2511,7 @@ MonoBehaviour:
   missSource: {fileID: 853850638}
   gunPulse: {fileID: 312486610}
   missGunPulse: {fileID: 542720325}
+  healthDisplay: {fileID: 1535017612}
   ArenaScoreDisplay: {fileID: 1535017609}
 --- !u!4 &853850635
 Transform:
@@ -4427,8 +4428,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 13
+  m_fontSizeBase: 13
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5572,7 +5573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b246f9ccbff4b424eb5dfa839451fdaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1711060533}
   health: {fileID: 1890802994}
   score: {fileID: 1107590834}
 --- !u!4 &1562066724 stripped
@@ -6133,8 +6133,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 13
+  m_fontSizeBase: 13
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

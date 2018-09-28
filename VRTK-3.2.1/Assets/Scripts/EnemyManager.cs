@@ -283,5 +283,14 @@ public class EnemyManager : MonoBehaviour {
 
         OnDestroyCommand(enemy);
     }
+    
+    public bool isTutorial()
+    {
+        return enemyWaveManager.isTutorial();
+    }
 
+    public int CurrentWave()
+    {
+        return enemyWaveManager.CurrentWave();
+    }
 }
