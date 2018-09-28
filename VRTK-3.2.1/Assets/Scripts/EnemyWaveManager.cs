@@ -90,7 +90,7 @@ public class EnemyWaveManager : MonoBehaviour {
 
     private int NewNumberEnemies(int numEnemyTypes)
     {
-        return numEnemyTypes * 3 - numEnemyTypes;
+        return numEnemyTypes * 3 + currentWave;
     }
 
     public bool isTutorial()
