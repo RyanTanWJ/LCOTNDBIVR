@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private FXPlayer missGunPulse;
 
+    [SerializeField]
+    HealthDisplay healthDisplay;
+
     private bool deactivatedModel = false;
 
     [SerializeField]
@@ -93,6 +96,28 @@ public class GameManager : MonoBehaviour {
                 controllerModel.SetActive(false);
                 deactivatedModel = true;
             }
+        }
+
+        if (enemyManager.isTutorial())
+        {
+            healthDisplay.setHealth("");
+            if (enemyManager.CurrentWave()==1)
+            {
+                healthDisplay.setScore("Shoot enemies\non the beat");
+            }
+            if (enemyManager.CurrentWave() == 2)
+            {
+                healthDisplay.setScore("Some enemies\nmove on the beat");
+            }
+            if (enemyManager.CurrentWave() == 3)
+            {
+                healthDisplay.setScore("Enemies can\nappear together");
+            }
+        }
+        else
+        {
+            healthDisplay.setHealth("Flow: " + player.Health);
+            healthDisplay.setScore("Score: " + player.Score);
         }
     }
 

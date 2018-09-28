@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 4656029137569242}
   - component: {fileID: 33719112926011846}
   - component: {fileID: 23944486981761682}
+  - component: {fileID: 95731086527503142}
   m_Layer: 0
   m_Name: cube_enemy
   m_TagString: Untagged
@@ -133,6 +134,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1.1, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95731086527503142
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1944265283065458}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 57a330a081f365949beb4bb2a586d611, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114622802244413144
 MonoBehaviour:
   m_ObjectHideFlags: 1
