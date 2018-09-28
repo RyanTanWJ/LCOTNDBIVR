@@ -2564,7 +2564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f7453e3414ec246bf71028fbb214dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatsBetweenWaves: 8
+  beatsBetweenWaves: 4
   EnemyTypes:
   - {fileID: 1233282468439946, guid: 784fab86ecf54e340b147788f15d003e, type: 2}
   - {fileID: 1233282468439946, guid: 1173e6781ea2e5244a664ca6ccf550e9, type: 2}
@@ -6334,10 +6334,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03911314adf789d489598c346b295158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowThreshold: 100
+  lowThreshold: 101
   highThreshold: 250
   materialPatternLow:
   - {fileID: 2100000, guid: ba2c3a25c610f314ab3f7922c47cae48, type: 2}
+  - {fileID: 2100000, guid: 481e75aa27d2b2f48b69924bd751d02e, type: 2}
   materialPatternNormal:
   - {fileID: 2100000, guid: ba2c3a25c610f314ab3f7922c47cae48, type: 2}
   - {fileID: 2100000, guid: c4b6044114856d1488f989ad4e14753d, type: 2}
@@ -6732,9 +6733,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03911314adf789d489598c346b295158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lowThreshold: 100
+  lowThreshold: 101
   highThreshold: 250
   materialPatternLow:
+  - {fileID: 2100000, guid: 481e75aa27d2b2f48b69924bd751d02e, type: 2}
   - {fileID: 2100000, guid: ba2c3a25c610f314ab3f7922c47cae48, type: 2}
   materialPatternNormal:
   - {fileID: 2100000, guid: c4b6044114856d1488f989ad4e14753d, type: 2}
