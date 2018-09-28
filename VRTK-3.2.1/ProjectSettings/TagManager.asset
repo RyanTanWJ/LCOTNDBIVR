@@ -8,6 +8,9 @@ TagManager:
   - RhythmController
   - Start
   - Retry
+  - Back
+  - Credits
+  - Quit
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     private GameObject menu;
+    [SerializeField]
+    private GameObject credits;
 
     [SerializeField]
     private ParticleSystem OnHitFX;
@@ -55,6 +58,8 @@ public class GameManager : MonoBehaviour {
 		Shooting.ShotFiredEvent += OnShotFired;
         Shooting.GameStartEvent += OnGameStart;
         Shooting.GameRestartEvent += OnGameRestart;
+        Shooting.CreditsEvent += OnCredits;
+        Shooting.BackEvent += OnBack;
         EnemyManager.PlayerHurtEvent += HurtPlayer;
         FlowController.PlayerDeadEvent += OnPlayerDead;
     }
@@ -64,6 +69,8 @@ public class GameManager : MonoBehaviour {
 		Shooting.ShotFiredEvent -= OnShotFired;
         Shooting.GameStartEvent -= OnGameStart;
         Shooting.GameRestartEvent -= OnGameRestart;
+        Shooting.CreditsEvent -= OnCredits;
+        Shooting.BackEvent -= OnBack;
         EnemyManager.PlayerHurtEvent -= HurtPlayer;
         FlowController.PlayerDeadEvent -= OnPlayerDead;
     }
@@ -218,6 +225,18 @@ public class GameManager : MonoBehaviour {
         menu.SetActive(true);
         //Switch to Game Over menu
         menu.GetComponent<MenuController>().GameOverMenu(player.Score);
+    }
+
+    private void OnBack()
+    {
+        menu.SetActive(true);
+        credits.SetActive(false);
+    }
+
+    private void OnCredits()
+    {
+        menu.SetActive(false);
+        credits.SetActive(true);
     }
 
     public void HapticPulse(VRTK.VRTK_ControllerReference controllerReference, float strength, float duration, float interval)
