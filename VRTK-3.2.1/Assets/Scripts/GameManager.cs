@@ -103,15 +103,15 @@ public class GameManager : MonoBehaviour {
             healthDisplay.setHealth("");
             if (enemyManager.CurrentWave()==1)
             {
-                healthDisplay.setScore("Shoot Enemies on the Beat");
+                healthDisplay.setScore("Shoot enemies\non the beat");
             }
             if (enemyManager.CurrentWave() == 2)
             {
-                healthDisplay.setScore("Some Enemies move on the Beat");
+                healthDisplay.setScore("Some enemies\nmove on the beat");
             }
             if (enemyManager.CurrentWave() == 3)
             {
-                healthDisplay.setScore("Enemies can appear together");
+                healthDisplay.setScore("Enemies can\nappear together");
             }
         }
         else

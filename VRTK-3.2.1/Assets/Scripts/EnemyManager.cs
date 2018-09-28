@@ -87,8 +87,14 @@ public class EnemyManager : MonoBehaviour {
 
         //Spawn on the outermost row
         int spawnRowPosition = rowCount - 1;
-		//Spawn only in valid columns
-		int spawnColumnPosition = validColumns[Random.Range (0, validColumns.Count-1)];
+        
+        if (isTutorial())
+        {
+            spawnRowPosition -= 2;
+        }
+
+        //Spawn only in valid columns
+        int spawnColumnPosition = validColumns[Random.Range (0, validColumns.Count-1)];
 
         //Verify valid spawn position
         while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {
