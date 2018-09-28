@@ -13,6 +13,8 @@ public class EnemyWaveManager : MonoBehaviour {
     private int currentWave = 1;
     private int noWaveCounter = 0;
 
+    private bool tutorialEnded = false;
+
 	private EnemyWave wave;
 
     private void Start() {
@@ -37,6 +39,13 @@ public class EnemyWaveManager : MonoBehaviour {
 
     public void CurrentWaveEnded()
     {
+        if (!tutorialEnded && currentWave == 3)
+        {
+            currentWave = 1;
+            EnemyTypes.RemoveAt(0);
+            EnemyTypes.RemoveAt(0);
+            tutorialEnded = true;
+        }
         currentWave++;
         Debug.Log("New Wave: " + currentWave);
         UpdateWave();
