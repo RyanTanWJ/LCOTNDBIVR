@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Shooting : MonoBehaviour {
 
@@ -107,6 +108,15 @@ public class Shooting : MonoBehaviour {
 
                     // Short light on hit and any normal action
                     HapticPulse(extraInput.TheController, 0.5f);
+                }
+                else if (hitObject.CompareTag("Quit"))
+                {
+                    buttonSource.Play();
+
+                    // Short light on hit and any normal action
+                    HapticPulse(extraInput.TheController, 0.5f);
+
+                    Application.Quit();
                 }
                 else
                 {

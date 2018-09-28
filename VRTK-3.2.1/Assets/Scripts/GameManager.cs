@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour {
         enemyManager = this.GetComponent<EnemyManager>();
         //beatSource = this.GetComponent<AudioSource>();
         ArenaScoreDisplay.SetActive(false);
+        credits.SetActive(false);
         /*
         if (rhythmController == null) {
             Debug.LogError("No RhythmController attached to this object");
