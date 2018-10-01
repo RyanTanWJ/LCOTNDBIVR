@@ -52,6 +52,12 @@ public class Player : MonoBehaviour {
 		return flow.Flow * value;
 	}
 
+    public void ResetPlayer()
+    {
+        score = 0;
+        flow.Reset(startingFlow);
+    }
+
 	/// <summary>
 	/// Adds the score with player's multiplier to the current score
 	/// </summary>

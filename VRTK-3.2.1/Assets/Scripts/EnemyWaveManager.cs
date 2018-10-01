@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyWaveManager : MonoBehaviour {
+public class EnemyWaveManager : MonoBehaviour
+{
+    public delegate void TutorialEnd();
+    public static event TutorialEnd TutorialEndEvent;
 
     [SerializeField]
     private int beatsBetweenWaves;
@@ -45,6 +48,7 @@ public class EnemyWaveManager : MonoBehaviour {
             EnemyTypes.RemoveAt(0);
             EnemyTypes.RemoveAt(0);
             tutorialEnded = true;
+            TutorialEndEvent();
         }
         currentWave++;
         Debug.Log("New Wave: " + currentWave);

@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour {
         Shooting.CreditsEvent += OnCredits;
         Shooting.BackEvent += OnBack;
         EnemyManager.PlayerHurtEvent += HurtPlayer;
+        EnemyWaveManager.TutorialEndEvent += ResetPlayer;
         FlowController.PlayerDeadEvent += OnPlayerDead;
     }
 
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour {
         Shooting.CreditsEvent -= OnCredits;
         Shooting.BackEvent -= OnBack;
         EnemyManager.PlayerHurtEvent -= HurtPlayer;
+        EnemyWaveManager.TutorialEndEvent -= ResetPlayer;
         FlowController.PlayerDeadEvent -= OnPlayerDead;
     }
 
@@ -208,6 +210,11 @@ public class GameManager : MonoBehaviour {
         //Long strong on player gets hit
         HapticPulse(controller, 1.0f, 0.5f, 0.05f);
 		player.TakeDamage (damage);
+    }
+
+    private void ResetPlayer()
+    {
+        player.ResetPlayer();
     }
 
     private void OnPlayerDead()
