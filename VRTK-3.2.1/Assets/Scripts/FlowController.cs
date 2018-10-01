@@ -37,4 +37,9 @@ public class FlowController {
     public bool IsDead {
         get { return currentFlow <= 0; }
     }
+
+    public void Reset(int flow)
+    {
+        currentFlow = flow;
+    }
 }

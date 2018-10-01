@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     private GameObject menu;
+    [SerializeField]
+    private GameObject credits;
 
     [SerializeField]
     private ParticleSystem OnHitFX;
@@ -55,7 +58,10 @@ public class GameManager : MonoBehaviour {
 		Shooting.ShotFiredEvent += OnShotFired;
         Shooting.GameStartEvent += OnGameStart;
         Shooting.GameRestartEvent += OnGameRestart;
+        Shooting.CreditsEvent += OnCredits;
+        Shooting.BackEvent += OnBack;
         EnemyManager.PlayerHurtEvent += HurtPlayer;
+        EnemyWaveManager.TutorialEndEvent += ResetPlayer;
         FlowController.PlayerDeadEvent += OnPlayerDead;
     }
 
@@ -64,7 +70,10 @@ public class GameManager : MonoBehaviour {
 		Shooting.ShotFiredEvent -= OnShotFired;
         Shooting.GameStartEvent -= OnGameStart;
         Shooting.GameRestartEvent -= OnGameRestart;
+        Shooting.CreditsEvent -= OnCredits;
+        Shooting.BackEvent -= OnBack;
         EnemyManager.PlayerHurtEvent -= HurtPlayer;
+        EnemyWaveManager.TutorialEndEvent -= ResetPlayer;
         FlowController.PlayerDeadEvent -= OnPlayerDead;
     }
 
@@ -73,6 +82,7 @@ public class GameManager : MonoBehaviour {
         enemyManager = this.GetComponent<EnemyManager>();
         //beatSource = this.GetComponent<AudioSource>();
         ArenaScoreDisplay.SetActive(false);
+        credits.SetActive(false);
         /*
         if (rhythmController == null) {
             Debug.LogError("No RhythmController attached to this object");
@@ -116,8 +126,8 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            healthDisplay.setHealth("Flow: " + player.Health);
             healthDisplay.setScore("Score: " + player.Score);
+            healthDisplay.setHealth("Multiplier: " + (float)player.Health / 100f + "x");
         }
     }
 
@@ -202,6 +212,11 @@ public class GameManager : MonoBehaviour {
 		player.TakeDamage (damage);
     }
 
+    private void ResetPlayer()
+    {
+        player.ResetPlayer();
+    }
+
     private void OnPlayerDead()
     {
         GameOver();
@@ -218,6 +233,18 @@ public class GameManager : MonoBehaviour {
         menu.SetActive(true);
         //Switch to Game Over menu
         menu.GetComponent<MenuController>().GameOverMenu(player.Score);
+    }
+
+    private void OnBack()
+    {
+        menu.SetActive(true);
+        credits.SetActive(false);
+    }
+
+    private void OnCredits()
+    {
+        menu.SetActive(false);
+        credits.SetActive(true);
     }
 
     public void HapticPulse(VRTK.VRTK_ControllerReference controllerReference, float strength, float duration, float interval)

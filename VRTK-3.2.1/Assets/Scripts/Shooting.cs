@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Shooting : MonoBehaviour {
 
@@ -12,6 +13,12 @@ public class Shooting : MonoBehaviour {
 
     public delegate void GameRestart();
     public static event GameRestart GameRestartEvent;
+
+    public delegate void Credits();
+    public static event Credits CreditsEvent;
+
+    public delegate void Back();
+    public static event Back BackEvent;
 
     public VRTK.VRTK_ControllerEvents controllerEvents;
 	public VRTK.AdditionalControllerInput extraInput;
@@ -85,6 +92,31 @@ public class Shooting : MonoBehaviour {
 
                     // Short light on hit and any normal action
                     HapticPulse(extraInput.TheController, 0.5f);
+                }
+                else if (hitObject.CompareTag("Credits"))
+                {
+                    buttonSource.Play();
+                    CreditsEvent();
+
+                    // Short light on hit and any normal action
+                    HapticPulse(extraInput.TheController, 0.5f);
+                }
+                else if (hitObject.CompareTag("Back"))
+                {
+                    buttonSource.Play();
+                    BackEvent();
+
+                    // Short light on hit and any normal action
+                    HapticPulse(extraInput.TheController, 0.5f);
+                }
+                else if (hitObject.CompareTag("Quit"))
+                {
+                    buttonSource.Play();
+
+                    // Short light on hit and any normal action
+                    HapticPulse(extraInput.TheController, 0.5f);
+
+                    Application.Quit();
                 }
                 else
                 {
