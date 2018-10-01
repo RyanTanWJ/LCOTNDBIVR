@@ -124,8 +124,8 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            healthDisplay.setHealth("Flow: " + player.Health);
             healthDisplay.setScore("Score: " + player.Score);
+            healthDisplay.setHealth("Multiplier: " + (float)player.Health / 100f + "x");
         }
     }
 
