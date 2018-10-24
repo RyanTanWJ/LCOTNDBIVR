@@ -24,7 +24,10 @@ public class EnemyWaveManager : MonoBehaviour
     [SerializeField]
     private int nbOfWavesBeforeNewEnemy;
     private int nextNewEnemy = 1;
-
+    [SerializeField]
+    private int minNbOfEnemy;       //The minimum nb of enemies per wave
+    [SerializeField]
+    private float alphaNbEnemy;     //The coefficient of progress of number of enemies with regards to the number of waves
     /*------------------------------------------------*/
 
     private void Start() {}
@@ -44,10 +47,9 @@ public class EnemyWaveManager : MonoBehaviour
             tutorialEnded = true;
             TutorialEndEvent();
         }
-        wave = new EnemyWave();
+        wave = new EnemyWave(NewNumberEnemies());
         PopulateEnemyTypes();
 
-        wave.SetEnemiesInWave(NewNumberEnemies(wave.EnemyTypes.Count));
         wave.GenerateNewWave();
     }
 
@@ -80,9 +82,9 @@ public class EnemyWaveManager : MonoBehaviour
         }
     }
 
-    private int NewNumberEnemies(int numEnemyTypes)
+    private int NewNumberEnemies()
     {
-        return numEnemyTypes * 3 + currentWave;
+        return (int)((float)currentWave * alphaNbEnemy)  + minNbOfEnemy;
     }
 
     public bool isTutorial()
