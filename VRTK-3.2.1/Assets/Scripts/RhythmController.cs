@@ -48,7 +48,7 @@ public class RhythmController : MonoBehaviour {
     }
 
     private void TriggerBeat() {
-        BeatTriggeredEvent();
+        BeatTriggeredEvent();       //Seems to be the starting event for all the beat based behavior
     }
 
     public float GetCurrentBeat() {

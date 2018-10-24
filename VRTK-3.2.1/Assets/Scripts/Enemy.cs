@@ -109,7 +109,10 @@ public class Enemy : MonoBehaviour {
         }
         else
         {
-            OnUpdateNextPosition(pattern[beat%4]);
+            // TODO here I need to either use many different pattern (for each different starts)
+            // Or I make sure that the selection of the pattern is independant of the beat and comes from within the enemy
+            // IDEA use offset here inside enemy at creation to target a specific moment in pattern
+            OnUpdateNextPosition(pattern[beat%4]);  
         }
     }
 

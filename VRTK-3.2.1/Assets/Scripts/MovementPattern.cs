@@ -116,9 +116,9 @@ public class MovementPattern : MonoBehaviour{
     {
         List<Vector2Int> pattern = new List<Vector2Int>();
         pattern.Add(left);
+        pattern.Add(diagLeft);
         pattern.Add(right);
-        pattern.Add(forward);
-        pattern.Add(noMove);
+        pattern.Add(diagRight);
         return pattern;
     }
 
@@ -126,7 +126,7 @@ public class MovementPattern : MonoBehaviour{
     {
         List<Vector2Int> pattern = new List<Vector2Int>();
         pattern.Add(diagLeft);
-        pattern.Add(noMove);
+        //pattern.Add(noMove);
         pattern.Add(diagRight);
         return pattern;
     }
