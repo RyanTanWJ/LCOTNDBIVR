@@ -30,9 +30,7 @@ public class Shooting : MonoBehaviour {
 
     [SerializeField]
     private AudioSource buttonSource, missSource;
-
-    [SerializeField]
-    private GameObject dot;
+    
     [SerializeField]
     private FXPlayer missGunPulse;
 
@@ -46,19 +44,8 @@ public class Shooting : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        RaycastHit dotHit;
-        if (Physics.Raycast(gun.transform.position, gun.fireDirection, out dotHit, gun.range))
-        {
-            dot.SetActive(true);
-            dot.transform.position = dotHit.point;
-        }
-        else
-        {
-            dot.SetActive(false);
-        }
 
         laserline.SetPosition (0, gun.transform.position);
-        laserline.SetPosition(1, gun.transform.position + 0.5f * gun.fireDirection);
 
         if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
 			nextFire = Time.time + fireDelay;
@@ -69,8 +56,12 @@ public class Shooting : MonoBehaviour {
 			RaycastHit hit;
 
 			if (Physics.Raycast (rayOrigin, gun.fireDirection, out hit, gun.range)) {
+
 				GameObject hitObject = hit.collider.gameObject;
-				if (hitObject.CompareTag ("Enemy")) {
+
+                laserline.SetPosition(1, hit.point);
+
+                if (hitObject.CompareTag ("Enemy")) {
 					ShotFiredEvent (hitObject, hit.point);
 
                     // Short light on hit and any normal action
@@ -81,39 +72,34 @@ public class Shooting : MonoBehaviour {
                     GameStartEvent(extraInput.TheController);
                     buttonSource.Play();
                     //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
-
-                    // Short light on hit and any normal action
+                    
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Retry"))
                 {
                     buttonSource.Play();
                     GameRestartEvent();
-
-                    // Short light on hit and any normal action
+                    
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Credits"))
                 {
                     buttonSource.Play();
                     CreditsEvent();
-
-                    // Short light on hit and any normal action
+                    
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Back"))
                 {
                     buttonSource.Play();
                     BackEvent();
-
-                    // Short light on hit and any normal action
+                    
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Quit"))
                 {
                     buttonSource.Play();
-
-                    // Short light on hit and any normal action
+                    
                     HapticPulse(extraInput.TheController, 0.5f);
 
                     Application.Quit();
@@ -128,6 +114,7 @@ public class Shooting : MonoBehaviour {
             }
             else
             {
+                laserline.SetPosition(1, gun.transform.position + gun.range * gun.fireDirection);
                 missGunPulse.PlayFXes();
             }
 
