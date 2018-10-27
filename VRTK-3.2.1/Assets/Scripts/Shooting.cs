@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Shooting : MonoBehaviour {
+public class Shooting : MonoBehaviour
+{
 
-	public delegate void ShotFired(GameObject enemy, Vector3 hitPoint);
-	public static event ShotFired ShotFiredEvent;
+    public delegate void ShotFired(GameObject enemy, Vector3 hitPoint);
+    public static event ShotFired ShotFiredEvent;
 
     public delegate void GameStart(VRTK.VRTK_ControllerReference CR);
     public static event GameStart GameStartEvent;
@@ -21,48 +22,53 @@ public class Shooting : MonoBehaviour {
     public static event Back BackEvent;
 
     public VRTK.VRTK_ControllerEvents controllerEvents;
-	public VRTK.AdditionalControllerInput extraInput;
+    public VRTK.AdditionalControllerInput extraInput;
 
-	private bool triggerReleased = true;
-	private WaitForSeconds shotDuration = new WaitForSeconds (0.07f);
+    private bool triggerReleased = true;
+    private WaitForSeconds shotDuration = new WaitForSeconds(0.07f);
 
-	private LineRenderer laserline;
+    private LineRenderer laserline;
 
     [SerializeField]
     private AudioSource buttonSource, missSource;
-    
+
     [SerializeField]
     private FXPlayer missGunPulse;
 
     public Gun gun;
-	float nextFire = 0;
-	float fireDelay = 0.5f;
+    float nextFire = 0;
+    float fireDelay = 0.5f;
 
-	void Start(){
-		laserline = GetComponent<LineRenderer> ();
-	}
+    void Start()
+    {
+        laserline = GetComponent<LineRenderer>();
+    }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
 
-        laserline.SetPosition (0, gun.transform.position);
+        laserline.SetPosition(0, gun.transform.position);
 
-        if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased) {
-			nextFire = Time.time + fireDelay;
+        if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased)
+        {
+            nextFire = Time.time + fireDelay;
 
-			//StartCoroutine (ShotEffect ());
+            //StartCoroutine (ShotEffect ());
 
-			Vector3 rayOrigin = gun.transform.position;
-			RaycastHit hit;
+            Vector3 rayOrigin = gun.transform.position;
+            RaycastHit hit;
 
-			if (Physics.Raycast (rayOrigin, gun.fireDirection, out hit, gun.range)) {
+            if (Physics.Raycast(rayOrigin, gun.fireDirection, out hit, gun.range))
+            {
 
-				GameObject hitObject = hit.collider.gameObject;
+                GameObject hitObject = hit.collider.gameObject;
 
                 laserline.SetPosition(1, hit.point);
 
-                if (hitObject.CompareTag ("Enemy")) {
-					ShotFiredEvent (hitObject, hit.point);
+                if (hitObject.CompareTag("Enemy"))
+                {
+                    ShotFiredEvent(hitObject, hit.point);
 
                     // Short light on hit and any normal action
                     HapticPulse(extraInput.TheController, 0.2f);
@@ -72,34 +78,34 @@ public class Shooting : MonoBehaviour {
                     GameStartEvent(extraInput.TheController);
                     buttonSource.Play();
                     //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
-                    
+
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Retry"))
                 {
                     buttonSource.Play();
                     GameRestartEvent();
-                    
+
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Credits"))
                 {
                     buttonSource.Play();
                     CreditsEvent();
-                    
+
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Back"))
                 {
                     buttonSource.Play();
                     BackEvent();
-                    
+
                     HapticPulse(extraInput.TheController, 0.5f);
                 }
                 else if (hitObject.CompareTag("Quit"))
                 {
                     buttonSource.Play();
-                    
+
                     HapticPulse(extraInput.TheController, 0.5f);
 
                     Application.Quit();
@@ -118,19 +124,21 @@ public class Shooting : MonoBehaviour {
                 missGunPulse.PlayFXes();
             }
 
-			triggerReleased = false;
-		}
-		if (!extraInput.TriggerState && !triggerReleased) {
-			triggerReleased = true;
+            triggerReleased = false;
         }
-        
+        if (!extraInput.TriggerState && !triggerReleased)
+        {
+            triggerReleased = true;
+        }
+
     }
 
-	private IEnumerator ShotEffect(){
-		laserline.enabled = true;
-		yield return shotDuration;
-		laserline.enabled = false;
-	}
+    private IEnumerator ShotEffect()
+    {
+        laserline.enabled = true;
+        yield return shotDuration;
+        laserline.enabled = false;
+    }
 
     /// <summary>
     /// Send a Single haptic pulse of a given strength to the controller referenced. CopyPasta/Move this method to whichever script you want to call haptic feedback then send the controllerReference from Shooting.cs to it.
