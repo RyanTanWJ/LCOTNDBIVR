@@ -6,9 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
-
-    public delegate void Pulse(bool hit);
+    public delegate void Pulse(bool hit, bool isLeft);
     public static event Pulse PulseEvent;
 
     [SerializeField]
@@ -130,7 +128,7 @@ public class GameManager : MonoBehaviour
         enemyManager.SpawnEnemy();
     }
 
-    private void OnShotFired(GameObject enemy, Vector3 hitPoint)
+    private void OnShotFired(GameObject enemy, Vector3 hitPoint, bool isLeft)
     {
         //Do something when shot fired
         float rhythmState = rhythmController.GetCurrentBeat() % 1;
@@ -140,31 +138,31 @@ public class GameManager : MonoBehaviour
         {
             spawnText("Perfect", enemy.transform);
             flowMultiplier = flowPerfect;
-            PulseEvent(true);
+            PulseEvent(true, isLeft);
         }
         else if (rhythmState < offsetGreat || 1 - offsetGreat < rhythmState)
         {
             spawnText("Great", enemy.transform);
             flowMultiplier = flowPerfect;
-            PulseEvent(true);
+            PulseEvent(true, isLeft);
         }
         else if (rhythmState < offsetOkay || 1 - offsetOkay < rhythmState)
         {
             spawnText("Okay", enemy.transform);
             flowMultiplier = flowOkay;
-            PulseEvent(true);
+            PulseEvent(true, isLeft);
         }
         else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState)
         {
             spawnText("Poor", enemy.transform);
             flowMultiplier = flowPoor;
-            PulseEvent(true);
+            PulseEvent(true, isLeft);
         }
         else
         {
             Debug.Log("Tapped at " + rhythmState + "s.Missed");
             missSource.Play();
-            PulseEvent(false);
+            PulseEvent(false, isLeft);
             return;
         }
 

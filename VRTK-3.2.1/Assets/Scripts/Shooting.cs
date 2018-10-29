@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Shooting : MonoBehaviour
 {
-
-    public delegate void ShotFired(GameObject enemy, Vector3 hitPoint);
+    public delegate void ShotFired(GameObject enemy, Vector3 hitPoint, bool isLeft);
     public static event ShotFired ShotFiredEvent;
 
     public delegate void GameStart(VRTK.VRTK_ControllerReference CR);
@@ -38,6 +37,8 @@ public class Shooting : MonoBehaviour
     [SerializeField]
     private FXPlayer missGunPulse;
 
+    private bool isLeft;
+
     public Gun gun;
     float nextFire = 0;
     float fireDelay = 0.5f;
@@ -49,6 +50,16 @@ public class Shooting : MonoBehaviour
         {
             controllerModel.SetActive(false);
         }
+
+        if (name.Contains("Left"))
+        {
+            isLeft = true;
+        }
+        else
+        {
+            isLeft = false;
+        }
+
         GameManager.PulseEvent += PlayPulse;
     }
 
@@ -95,6 +106,15 @@ public class Shooting : MonoBehaviour
         ReleaseTrigger();
     }
 
+    private void PlayPulse(bool hit, bool amLeft)
+    {
+        if (isLeft != amLeft)
+        {
+            return;
+        }
+        PlayPulse(hit);
+    }
+
     private void PlayPulse(bool hit)
     {
         if (hit)
@@ -115,9 +135,67 @@ public class Shooting : MonoBehaviour
 
     private void CheckCollisionTag(RaycastHit hit, GameObject hitObject)
     {
+        switch (hitObject.tag)
+        {
+            case "Enemy":
+                ShotFiredEvent(hitObject, hit.point, isLeft);
+
+                // Short light on hit and any normal action
+                HapticPulse(extraInput.TheController, 0.2f);
+                break;
+            case "Start":
+                GameStartEvent(extraInput.TheController);
+                buttonSource.Play();
+
+                PlayPulse(true);
+
+                HapticPulse(extraInput.TheController, 0.5f);
+                break;
+            case "Retry":
+                buttonSource.Play();
+                GameRestartEvent();
+
+                PlayPulse(true);
+
+                HapticPulse(extraInput.TheController, 0.5f);
+                break;
+            case "Credits":
+                buttonSource.Play();
+                CreditsEvent();
+
+                PlayPulse(true);
+
+                HapticPulse(extraInput.TheController, 0.5f);
+                break;
+            case "Back":
+                buttonSource.Play();
+                BackEvent();
+
+                PlayPulse(true);
+
+                HapticPulse(extraInput.TheController, 0.5f);
+                break;
+            case "Quit":
+                PlayPulse(false);
+
+                buttonSource.Play();
+
+                HapticPulse(extraInput.TheController, 0.5f);
+
+                Application.Quit();
+                break;
+            default:
+                PlayPulse(false);
+
+                // Short strong on a miss beat
+                HapticPulse(extraInput.TheController, 1.0f);
+                missSource.Play();
+                break;
+        }
+        /*
         if (hitObject.CompareTag("Enemy"))
         {
-            ShotFiredEvent(hitObject, hit.point);
+            ShotFiredEvent(hitObject, hit.point, isLeft);
 
             // Short light on hit and any normal action
             HapticPulse(extraInput.TheController, 0.2f);
@@ -127,12 +205,16 @@ public class Shooting : MonoBehaviour
             GameStartEvent(extraInput.TheController);
             buttonSource.Play();
 
+            PlayPulse(true);
+
             HapticPulse(extraInput.TheController, 0.5f);
         }
         else if (hitObject.CompareTag("Retry"))
         {
             buttonSource.Play();
             GameRestartEvent();
+
+            PlayPulse(true);
 
             HapticPulse(extraInput.TheController, 0.5f);
         }
@@ -141,6 +223,8 @@ public class Shooting : MonoBehaviour
             buttonSource.Play();
             CreditsEvent();
 
+            PlayPulse(true);
+
             HapticPulse(extraInput.TheController, 0.5f);
         }
         else if (hitObject.CompareTag("Back"))
@@ -148,10 +232,14 @@ public class Shooting : MonoBehaviour
             buttonSource.Play();
             BackEvent();
 
+            PlayPulse(true);
+
             HapticPulse(extraInput.TheController, 0.5f);
         }
         else if (hitObject.CompareTag("Quit"))
         {
+            PlayPulse(false);
+
             buttonSource.Play();
 
             HapticPulse(extraInput.TheController, 0.5f);
@@ -160,11 +248,13 @@ public class Shooting : MonoBehaviour
         }
         else
         {
-            missGunPulse.PlayFXes();
+            PlayPulse(false);
+
             // Short strong on a miss beat
             HapticPulse(extraInput.TheController, 1.0f);
             missSource.Play();
         }
+        */
     }
 
     private void UpdateNextFireTime()
