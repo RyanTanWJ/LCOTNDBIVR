@@ -33,11 +33,30 @@ public class Shooting : MonoBehaviour
     private AudioSource buttonSource, missSource;
 
     [SerializeField]
+    private FXPlayer gunPulse;
+
+    [SerializeField]
     private FXPlayer missGunPulse;
 
     public Gun gun;
     float nextFire = 0;
     float fireDelay = 0.5f;
+
+    void OnEnable()
+    {
+        GameObject controllerModel = GameObject.Find("Model");
+        if (controllerModel != null)
+        {
+            controllerModel.SetActive(false);
+        }
+        GameManager.PulseEvent += PlayPulse;
+    }
+
+    void OnDisable()
+    {
+        GameManager.PulseEvent -= PlayPulse;
+    }
+
 
     void Start()
     {
@@ -47,90 +66,110 @@ public class Shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         laserline.SetPosition(0, gun.transform.position);
 
-        if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased)
+        Vector3 rayOrigin = gun.transform.position;
+        RaycastHit hit;
+
+        if (Physics.Raycast(rayOrigin, gun.fireDirection, out hit, gun.range))
         {
-            nextFire = Time.time + fireDelay;
+            GameObject hitObject = hit.collider.gameObject;
 
-            //StartCoroutine (ShotEffect ());
+            laserline.SetPosition(1, hit.point);
 
-            Vector3 rayOrigin = gun.transform.position;
-            RaycastHit hit;
-
-            if (Physics.Raycast(rayOrigin, gun.fireDirection, out hit, gun.range))
+            if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased)
             {
-
-                GameObject hitObject = hit.collider.gameObject;
-
-                laserline.SetPosition(1, hit.point);
-
-                if (hitObject.CompareTag("Enemy"))
-                {
-                    ShotFiredEvent(hitObject, hit.point);
-
-                    // Short light on hit and any normal action
-                    HapticPulse(extraInput.TheController, 0.2f);
-                }
-                else if (hitObject.CompareTag("Start"))
-                {
-                    GameStartEvent(extraInput.TheController);
-                    buttonSource.Play();
-                    //hitObject.gameObject.transform.parent.gameObject.SetActive(false);
-
-                    HapticPulse(extraInput.TheController, 0.5f);
-                }
-                else if (hitObject.CompareTag("Retry"))
-                {
-                    buttonSource.Play();
-                    GameRestartEvent();
-
-                    HapticPulse(extraInput.TheController, 0.5f);
-                }
-                else if (hitObject.CompareTag("Credits"))
-                {
-                    buttonSource.Play();
-                    CreditsEvent();
-
-                    HapticPulse(extraInput.TheController, 0.5f);
-                }
-                else if (hitObject.CompareTag("Back"))
-                {
-                    buttonSource.Play();
-                    BackEvent();
-
-                    HapticPulse(extraInput.TheController, 0.5f);
-                }
-                else if (hitObject.CompareTag("Quit"))
-                {
-                    buttonSource.Play();
-
-                    HapticPulse(extraInput.TheController, 0.5f);
-
-                    Application.Quit();
-                }
-                else
-                {
-                    missGunPulse.PlayFXes();
-                    // Short strong on a miss beat
-                    HapticPulse(extraInput.TheController, 1.0f);
-                    missSource.Play();
-                }
+                UpdateNextFireTime();
+                CheckCollisionTag(hit, hitObject);
             }
-            else
-            {
-                laserline.SetPosition(1, gun.transform.position + gun.range * gun.fireDirection);
-                missGunPulse.PlayFXes();
-            }
-
-            triggerReleased = false;
         }
+        else
+        {
+            laserline.SetPosition(1, gun.transform.position + gun.range * gun.fireDirection);
+            if (controllerEvents.triggerClicked && Time.time > nextFire && triggerReleased)
+            {
+                UpdateNextFireTime();
+                PlayPulse(false);
+            }
+        }
+        ReleaseTrigger();
+    }
+
+    private void PlayPulse(bool hit)
+    {
+        if (hit)
+        {
+            gunPulse.PlayFXes();
+            return;
+        }
+        missGunPulse.PlayFXes();
+    }
+
+    private void ReleaseTrigger()
+    {
         if (!extraInput.TriggerState && !triggerReleased)
         {
             triggerReleased = true;
         }
+    }
 
+    private void CheckCollisionTag(RaycastHit hit, GameObject hitObject)
+    {
+        if (hitObject.CompareTag("Enemy"))
+        {
+            ShotFiredEvent(hitObject, hit.point);
+
+            // Short light on hit and any normal action
+            HapticPulse(extraInput.TheController, 0.2f);
+        }
+        else if (hitObject.CompareTag("Start"))
+        {
+            GameStartEvent(extraInput.TheController);
+            buttonSource.Play();
+
+            HapticPulse(extraInput.TheController, 0.5f);
+        }
+        else if (hitObject.CompareTag("Retry"))
+        {
+            buttonSource.Play();
+            GameRestartEvent();
+
+            HapticPulse(extraInput.TheController, 0.5f);
+        }
+        else if (hitObject.CompareTag("Credits"))
+        {
+            buttonSource.Play();
+            CreditsEvent();
+
+            HapticPulse(extraInput.TheController, 0.5f);
+        }
+        else if (hitObject.CompareTag("Back"))
+        {
+            buttonSource.Play();
+            BackEvent();
+
+            HapticPulse(extraInput.TheController, 0.5f);
+        }
+        else if (hitObject.CompareTag("Quit"))
+        {
+            buttonSource.Play();
+
+            HapticPulse(extraInput.TheController, 0.5f);
+
+            Application.Quit();
+        }
+        else
+        {
+            missGunPulse.PlayFXes();
+            // Short strong on a miss beat
+            HapticPulse(extraInput.TheController, 1.0f);
+            missSource.Play();
+        }
+    }
+
+    private void UpdateNextFireTime()
+    {
+        nextFire = Time.time + fireDelay;
     }
 
     private IEnumerator ShotEffect()
