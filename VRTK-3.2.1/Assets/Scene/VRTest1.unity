@@ -24909,7 +24909,7 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 75bd1350b322bc149ad4b79c719cb687, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -28994,6 +28994,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 2131225763}
     m_Modifications:
+    - target: {fileID: 120969948253218104, guid: df8e5218491adb94fbe48b76c34c229b,
+        type: 2}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4891950771608288, guid: df8e5218491adb94fbe48b76c34c229b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -29052,6 +29057,11 @@ Prefab:
       propertyPath: m_Name
       value: Left Miss Gun Pulse
       objectReference: {fileID: 0}
+    - target: {fileID: 120969948253218104, guid: df8e5218491adb94fbe48b76c34c229b,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 75bd1350b322bc149ad4b79c719cb687, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: df8e5218491adb94fbe48b76c34c229b, type: 2}
   m_IsPrefabParent: 0
@@ -154974,6 +154984,11 @@ Prefab:
       propertyPath: m_Name
       value: Right GunBarrel
       objectReference: {fileID: 0}
+    - target: {fileID: 120969948253218104, guid: df8e5218491adb94fbe48b76c34c229b,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 75bd1350b322bc149ad4b79c719cb687, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: df8e5218491adb94fbe48b76c34c229b, type: 2}
   m_IsPrefabParent: 0
@@ -155466,7 +155481,9 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 75bd1350b322bc149ad4b79c719cb687, type: 2}
+  - {fileID: 2100000, guid: 75bd1350b322bc149ad4b79c719cb687, type: 2}
+  - {fileID: 2100000, guid: 75bd1350b322bc149ad4b79c719cb687, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
