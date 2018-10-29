@@ -159,9 +159,11 @@ public class GameManager : MonoBehaviour {
         } else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState) {
 			spawnText ("Poor", enemy.transform);
 			flowMultiplier = flowPoor;
+            missSource.Play();
             gunPulse.PlayFXes();
         } else {
 			Debug.Log("Tapped at " + rhythmState + "s.Missed");
+            player.TakeDamage(1);
             missSource.Play();
             missGunPulse.PlayFXes();
             return;

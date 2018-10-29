@@ -3842,7 +3842,7 @@ MonoBehaviour:
   flowPerfect: 10
   flowGreat: 5
   flowOkay: 0
-  flowPoor: -10
+  flowPoor: -5
   accuracyText: {fileID: 1360421005805558, guid: babf494ebfadf92468d67bdec641989d,
     type: 2}
   player: {fileID: 1711060533}
