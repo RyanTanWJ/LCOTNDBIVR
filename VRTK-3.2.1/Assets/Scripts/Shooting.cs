@@ -259,6 +259,7 @@ public class Shooting : MonoBehaviour
 
     private void UpdateNextFireTime()
     {
+        triggerReleased = false;
         nextFire = Time.time + fireDelay;
     }
 
