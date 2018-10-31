@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour {
             missSource.Play();
             gunPulse.PlayFXes();
         } else {
-			Debug.Log("Tapped at " + rhythmState + "s.Missed");
+            spawnText("Missed", enemy.transform);
             player.TakeDamage(1);
             missSource.Play();
             missGunPulse.PlayFXes();
