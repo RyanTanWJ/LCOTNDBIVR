@@ -9,40 +9,36 @@ public class EnemyWave {
     public Queue<GameObject> EnemiesInOrder;
     
     public float avgSaturation;
-    private int[] firstPattern;
-    public Queue<GameObject[]> enemyRows;
+    private GameObject[] firstPattern;
+    public List<GameObject[]> enemyRows;
 
     public EnemyWave(int nbOfEnemiesInWave){
 		EnemyTypes = new List<GameObject>();
 		EnemiesInWave = nbOfEnemiesInWave;
         EnemiesInOrder = new Queue<GameObject>();
         avgSaturation = 0.0f;
-	}
+        enemyRows = new List<GameObject[]>();
+
+    }
 
     public void GenerateNewWave(int windowLength)
     {
-        int nbOfEnemies = 0;
-        List<int[]> enemyRows = new List<int[]>();
-
-        int patternType = Random.Range(0, 6);
+        int nbOfEnemies = 0;                        //Count the number of enemies that we are spawning
+        int patternType = Random.Range(0, 6);       //Pick which type of pattern it will be
         if(patternType < 3)
         {
             firstPattern = createSymetricPattern(windowLength);
         }
         else
         {
-            firstPattern = new int[windowLength];
-            for (int i = 0; i < windowLength; i++)
-            {
-                firstPattern[i] = Random.Range(0, 2);
-            }
+            firstPattern = createOrdinaryPattern(windowLength);
         }
 
         enemyRows.Add(firstPattern);
         nbOfEnemies = CountNbOfEnemies(firstPattern);
         while (nbOfEnemies < EnemiesInWave)
         {
-            int[] nextPattern = new int[windowLength];
+            GameObject[] nextPattern = new GameObject[windowLength];
             if(patternType == 0)                        //New symetric pattern
             {
                 nextPattern = createSymetricPattern(windowLength);
@@ -62,9 +58,6 @@ public class EnemyWave {
             nbOfEnemies += CountNbOfEnemies(nextPattern);
             enemyRows.Add(nextPattern);
         }
-        // Now we have a set of patterns with at least the minimum amount of enemies required
-        // TODO populate those pattern with enemies trying to balance slow and fast enemies
-
     }
 
     public bool WaveEmpty()
@@ -75,47 +68,147 @@ public class EnemyWave {
     //############################# All the utilities to be used in the creation of patterns #########################
 
     // Simple utility function to count the number of enemy in a row pattern
-    private int CountNbOfEnemies(int[] enemyRowPattern)
+    private int CountNbOfEnemies(GameObject[] enemyRowPattern)
     {
         int count = 0;
         for(int i = 0; i< enemyRowPattern.Length; i++)
         {
-            count += enemyRowPattern[i];
+            if(enemyRowPattern[i] != null)
+            {
+                count += 1;
+            }
         }
         return count;
     }
 
-    // Create a pattern of spawn symetric around the central position of window
-    private int[] createSymetricPattern(int windowLength)
+    // Create a random pattern of enemies
+    private GameObject[] createOrdinaryPattern(int windowLength)
     {
-        firstPattern = new int[windowLength];
+        firstPattern = new GameObject[windowLength];
+        for (int i = 0; i < windowLength; i++)
+        {
+            if (Random.Range(0, 2) == 1) //0.5 probability to put an enemy there
+            {
+                if (i != 0)
+                {
+                    if (firstPattern[i - 1] != null) //cluster enemies of the same type together
+                    {
+                        firstPattern[i] = firstPattern[i - 1];
+                    }
+                    else
+                    {
+                        firstPattern[i] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
+                    }
+                }
+                else
+                {   //here i = 0 first enemy of the row
+                    firstPattern[i] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
+                }
+            }
+            else
+            {
+                firstPattern[i] = null;
+            }
+        }
+        return firstPattern;
+    }
+
+        // Create a pattern of spawn symetric around the central position of window
+        private GameObject[] createSymetricPattern(int windowLength)
+    {
+        firstPattern = new GameObject[windowLength];
         for (int i = 0; i < windowLength / 2; i++)
         {
-            firstPattern[i] = Random.Range(0, 2);
-            firstPattern[windowLength - i - 1] = firstPattern[i];
+            if(Random.Range(0, 2) == 1) //0.5 probability to put an enemy there
+            {
+                if (i != 0)
+                {
+                    if(firstPattern[i-1] != null) //cluster enemies of the same type together
+                    {
+                        firstPattern[i] = firstPattern[i - 1];
+                        firstPattern[windowLength - i - 1] = firstPattern[i];
+                    }
+                    else
+                    {
+                        firstPattern[i] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
+                        firstPattern[windowLength - i - 1] = firstPattern[i];
+                    }
+                }
+                else
+                {   //here i = 0 first enemy of the row
+                    firstPattern[i] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
+                    firstPattern[windowLength - i - 1] = firstPattern[i];
+                }
+            }
+            else
+            {
+                firstPattern[i] = null;
+                firstPattern[windowLength - i - 1] = firstPattern[i];
+            }
         }
         if(windowLength % 2 == 1)
         {
-            firstPattern[windowLength / 2 + 1] = Random.Range(0, 2);
+            if (Random.Range(0, 2) == 1){
+                if (windowLength != 1)
+                {
+                    if (firstPattern[windowLength / 2] != null)
+                    {       //enemy on the left position compared to center position is not null so get the same 
+                        firstPattern[windowLength / 2 + 1] = firstPattern[windowLength / 2];
+                    }
+                    else
+                    {       //enemy on the left of the center position is null so center not part of a vluster just spawn a new random enemy
+                        firstPattern[windowLength / 2 + 1] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
+                    }
+                }
+                else
+                {   //Windows size is 1 so just spawn one random enemy
+                    firstPattern[windowLength / 2 + 1] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
+                }
+            }
+            else
+            {
+                firstPattern[windowLength / 2 + 1] = null;
+            }
         }
         return firstPattern;
     }
 
     //Gives the complement of the pattern 
-    private int[] complementPattern(int[] pattern)
+    private GameObject[] complementPattern(GameObject[] pattern)
     {
-        int[] complement = new int[pattern.Length];
-        for(int i=0; i < pattern.Length; i++)
+        GameObject[] complement = new GameObject[pattern.Length];
+        for (int i = 0; i < pattern.Length; i++)
         {
-            complement[i] = (pattern[i] + 1) % 2;
+            if (pattern[i] == null)
+            {                       //equivalent to say that we need to spawn an enemy here
+                if (i != 0)
+                {
+                    if (complement[i - 1] != null) //cluster enemies of the same type together
+                    {
+                        complement[i] = complement[i - 1];
+                    }
+                    else
+                    {
+                        complement[i] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
+                    }
+                }
+                else
+                {   //here i = 0 first enemy of the row
+                    complement[i] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
+                }
+            }
+            else
+            {
+                complement[i] = null;
+            }
         }
         return complement;
     }
 
     //Shift pattern to left
-    private int[] shiftPattern(int[] pattern)
+    private GameObject[] shiftPattern(GameObject[] pattern)
     {
-        int[] complement = new int[pattern.Length];
+        GameObject[] complement = new GameObject[pattern.Length];
         for (int i = 0; i < pattern.Length; i++)
         {
             complement[i] = pattern[(i + 1)% pattern.Length];

@@ -50,7 +50,7 @@ public class EnemyWaveManager : MonoBehaviour
         wave = new EnemyWave(NewNumberEnemies());
         PopulateEnemyTypes();
 
-        wave.GenerateNewWave();
+        wave.GenerateNewWave();     //TODO descendre reference de la windows size depuis enemy manager pour le passer en argument la !
     }
 
     // Add the types of enemies that are available to use in the new wave
