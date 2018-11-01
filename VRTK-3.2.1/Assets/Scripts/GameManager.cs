@@ -160,7 +160,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Tapped at " + rhythmState + "s.Missed");
+            spawnText("Beat Missed", enemy.transform);
+            player.TakeDamage(1);
             missSource.Play();
             PulseEvent(false, isLeft);
             return;
