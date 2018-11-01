@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
+    public delegate void Pulse(bool hit, bool isLeft);
+    public static event Pulse PulseEvent;
 
     [SerializeField]
     private KeyCode triggerKey;
@@ -12,14 +15,14 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private float offsetPerfect, offsetGreat, offsetOkay, offsetPoor;
 
-	[SerializeField]
-	private float flowPerfect, flowGreat, flowOkay, flowPoor;
+    [SerializeField]
+    private float flowPerfect, flowGreat, flowOkay, flowPoor;
 
-	[SerializeField]
-	private GameObject accuracyText;
+    [SerializeField]
+    private GameObject accuracyText;
 
-	[SerializeField]
-	private Player player;
+    [SerializeField]
+    private Player player;
 
     [SerializeField]
     private GameObject rhythmControllerPrefab;
@@ -39,23 +42,17 @@ public class GameManager : MonoBehaviour {
     private AudioSource beatSource, hitSource, missSource;
 
     [SerializeField]
-    private FXPlayer gunPulse;
-    [SerializeField]
-    private FXPlayer missGunPulse;
-
-    [SerializeField]
     HealthDisplay healthDisplay;
-
-    private bool deactivatedModel = false;
 
     [SerializeField]
     private GameObject ArenaScoreDisplay;
 
     private VRTK.VRTK_ControllerReference controller;
 
-    void OnEnable() {
+    void OnEnable()
+    {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
-		Shooting.ShotFiredEvent += OnShotFired;
+        Shooting.ShotFiredEvent += OnShotFired;
         Shooting.GameStartEvent += OnGameStart;
         Shooting.GameRestartEvent += OnGameRestart;
         Shooting.CreditsEvent += OnCredits;
@@ -65,9 +62,10 @@ public class GameManager : MonoBehaviour {
         FlowController.PlayerDeadEvent += OnPlayerDead;
     }
 
-    void OnDisable() {
-		RhythmController.BeatTriggeredEvent -= OnBeatTrigger;
-		Shooting.ShotFiredEvent -= OnShotFired;
+    void OnDisable()
+    {
+        RhythmController.BeatTriggeredEvent -= OnBeatTrigger;
+        Shooting.ShotFiredEvent -= OnShotFired;
         Shooting.GameStartEvent -= OnGameStart;
         Shooting.GameRestartEvent -= OnGameRestart;
         Shooting.CreditsEvent -= OnCredits;
@@ -77,7 +75,8 @@ public class GameManager : MonoBehaviour {
         FlowController.PlayerDeadEvent -= OnPlayerDead;
     }
 
-    void Start() {
+    void Start()
+    {
         //rhythmController = this.GetComponentInChildren<RhythmController>();
         enemyManager = this.GetComponent<EnemyManager>();
         //beatSource = this.GetComponent<AudioSource>();
@@ -97,21 +96,10 @@ public class GameManager : MonoBehaviour {
 
     void Update()
     {
-        //Expensive but calling on start doesn't work
-        if (!deactivatedModel)
-        {
-            GameObject controllerModel = GameObject.Find("Model");
-            if (controllerModel != null)
-            {
-                controllerModel.SetActive(false);
-                deactivatedModel = true;
-            }
-        }
-
         if (enemyManager.isTutorial())
         {
             healthDisplay.setHealth("");
-            if (enemyManager.CurrentWave()==1)
+            if (enemyManager.CurrentWave() == 1)
             {
                 healthDisplay.setScore("Shoot enemies\non the beat");
             }
@@ -131,7 +119,8 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    private void OnBeatTrigger() {
+    private void OnBeatTrigger()
+    {
         beatSource.Play();
 
         enemyManager.MoveEnemy(rhythmController.Beat);
@@ -139,45 +128,55 @@ public class GameManager : MonoBehaviour {
         enemyManager.SpawnEnemy();
     }
 
-	private void OnShotFired(GameObject enemy, Vector3 hitPoint){
-		//Do something when shot fired
-		float rhythmState = rhythmController.GetCurrentBeat() % 1;
-		float flowMultiplier = 0;
+    private void OnShotFired(GameObject enemy, Vector3 hitPoint, bool isLeft)
+    {
+        //Do something when shot fired
+        float rhythmState = rhythmController.GetCurrentBeat() % 1;
+        float flowMultiplier = 0;
 
-		if (rhythmState < offsetPerfect || 1 - offsetPerfect < rhythmState) {
-			spawnText ("Perfect", enemy.transform);
-			flowMultiplier = flowPerfect;
-            gunPulse.PlayFXes();
-		} else if (rhythmState < offsetGreat || 1 - offsetGreat < rhythmState) {
-			spawnText ("Great", enemy.transform);
-			flowMultiplier = flowPerfect;
-            gunPulse.PlayFXes();
-        } else if (rhythmState < offsetOkay || 1 - offsetOkay < rhythmState) {
-			spawnText ("Okay", enemy.transform);
-			flowMultiplier = flowOkay;
-            gunPulse.PlayFXes();
-        } else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState) {
-			spawnText ("Poor", enemy.transform);
-			flowMultiplier = flowPoor;
-            missSource.Play();
-            gunPulse.PlayFXes();
-        } else {
+        if (rhythmState < offsetPerfect || 1 - offsetPerfect < rhythmState)
+        {
+            spawnText("Perfect", enemy.transform);
+            flowMultiplier = flowPerfect;
+            PulseEvent(true, isLeft);
+        }
+        else if (rhythmState < offsetGreat || 1 - offsetGreat < rhythmState)
+        {
+            spawnText("Great", enemy.transform);
+            flowMultiplier = flowPerfect;
+            PulseEvent(true, isLeft);
+        }
+        else if (rhythmState < offsetOkay || 1 - offsetOkay < rhythmState)
+        {
+            spawnText("Okay", enemy.transform);
+            flowMultiplier = flowOkay;
+            PulseEvent(true, isLeft);
+        }
+        else if (rhythmState < offsetPoor || 1 - offsetPoor < rhythmState)
+        {
+            spawnText("Poor", enemy.transform);
+            flowMultiplier = flowPoor;
+            PulseEvent(true, isLeft);
+        }
+        else
+        {
             spawnText("Missed", enemy.transform);
             player.TakeDamage(1);
             missSource.Play();
-            missGunPulse.PlayFXes();
+            PulseEvent(false, isLeft);
             return;
-		}
+        }
 
         hitSource.Play();
-		Enemy enemyHit = enemy.GetComponent<Enemy> ();
+        Enemy enemyHit = enemy.GetComponent<Enemy>();
 
-		enemyHit.TakeDamage (1);
-		player.Heal((int)flowMultiplier);
+        enemyHit.TakeDamage(1);
+        player.Heal((int)flowMultiplier);
 
-		if (enemyHit.IsDead) {
-			player.AddScore (enemyHit.score);
-			enemyManager.DestroyEnemy (enemy);
+        if (enemyHit.IsDead)
+        {
+            player.AddScore(enemyHit.score);
+            enemyManager.DestroyEnemy(enemy);
 
 
             GameObject HitFX = Instantiate(OnHitFX.gameObject);
@@ -186,7 +185,7 @@ public class GameManager : MonoBehaviour {
             HitFXPS.Play();
             Destroy(HitFX.gameObject, HitFXPS.main.startLifetime.constantMax + HitFXPS.main.duration);
         }
-	}
+    }
 
     private void OnGameStart(VRTK.VRTK_ControllerReference CR)
     {
@@ -201,17 +200,18 @@ public class GameManager : MonoBehaviour {
         SceneManager.LoadScene("VRTest1");
     }
 
-    private void spawnText(string text, Transform transform) {
-		GameObject newText = Instantiate (accuracyText);
-		newText.GetComponent<RectTransform> ().SetPositionAndRotation (transform.position, transform.localRotation);
-		newText.GetComponent<TMPro.TextMeshPro>().text = text;
-	}
+    private void spawnText(string text, Transform transform)
+    {
+        GameObject newText = Instantiate(accuracyText);
+        newText.GetComponent<RectTransform>().SetPositionAndRotation(transform.position, transform.localRotation);
+        newText.GetComponent<TMPro.TextMeshPro>().text = text;
+    }
 
-	private void HurtPlayer(int damage)
+    private void HurtPlayer(int damage)
     {
         //Long strong on player gets hit
         HapticPulse(controller, 1.0f, 0.5f, 0.05f);
-		player.TakeDamage (damage);
+        player.TakeDamage(damage);
     }
 
     private void ResetPlayer()
