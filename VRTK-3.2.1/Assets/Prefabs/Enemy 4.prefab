@@ -472,6 +472,7 @@ MonoBehaviour:
   movementPattern: 4
   deathFXPrefab: {fileID: 1692706201937976, guid: 347ae04e7daff5c40867484a1ffc292e,
     type: 2}
+  speed: 0.75
 --- !u!135 &135829849784591998
 SphereCollider:
   m_ObjectHideFlags: 1

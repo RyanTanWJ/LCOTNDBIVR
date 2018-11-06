@@ -269,3 +269,4 @@ MonoBehaviour:
   movementPattern: 5
   deathFXPrefab: {fileID: 1692706201937976, guid: f0cdc17e9eea82841a5e0e8cf0358ac0,
     type: 2}
+  speed: 0.5
