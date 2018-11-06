@@ -24,6 +24,9 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     private GameObject deathFXPrefab;
 
+    [SerializeField]
+    public float speed;
+
     void Start() {
         //Temporary Hardcoding of movement pattern
         //movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };

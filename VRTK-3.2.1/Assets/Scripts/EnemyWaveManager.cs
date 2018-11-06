@@ -28,6 +28,8 @@ public class EnemyWaveManager : MonoBehaviour
     private int minNbOfEnemy;       //The minimum nb of enemies per wave
     [SerializeField]
     private float alphaNbEnemy;     //The coefficient of progress of number of enemies with regards to the number of waves
+    //[SerializeField]
+    //private float[] enemySpeed;    //stores the value of speed for each enemy
     /*------------------------------------------------*/
 
     private void Start() {}
@@ -38,7 +40,7 @@ public class EnemyWaveManager : MonoBehaviour
     }
 
     //TODO modify the creation of a enemy wave and the object enemy wave itself
-    private void GenerateNewWave() {     //Here a new wave is created then will be passed to enemy manager by enemy wave manager
+    public EnemyWave GenerateNewWave(int windowSize) {     //Here a new wave is created then will be passed to enemy manager by enemy wave manager
         currentWave++;
         Debug.Log("New Wave: " + currentWave);
         if (!tutorialEnded && currentWave == 3)
@@ -48,9 +50,11 @@ public class EnemyWaveManager : MonoBehaviour
             TutorialEndEvent();
         }
         wave = new EnemyWave(NewNumberEnemies());
+        //wave.enemySpeed = enemySpeed;
         PopulateEnemyTypes();
 
-        wave.GenerateNewWave();     //TODO descendre reference de la windows size depuis enemy manager pour le passer en argument la !
+        wave.GenerateNewWave(windowSize);
+        return wave;
     }
 
     // Add the types of enemies that are available to use in the new wave

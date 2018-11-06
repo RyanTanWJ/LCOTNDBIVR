@@ -42,6 +42,8 @@ public class EnemyManager : MonoBehaviour {
     private int endPhase3 = 30;
     private int beatCount = 0;
     private float saturation = 0.0f;
+    private float averageRowSaturation = 0.0f;
+    private int sectorSize;
     //-------------------
 
 
@@ -65,76 +67,84 @@ public class EnemyManager : MonoBehaviour {
 
         inclineAngleRad = arenaIncline * Mathf.Deg2Rad;
         tileAngleRad = 2 * Mathf.PI / columnCount;
+        sectorSize = columnCount / sectors;
     }
 
 
     private void OnSpawnCommand2()
     {
-        //We spawned all enemies in wave
-        if (nbEnemiesSpawned == enemyWave.nbEnemies)
+        //we don't have a wave or we spawned all enemies in wave and the arena is clear of enemies
+        if ((enemyWave == null || enemyWave.enemyRows.Count == 0) && enemyHolder.childCount <= 0)
         {
-            if(saturation <= 0.0f)
-            {
-                if ((waveCount < endPhase1 && beatCount == 8) || (waveCount < endPhase2 && beatCount == 4) || waveCount < endPhase3)
-                {
-                    //TODO get new wave from wave generator
-                    enemyWave = enemyWaveManager.getNewWave(waveCount);
-                    waveCount += 1;
-                    beatCount = 0;
-                }
-                else
-                {
-                    beatCount += 1;
-                }
-            }
-            else
-            {
-                saturation -= enemyWave.avgSaturation;
-                //TODO decrease saturation with only a percentage of the avg saturation of wave to allow for mistakes of player
-            }
+            resetGrid();
+            enemyWave = enemyWaveManager.GenerateNewWave(sectorSize);
+            waveCount += 1;
         }
         else
         {
-            //If enough "room" for spawning next row then spawn
-            if(saturation + /*get saturation increase from next spawn*/ <= maxSaturation(waveCount) || saturation <= 0.0f)
+            //check if spawning line if free
+            bool isSpawningLineOccupied = false;
+            for (int j = 0; j < sectorSize; j++)
             {
-                int spawnRowPosition = rowCount - 1;
-                int spawnColumnPosition = validColumns[/*get the right position in wave*/];
-                //Calculate spawn position and rotation
-                Vector3 spawnPosition;
-                Quaternion spawnRotation;
-                CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
+                isSpawningLineOccupied = isSpawningLineOccupied || enemyGrid[validColumns[j], rowCount - 1];
+            }
+            //If enough "room" for spawning next row then spawn
+            if((saturation + countSaturation(enemyWave.enemyRows[0]) <= maxSaturation(waveCount) || saturation <= 0.0f) && !isSpawningLineOccupied)
+            {
+                //here we retrieve a row to spawn
+                GameObject[] enemyRow = enemyWave.enemyRows[0];
+                enemyWave.enemyRows.RemoveAt(0);
 
-                //Create enemy and assign attributes
-                GameObject enemyType = enemyWave.EnemiesInOrder.Dequeue();
-
-                if (enemyType != null)
+                int nbOfEnemyInRow = 0;
+                for (int i = 0; i<validColumns.Count; i++)
                 {
-                    GameObject newEnemy = Instantiate(enemyType, spawnPosition, spawnRotation, enemyHolder);
+                    int spawnRowPosition = rowCount - 1;
+                    if (isTutorial())
+                    {
+                        spawnRowPosition -= 2;
+                    }
+                    int spawnColumnPosition = validColumns[i];
+                    //Calculate spawn position and rotation
+                    Vector3 spawnPosition;
+                    Quaternion spawnRotation;
+                    CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
-                    spawnAudio.Play();
+                    //Create enemy and assign attributes
+                    GameObject enemyType = enemyRow[i];
 
-                    EnterGrid(spawnColumnPosition, spawnRowPosition);
 
-                    Enemy newEnemyController = newEnemy.GetComponent<Enemy>();
-                    newEnemyController.SetGridLimits(columnCount, rowCount);
-                    newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
+                    if (enemyType != null)
+                    {
+                        nbOfEnemyInRow += 1;
+                        GameObject newEnemy = Instantiate(enemyType, spawnPosition, spawnRotation, enemyHolder);
 
-                    bool randomPattern = false;
-                    List<Vector2Int> pattern = patterns.RetrievePattern(newEnemyController.movementPattern, out randomPattern);
-                    newEnemyController.UpdateNextPosition(pattern, currBeat, randomPattern);
+                        spawnAudio.Play();
+
+                        EnterGrid(spawnColumnPosition, spawnRowPosition);
+
+                        Enemy newEnemyController = newEnemy.GetComponent<Enemy>();
+                        newEnemyController.SetGridLimits(columnCount, rowCount);
+                        newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
+
+                        bool randomPattern = false;
+                        List<Vector2Int> pattern = patterns.RetrievePattern(newEnemyController.movementPattern, out randomPattern);
+                        newEnemyController.UpdateNextPosition(pattern, currBeat, randomPattern);
+                    }
                 }
+                saturation = saturation + countSaturation(enemyRow);
+                averageRowSaturation = countSaturation(enemyRow) / nbOfEnemyInRow;
             }
             else
             {
                 //wait a bit longer
-                saturation -= enemyWave.avgSaturation;
-                //TODO decrease saturation with only a percentage of the avg saturation of wave to allow for mistakes of player
+                saturation -= averageRowSaturation;
             }
 
             
         }
     }
+
+    /*
 
 
         // Called every beat by the game manager
@@ -183,7 +193,7 @@ public class EnemyManager : MonoBehaviour {
         int spawnColumnPosition = validColumns[Random.Range (0, validColumns.Count-1)];
 
         //Verify valid spawn position
-        while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {      //WTF no timer ?! just rush through the loop ?
+        while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {      //trying to spawn on a random column
             spawnColumnPosition = validColumns[Random.Range(0, validColumns.Count - 1)];
 
             if (spawnAttempts >= maxSpawnAttempts) {
@@ -220,6 +230,8 @@ public class EnemyManager : MonoBehaviour {
 
     }
 
+
+        */
 
     // Called by the game manager on every beat
     private void OnMoveCommand() {                          
@@ -381,6 +393,20 @@ public class EnemyManager : MonoBehaviour {
     {
         return Mathf.Min((float)n * 3.0f / (float)endPhase2 + 2 , 5.0f); 
     }
+
+    private float countSaturation(GameObject[] currentEnemyRow)
+    {
+        float saturationCounter = 0.0f;
+        for (int i = 0; i< currentEnemyRow.Length; i++)
+        {
+            if(currentEnemyRow[i] != null)
+            {
+                saturationCounter += currentEnemyRow[i].GetComponent<Enemy>().speed;
+            }
+        }
+        return saturationCounter;
+    }
+
     /*-----------------------------------------------------------------------------*/
 
 
@@ -388,13 +414,16 @@ public class EnemyManager : MonoBehaviour {
      * Public API
      **/
 
-	public void UpdateValidColumns(List<int> activeSectors){
+    public void UpdateValidColumns(List<int> activeSectors){
 		//UpdateValidColumns (sectors, activeSectors);
 	}
 
+
+    
     public void SpawnEnemy() {
-        OnSpawnCommand();
+        OnSpawnCommand2();
 	}
+    
 
     public void MoveEnemy(int beat){
         currBeat = beat;

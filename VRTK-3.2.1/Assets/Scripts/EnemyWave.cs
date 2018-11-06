@@ -11,6 +11,7 @@ public class EnemyWave {
     public float avgSaturation;
     private GameObject[] firstPattern;
     public List<GameObject[]> enemyRows;
+    //public float[] enemySpeed;    //stores the value of speed for each enemy
 
     public EnemyWave(int nbOfEnemiesInWave){
 		EnemyTypes = new List<GameObject>();
@@ -18,7 +19,6 @@ public class EnemyWave {
         EnemiesInOrder = new Queue<GameObject>();
         avgSaturation = 0.0f;
         enemyRows = new List<GameObject[]>();
-
     }
 
     public void GenerateNewWave(int windowLength)
