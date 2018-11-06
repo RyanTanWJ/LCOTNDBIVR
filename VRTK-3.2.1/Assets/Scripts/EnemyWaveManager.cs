@@ -49,7 +49,9 @@ public class EnemyWaveManager : MonoBehaviour
             tutorialEnded = true;
             TutorialEndEvent();
         }
-        wave = new EnemyWave(NewNumberEnemies());
+        int test = NewNumberEnemies();
+        Debug.Log("test = " + test);
+        wave = new EnemyWave(test);
         //wave.enemySpeed = enemySpeed;
         PopulateEnemyTypes();
 

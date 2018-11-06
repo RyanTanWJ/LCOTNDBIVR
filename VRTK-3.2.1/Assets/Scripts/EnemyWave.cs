@@ -24,13 +24,17 @@ public class EnemyWave {
     public void GenerateNewWave(int windowLength)
     {
         int nbOfEnemies = 0;                        //Count the number of enemies that we are spawning
-        int patternType = Random.Range(0, 6);       //Pick which type of pattern it will be
-        if(patternType < 3)
+        //MOMENT OF RANDOMNESS
+        //int patternType = Random.Range(0, 6);       //Pick which type of pattern it will be
+        int patternType = Random.Range(3, 6);       //Debug Code
+        if (patternType < 3)
         {
+            Debug.Log("I am here");
             firstPattern = createSymetricPattern(windowLength);
         }
         else
         {
+            Debug.Log("Am I here");
             firstPattern = createOrdinaryPattern(windowLength);
         }
 
@@ -162,11 +166,18 @@ public class EnemyWave {
                 }
                 else
                 {   //Windows size is 1 so just spawn one random enemy
+                    Debug.Log("winLen = " + windowLength);
+                    Debug.Log("calc = " + (windowLength / 2 + 1));
+                    Debug.Log("1st Pattern Len = " + firstPattern.Length);
+                    Debug.Log("EnemyTypes.Count = " + EnemyTypes.Count);
                     firstPattern[windowLength / 2 + 1] = EnemyTypes[Random.Range(0, EnemyTypes.Count)];
                 }
             }
             else
             {
+                Debug.Log("winLen = " + windowLength);
+                Debug.Log("calc = " + (windowLength / 2 + 1));
+                Debug.Log("1st Pattern Len = " + firstPattern.Length);
                 firstPattern[windowLength / 2 + 1] = null;
             }
         }

@@ -73,15 +73,18 @@ public class EnemyManager : MonoBehaviour {
 
     private void OnSpawnCommand2()
     {
-        //we don't have a wave or we spawned all enemies in wave and the arena is clear of enemies
+        Debug.Log(enemyWave);
+        //(we don't have a wave OR we spawned all enemies in wave) AND the arena is clear of enemies
         if ((enemyWave == null || enemyWave.enemyRows.Count == 0) && enemyHolder.childCount <= 0)
         {
+            Debug.Log("If statement entered");
             resetGrid();
             enemyWave = enemyWaveManager.GenerateNewWave(sectorSize);
             waveCount += 1;
         }
         else
         {
+            Debug.Log("Else statement entered");
             //check if spawning line if free
             bool isSpawningLineOccupied = false;
             for (int j = 0; j < sectorSize; j++)
@@ -110,7 +113,10 @@ public class EnemyManager : MonoBehaviour {
                     CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
                     //Create enemy and assign attributes
+                    Debug.Log(enemyRow.Length);
+                    Debug.Log(i);
                     GameObject enemyType = enemyRow[i];
+                    Debug.Log("I made it through!");
 
 
                     if (enemyType != null)
