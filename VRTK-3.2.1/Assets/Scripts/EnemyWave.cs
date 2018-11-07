@@ -23,6 +23,8 @@ public class EnemyWave {
 
     public void GenerateNewWave(int windowLength)
     {
+		Debug.Log("in enemywave window length");
+		Debug.Log(windowLength);
         int nbOfEnemies = 0;                        //Count the number of enemies that we are spawning
         int patternType = Random.Range(0, 6);       //Pick which type of pattern it will be
         if(patternType < 3)
@@ -148,6 +150,8 @@ public class EnemyWave {
         }
         if(windowLength % 2 == 1)
         {
+			Debug.Log("symetrical pattern");
+			Debug.Log(firstPattern);
             if (Random.Range(0, 2) == 1){
                 if (windowLength != 1)
                 {

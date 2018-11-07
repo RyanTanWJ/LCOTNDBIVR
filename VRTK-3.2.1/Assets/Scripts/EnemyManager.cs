@@ -44,6 +44,7 @@ public class EnemyManager : MonoBehaviour {
     private float saturation = 0.0f;
     private float averageRowSaturation = 0.0f;
     private int sectorSize;
+	private int countBeats = 0;
     //-------------------
 
 
@@ -67,42 +68,67 @@ public class EnemyManager : MonoBehaviour {
 
         inclineAngleRad = arenaIncline * Mathf.Deg2Rad;
         tileAngleRad = 2 * Mathf.PI / columnCount;
-        sectorSize = columnCount / sectors;
+        //sectorSize = columnCount / sectors;
+		sectorSize = 7;
     }
 
 
     private void OnSpawnCommand2()
     {
+		if (enemyWave != null) {
+			Debug.Log("remaining rows in enemy wave :");
+			Debug.Log(enemyWave.enemyRows.Count);
+		}
+
         //we don't have a wave or we spawned all enemies in wave and the arena is clear of enemies
-        if ((enemyWave == null || enemyWave.enemyRows.Count == 0) && enemyHolder.childCount <= 0)
+		if ((enemyWave == null || enemyWave.enemyRows.Count == 0 ) && enemyHolder.childCount <= 0)
         {
             resetGrid();
             enemyWave = enemyWaveManager.GenerateNewWave(sectorSize);
             waveCount += 1;
+			Debug.Log("creating a new wave of enemies");
         }
         else
         {
+			int maxBeforeCleanup = 4;
             //check if spawning line if free
+			int spawnRowPosition = rowCount - 1;
+			if (isTutorial())
+			{
+				spawnRowPosition -= 2;
+				maxBeforeCleanup = 32;
+			}
+
+			if (countBeats >= maxBeforeCleanup) {
+				for (int j = 0; j < sectorSize; j++)
+				{
+					enemyGrid [validColumns [j], spawnRowPosition] = false;
+				}
+				countBeats = 0;
+			}
+
             bool isSpawningLineOccupied = false;
+			//Debug.Log("checking spawninG locations ...");
             for (int j = 0; j < sectorSize; j++)
             {
-                isSpawningLineOccupied = isSpawningLineOccupied || enemyGrid[validColumns[j], rowCount - 1];
+				//Debug.Log(enemyGrid[validColumns[j], spawnRowPosition]);
+				isSpawningLineOccupied = isSpawningLineOccupied || enemyGrid[validColumns[j], spawnRowPosition];
             }
+			//Debug.Log("isSpawningLineOccupied ? ");
+			//Debug.Log(isSpawningLineOccupied);
+
             //If enough "room" for spawning next row then spawn
-            if((saturation + countSaturation(enemyWave.enemyRows[0]) <= maxSaturation(waveCount) || saturation <= 0.0f) && !isSpawningLineOccupied)
+			if( enemyWave.enemyRows.Count > 0 && (saturation + countSaturation(enemyWave.enemyRows[0]) <= maxSaturation(waveCount) || saturation <= 0.0f) && !isSpawningLineOccupied)
             {
                 //here we retrieve a row to spawn
                 GameObject[] enemyRow = enemyWave.enemyRows[0];
                 enemyWave.enemyRows.RemoveAt(0);
 
+				Debug.Log("prepare to spawn new row of enemies");
+
                 int nbOfEnemyInRow = 0;
                 for (int i = 0; i<validColumns.Count; i++)
                 {
-                    int spawnRowPosition = rowCount - 1;
-                    if (isTutorial())
-                    {
-                        spawnRowPosition -= 2;
-                    }
                     int spawnColumnPosition = validColumns[i];
                     //Calculate spawn position and rotation
                     Vector3 spawnPosition;
@@ -110,7 +136,7 @@ public class EnemyManager : MonoBehaviour {
                     CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
 
                     //Create enemy and assign attributes
-                    GameObject enemyType = enemyRow[i];
+					GameObject enemyType = enemyRow[i];
 
 
                     if (enemyType != null)
@@ -132,14 +158,25 @@ public class EnemyManager : MonoBehaviour {
                     }
                 }
                 saturation = saturation + countSaturation(enemyRow);
-                averageRowSaturation = countSaturation(enemyRow) / nbOfEnemyInRow;
+				Debug.Log("New saturation is : ");
+				Debug.Log(saturation);
+				if (nbOfEnemyInRow > 0) {
+					averageRowSaturation = countSaturation (enemyRow) / nbOfEnemyInRow;
+				} else {
+					averageRowSaturation = 0.25f;
+				}
+                
+				Debug.Log("average speed of the row is :");
+				Debug.Log(averageRowSaturation);
             }
             else
             {
                 //wait a bit longer
                 saturation -= averageRowSaturation;
+				Debug.Log("decreasing saturation normally to");
+				Debug.Log(saturation);
             }
-
+			countBeats += 1;
             
         }
     }
@@ -391,7 +428,7 @@ public class EnemyManager : MonoBehaviour {
     // Saturation max increase is linear
     private float maxSaturation(int n)
     {
-        return Mathf.Min((float)n * 3.0f / (float)endPhase2 + 2 , 5.0f); 
+        return Mathf.Min((float)n * 3.0f / (float)endPhase2 + 2.0f , 5.0f); 
     }
 
     private float countSaturation(GameObject[] currentEnemyRow)

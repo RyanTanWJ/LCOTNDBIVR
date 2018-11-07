@@ -20,7 +20,7 @@ public class EnemyWaveManager : MonoBehaviour
 	private EnemyWave wave;
 
     /* ------------- My new stuff --------------------*/
-    private List<GameObject> typesAvailable;
+	private List<GameObject> typesAvailable = new List<GameObject>();
     [SerializeField]
     private int nbOfWavesBeforeNewEnemy;
     private int nextNewEnemy = 1;
@@ -70,7 +70,7 @@ public class EnemyWaveManager : MonoBehaviour
         // then add enemy to the enemy pool
         else
         {
-            if (currentWave == nextNewEnemy && typesAvailable.Count < EnemyTypes.Count - 2)
+			if (currentWave == nextNewEnemy &&  typesAvailable.Count < EnemyTypes.Count - 2 )
             {
                 wave.EnemyTypes.Add(EnemyTypes[typesAvailable.Count + 2]);
                 typesAvailable.Add(EnemyTypes[typesAvailable.Count + 2]);
