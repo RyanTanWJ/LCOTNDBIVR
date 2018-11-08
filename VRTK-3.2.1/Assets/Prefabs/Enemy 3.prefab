@@ -443,3 +443,4 @@ MonoBehaviour:
   movementPattern: 3
   deathFXPrefab: {fileID: 1692706201937976, guid: 0355032321b675e41bbf680d2f8db3d0,
     type: 2}
+  speed: 0.5

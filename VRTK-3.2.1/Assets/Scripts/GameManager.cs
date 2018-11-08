@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
         Shooting.CreditsEvent += OnCredits;
         Shooting.BackEvent += OnBack;
         EnemyManager.PlayerHurtEvent += HurtPlayer;
+        EnemyManager.WinGameEvent += WinGame;
         EnemyWaveManager.TutorialEndEvent += ResetPlayer;
         FlowController.PlayerDeadEvent += OnPlayerDead;
     }
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         Shooting.CreditsEvent -= OnCredits;
         Shooting.BackEvent -= OnBack;
         EnemyManager.PlayerHurtEvent -= HurtPlayer;
+        EnemyManager.WinGameEvent -= WinGame;
         EnemyWaveManager.TutorialEndEvent -= ResetPlayer;
         FlowController.PlayerDeadEvent -= OnPlayerDead;
     }
@@ -222,6 +224,23 @@ public class GameManager : MonoBehaviour
     private void OnPlayerDead()
     {
         GameOver();
+    }
+
+    private void WinGame()
+    {
+        if (player.Health <= 0)
+        {
+            return;
+        }
+        ArenaScoreDisplay.SetActive(false);
+        //Destroy all Enemies
+        enemyManager.DestroyAllEnemies();
+        //Destroy RhythmController
+        Destroy(rhythmController);
+        //Reactivate Start/GameOver Screen
+        menu.SetActive(true);
+        //Switch to Game Win menu
+        menu.GetComponent<MenuController>().GameWinMenu(player.Score);
     }
 
     private void GameOver()

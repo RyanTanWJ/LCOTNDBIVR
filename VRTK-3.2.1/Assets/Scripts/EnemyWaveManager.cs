@@ -13,88 +13,82 @@ public class EnemyWaveManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> EnemyTypes;
 
-    private int currentWave = 1;
-    private int noWaveCounter = 0;
+    private int currentWave = 0;
 
     private bool tutorialEnded = false;
 
 	private EnemyWave wave;
 
-    private void Start() {
-        UpdateWave();
-    }
+    /* ------------- My new stuff --------------------*/
+	private List<GameObject> typesAvailable = new List<GameObject>();
+    [SerializeField]
+    private int nbOfWavesBeforeNewEnemy;
+    private int nextNewEnemy = 1;
+    [SerializeField]
+    private int minNbOfEnemy;       //The minimum nb of enemies per wave
+    [SerializeField]
+    private float alphaNbEnemy;     //The coefficient of progress of number of enemies with regards to the number of waves
+    //[SerializeField]
+    //private float[] enemySpeed;    //stores the value of speed for each enemy
+    /*------------------------------------------------*/
+
+    private void Start() {}
 
     public EnemyWave GetEnemyWave()
     {
         return wave;
     }
 
-    public bool ReadyForNewWave()
-    {
-        if (noWaveCounter >= beatsBetweenWaves)
-        {
-            noWaveCounter = 0;
-            return true;
-        }
-        OnNoWave();
-        return false;
-    }
-
-    public void CurrentWaveEnded()
-    {
+    //TODO modify the creation of a enemy wave and the object enemy wave itself
+    public EnemyWave GenerateNewWave(int windowSize) {     //Here a new wave is created then will be passed to enemy manager by enemy wave manager
+        currentWave++;
+        Debug.Log("New Wave: " + currentWave);
         if (!tutorialEnded && currentWave == 3)
         {
             currentWave = 1;
-            EnemyTypes.RemoveAt(0);
-            EnemyTypes.RemoveAt(0);
             tutorialEnded = true;
             TutorialEndEvent();
         }
-        currentWave++;
-        Debug.Log("New Wave: " + currentWave);
-        UpdateWave();
-        OnNoWave();
-    }
-
-    private void OnNoWave() {
-        noWaveCounter++;
-    }
-
-    private void UpdateWave() {
-        wave = new EnemyWave();
+        wave = new EnemyWave(NewNumberEnemies());
+        //wave.enemySpeed = enemySpeed;
         PopulateEnemyTypes();
-        wave.SetEnemiesInWave(NewNumberEnemies(wave.EnemyTypes.Count));
-        wave.GenerateNewWave();
+
+        wave.GenerateNewWave(windowSize);
+        return wave;
     }
 
-    //Binary Wave Creator
-    // Split wave number into binary, and based on these select which enemy types will spawn during the wave
+    // Add the types of enemies that are available to use in the new wave
     private void PopulateEnemyTypes()
     {
-        int i = currentWave;
-        int j = 0;
-        while (i > 0)
+        if (!tutorialEnded)
         {
-            if (i % 2 == 1)
+            //first wave = static enemies only
+            //second wave = strafing enemies only
+            wave.EnemyTypes.Add(EnemyTypes[currentWave - 1]);         
+        }
+        // If we reach next threashold to add a new enemy in term of nb of wave and there are still enemies to add
+        // then add enemy to the enemy pool
+        else
+        {
+			if (currentWave == nextNewEnemy &&  typesAvailable.Count < EnemyTypes.Count - 2 )
             {
-                if (j < EnemyTypes.Count)
+                wave.EnemyTypes.Add(EnemyTypes[typesAvailable.Count + 2]);
+                typesAvailable.Add(EnemyTypes[typesAvailable.Count + 2]);
+                nextNewEnemy += nbOfWavesBeforeNewEnemy;
+            }
+            else // just give the whole pool of enemies available to the wave 
+            {
+                for (int i = 0; i < typesAvailable.Count; i++)
                 {
-                    wave.EnemyTypes.Add(EnemyTypes[j]);
-                }
-                else
-                {
-                    break;
+                    wave.EnemyTypes.Add(typesAvailable[i]);
                 }
             }
-
-            i /= 2;
-            j++;
         }
     }
 
-    private int NewNumberEnemies(int numEnemyTypes)
+    private int NewNumberEnemies()
     {
-        return numEnemyTypes * 3 + currentWave;
+        return (int)((float)currentWave * alphaNbEnemy)  + minNbOfEnemy;
     }
 
     public bool isTutorial()

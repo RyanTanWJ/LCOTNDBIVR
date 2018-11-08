@@ -24,6 +24,9 @@ public class Enemy : MonoBehaviour {
     [SerializeField]
     private GameObject deathFXPrefab;
 
+    [SerializeField]
+    public float speed;
+
     void Start() {
         //Temporary Hardcoding of movement pattern
         //movementPattern = new Vector2[] { new Vector2(0, -1), new Vector2(0, 0) };
@@ -82,6 +85,7 @@ public class Enemy : MonoBehaviour {
 			//Return and loop until sqrRemainingDistance is close enough to zero to end the function
 			yield return null;
 		}
+        yield return null;
 	}
 
 	public IEnumerator SmoothRotation (Quaternion endRot, float time)
@@ -95,7 +99,7 @@ public class Enemy : MonoBehaviour {
 			elapsedTime += Time.deltaTime;
 			yield return new WaitForEndOfFrame ();
 		}
-		yield return 0;
+		yield return null;
 	}
 
     /**
@@ -109,7 +113,10 @@ public class Enemy : MonoBehaviour {
         }
         else
         {
-            OnUpdateNextPosition(pattern[beat%4]);
+            // TODO here I need to either use many different pattern (for each different starts)
+            // Or I make sure that the selection of the pattern is independant of the beat and comes from within the enemy
+            // IDEA use offset here inside enemy at creation to target a specific moment in pattern
+            OnUpdateNextPosition(pattern[beat%4]);  
         }
     }
 

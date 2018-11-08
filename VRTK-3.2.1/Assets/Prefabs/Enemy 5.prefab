@@ -54,7 +54,8 @@ GameObject:
   - component: {fileID: 4654391374390412}
   - component: {fileID: 33369488538847412}
   - component: {fileID: 114497897982862392}
-  - component: {fileID: 136526138301637044}
+  - component: {fileID: 64325176453619122}
+  - component: {fileID: 136891090706755596}
   m_Layer: 0
   m_Name: Enemy 5
   m_TagString: Enemy
@@ -127,7 +128,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1455254303076474}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.6936073, y: 8.603415, z: -8.386418}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 4469868168761474}
@@ -223,6 +224,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1631525450341346}
   m_Mesh: {fileID: 4300000, guid: 60ae1514cba8bbd4d9e9682bf8997a2e, type: 3}
+--- !u!64 &64325176453619122
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1455254303076474}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!95 &95490234108027786
 Animator:
   serializedVersion: 3
@@ -255,7 +270,8 @@ MonoBehaviour:
   movementPattern: 5
   deathFXPrefab: {fileID: 1692706201937976, guid: f0cdc17e9eea82841a5e0e8cf0358ac0,
     type: 2}
---- !u!136 &136526138301637044
+  speed: 0.5
+--- !u!136 &136891090706755596
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -264,7 +280,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.75
-  m_Height: 1.75
+  m_Radius: 0.5
+  m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Center: {x: 0, y: 0.45, z: 0}

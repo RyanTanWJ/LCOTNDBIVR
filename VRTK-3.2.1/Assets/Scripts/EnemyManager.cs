@@ -7,6 +7,9 @@ public class EnemyManager : MonoBehaviour {
 	public delegate void PlayerHurt(int damage);
 	public static event PlayerHurt PlayerHurtEvent;
 
+    public delegate void WinGame();
+    public static event WinGame WinGameEvent;
+
     [SerializeField]
     private int columnCount, rowCount, sectors;
 
@@ -35,6 +38,19 @@ public class EnemyManager : MonoBehaviour {
 
     private int currBeat = 0;
 
+    //My modifications 
+    private int waveCount = 0;
+    private int endPhase1 = 6;
+    private int endPhase2 = 12;
+    private int endPhase3 = 30;
+    private int beatCount = 0;
+    private float saturation = 0.0f;
+    private float averageRowSaturation = 0.0f;
+    private int sectorSize;
+	private int countBeats = 0;
+    //-------------------
+
+
     [SerializeField]
     AudioSource[] deathAudio;
 
@@ -48,15 +64,140 @@ public class EnemyManager : MonoBehaviour {
 		enemyWaveManager = this.GetComponent<EnemyWaveManager>();
         patterns = this.GetComponent<MovementPattern>();
 
-		validColumns = new List<int> ();
-        UpdateValidColumns(sectors, startingSectors);
+		validColumns = new List<int> (); //List of index of columns on which enemies can spawn and move
+        //The grid is divided in sectors next to each other
+        //The activeSectors (here startingSectors) are the index of the current active sectors (ex: sector 1, 2 and 4)
+        UpdateValidColumns(sectors, startingSectors); 
 
         inclineAngleRad = arenaIncline * Mathf.Deg2Rad;
         tileAngleRad = 2 * Mathf.PI / columnCount;
+        //sectorSize = columnCount / sectors;
+		sectorSize = 7;
     }
 
-    private void OnSpawnCommand()
+
+    private void OnSpawnCommand2()
     {
+		if (enemyWave != null) {
+			Debug.Log("remaining rows in enemy wave :");
+			Debug.Log(enemyWave.enemyRows.Count);
+		}
+        
+        if(waveCount > 20)
+        {
+            WinGameEvent();
+            return;
+        }
+        
+        //we don't have a wave or we spawned all enemies in wave and the arena is clear of enemies
+		if ((enemyWave == null || enemyWave.enemyRows.Count == 0 ) && enemyHolder.childCount <= 0)
+        {
+            resetGrid();
+            enemyWave = enemyWaveManager.GenerateNewWave(sectorSize);
+            waveCount += 1;
+			Debug.Log("creating a new wave of enemies");
+        }
+        else
+        {
+			int maxBeforeCleanup = 4;
+            //check if spawning line if free
+			int spawnRowPosition = rowCount - 1;
+			if (isTutorial())
+			{
+				spawnRowPosition -= 2;
+				maxBeforeCleanup = 32;
+			}
+
+			if (countBeats >= maxBeforeCleanup) {
+				for (int j = 0; j < sectorSize; j++)
+				{
+					enemyGrid [validColumns [j], spawnRowPosition] = false;
+				}
+				countBeats = 0;
+			}
+
+            bool isSpawningLineOccupied = false;
+			//Debug.Log("checking spawninG locations ...");
+            for (int j = 0; j < sectorSize; j++)
+            {
+				Debug.Log(enemyGrid[validColumns[j], spawnRowPosition]);
+				isSpawningLineOccupied = isSpawningLineOccupied || enemyGrid[validColumns[j], spawnRowPosition];
+            }
+			//Debug.Log("isSpawningLineOccupied ? ");
+			//Debug.Log(isSpawningLineOccupied);
+
+            //If enough "room" for spawning next row then spawn
+			if( enemyWave.enemyRows.Count > 0 && (saturation + countSaturation(enemyWave.enemyRows[0]) <= maxSaturation(waveCount) || saturation <= 0.0f) && !isSpawningLineOccupied)
+            {
+                //here we retrieve a row to spawn
+                GameObject[] enemyRow = enemyWave.enemyRows[0];
+                enemyWave.enemyRows.RemoveAt(0);
+
+				Debug.Log("prepare to spawn new row of enemies");
+
+                int nbOfEnemyInRow = 0;
+                for (int i = 0; i<validColumns.Count; i++)
+                {
+                    int spawnColumnPosition = validColumns[i];
+                    //Calculate spawn position and rotation
+                    Vector3 spawnPosition;
+                    Quaternion spawnRotation;
+                    CalculatePositionAndRotation(spawnColumnPosition, spawnRowPosition, out spawnPosition, out spawnRotation);
+
+                    //Create enemy and assign attributes
+					GameObject enemyType = enemyRow[i];
+
+
+                    if (enemyType != null)
+                    {
+                        nbOfEnemyInRow += 1;
+                        GameObject newEnemy = Instantiate(enemyType, spawnPosition, spawnRotation, enemyHolder);
+
+                        spawnAudio.Play();
+
+                        EnterGrid(spawnColumnPosition, spawnRowPosition);
+
+                        Enemy newEnemyController = newEnemy.GetComponent<Enemy>();
+                        newEnemyController.SetGridLimits(columnCount, rowCount);
+                        newEnemyController.SetStartingPosition(spawnColumnPosition, spawnRowPosition);
+
+                        bool randomPattern = false;
+                        List<Vector2Int> pattern = patterns.RetrievePattern(newEnemyController.movementPattern, out randomPattern);
+                        newEnemyController.UpdateNextPosition(pattern, currBeat, randomPattern);
+                    }
+                }
+                saturation = saturation + countSaturation(enemyRow);
+				Debug.Log("New saturation is : ");
+				Debug.Log(saturation);
+				if (nbOfEnemyInRow > 0) {
+					averageRowSaturation = countSaturation (enemyRow) / nbOfEnemyInRow;
+				} else {
+					averageRowSaturation = 0.25f;
+				}
+                
+				Debug.Log("average speed of the row is :");
+				Debug.Log(averageRowSaturation);
+            }
+            else
+            {
+                //wait a bit longer
+                saturation -= averageRowSaturation;
+				Debug.Log("decreasing saturation normally to");
+				Debug.Log(saturation);
+            }
+			countBeats += 1;
+            
+        }
+    }
+
+    /*
+
+
+        // Called every beat by the game manager
+        private void OnSpawnCommand()
+    {
+        //TODO get a new policy for spawning that enable high density of enemies
+
         //If no enemy wave, then try to get from EWM
         if (enemyWave == null)
         {
@@ -98,7 +239,7 @@ public class EnemyManager : MonoBehaviour {
         int spawnColumnPosition = validColumns[Random.Range (0, validColumns.Count-1)];
 
         //Verify valid spawn position
-        while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {
+        while (enemyGrid[spawnColumnPosition, spawnRowPosition]) {      //trying to spawn on a random column
             spawnColumnPosition = validColumns[Random.Range(0, validColumns.Count - 1)];
 
             if (spawnAttempts >= maxSpawnAttempts) {
@@ -135,15 +276,19 @@ public class EnemyManager : MonoBehaviour {
 
     }
 
-    private void OnMoveCommand() {
+
+        */
+
+    // Called by the game manager on every beat
+    private void OnMoveCommand() {                          
         // Interate through all children
         for (int i = 0; i < enemyHolder.childCount; i++) {
             // Get Enemy Component
             Enemy enemy = enemyHolder.GetChild(i).GetComponent<Enemy>();
 
             if (enemy != null) {
-                Vector2 enemyCurrentPosition = enemy.GetCurrentPosition();
-                Vector2 enemyNextPosition = enemy.GetNextPosition();
+                Vector2 enemyCurrentPosition = enemy.GetCurrentPosition();  // Get the current position of the enemy on the grid
+                Vector2 enemyNextPosition = enemy.GetNextPosition();        // Get the next enemy position on the grid
 
 				if (enemyNextPosition[1] <= 0) {
                     //Enemy has reached the player
@@ -152,10 +297,12 @@ public class EnemyManager : MonoBehaviour {
                     //TODO: Hurt the player
 					PlayerHurtEvent(1); //Replace with Enemy's damage
                     hitPlayerAudio.Play();
+                    
+                    //TODO could turn barrier red on hurt , to make it more meaningful
 
                     Destroy(enemy.gameObject);
 
-                } else if (enemyGrid[(int)enemyNextPosition[0], (int)enemyNextPosition[1]] == false) {
+                } else if (!enemyGrid[(int)enemyNextPosition[0], (int)enemyNextPosition[1]]) { //next position is empty
                     //Valid movement tile
                     LeaveGrid((int)enemyCurrentPosition[0], (int)enemyCurrentPosition[1]);
 
@@ -248,10 +395,14 @@ public class EnemyManager : MonoBehaviour {
 
             for (int j = sectStartCol; j < sectEndCol; j++)
             {
-                validColumns.Add(j);
+                validColumns.Add(j);    //here we do a lot of useless stuff as there is 20 sectors for 20 columns ... we are just adding columns 2 to 8 as valid columns ...
             }
         }
     }
+
+
+    //Here is the function to decide is a new enemy is going to spawn 
+    // has chance of spawning of (max(nb of enemies, 6) + 6 ) / 14
 
     /// <summary>
     /// RNG to check whether to spawn an enemy.
@@ -279,17 +430,46 @@ public class EnemyManager : MonoBehaviour {
         }
     }
 
+
+    /*My new functions*/
+    // Give the current staturation max possible in game
+    // Max saturation of 5 reached at end of phase 2
+    // Saturation max increase is linear
+    private float maxSaturation(int n)
+    {
+        return Mathf.Min((float)n * 3.0f / (float)endPhase2 + 2.0f , 5.0f); 
+    }
+
+    private float countSaturation(GameObject[] currentEnemyRow)
+    {
+        float saturationCounter = 0.0f;
+        for (int i = 0; i< currentEnemyRow.Length; i++)
+        {
+            if(currentEnemyRow[i] != null)
+            {
+                saturationCounter += currentEnemyRow[i].GetComponent<Enemy>().speed;
+            }
+        }
+        return saturationCounter;
+    }
+
+    /*-----------------------------------------------------------------------------*/
+
+
     /**
      * Public API
      **/
 
-	public void UpdateValidColumns(List<int> activeSectors){
+    public void UpdateValidColumns(List<int> activeSectors){
 		//UpdateValidColumns (sectors, activeSectors);
 	}
 
+
+    
     public void SpawnEnemy() {
-        OnSpawnCommand();
+        OnSpawnCommand2();
 	}
+    
 
     public void MoveEnemy(int beat){
         currBeat = beat;
