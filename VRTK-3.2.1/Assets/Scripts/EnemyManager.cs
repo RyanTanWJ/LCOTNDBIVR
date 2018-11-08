@@ -7,6 +7,9 @@ public class EnemyManager : MonoBehaviour {
 	public delegate void PlayerHurt(int damage);
 	public static event PlayerHurt PlayerHurtEvent;
 
+    public delegate void WinGame();
+    public static event WinGame WinGameEvent;
+
     [SerializeField]
     private int columnCount, rowCount, sectors;
 
@@ -79,14 +82,13 @@ public class EnemyManager : MonoBehaviour {
 			Debug.Log("remaining rows in enemy wave :");
 			Debug.Log(enemyWave.enemyRows.Count);
 		}
-
-        /*
-        if(waveCount == 20)
+        
+        if(waveCount > 20)
         {
-            //TODO: Add GameOverEvent
+            WinGameEvent();
+            return;
         }
-        */
-
+        
         //we don't have a wave or we spawned all enemies in wave and the arena is clear of enemies
 		if ((enemyWave == null || enemyWave.enemyRows.Count == 0 ) && enemyHolder.childCount <= 0)
         {
@@ -118,7 +120,7 @@ public class EnemyManager : MonoBehaviour {
 			//Debug.Log("checking spawninG locations ...");
             for (int j = 0; j < sectorSize; j++)
             {
-				//Debug.Log(enemyGrid[validColumns[j], spawnRowPosition]);
+				Debug.Log(enemyGrid[validColumns[j], spawnRowPosition]);
 				isSpawningLineOccupied = isSpawningLineOccupied || enemyGrid[validColumns[j], spawnRowPosition];
             }
 			//Debug.Log("isSpawningLineOccupied ? ");

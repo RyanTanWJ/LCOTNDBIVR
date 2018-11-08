@@ -47,7 +47,14 @@ public class EnemyWave {
             }
             if(patternType == 1 || patternType == 3)    //Repeat pattern
             {
-                System.Array.Copy(enemyRows[enemyRows.Count - 1], nextPattern, windowLength);
+                if(CountNbOfEnemies(enemyRows[enemyRows.Count - 1]) == 0)   //create new pattern pattern to avoid repeating the same empty one
+                {
+                    nextPattern = createOrdinaryPattern(windowLength);
+                }
+                else
+                {
+                    System.Array.Copy(enemyRows[enemyRows.Count - 1], nextPattern, windowLength);
+                }
             }
             if(patternType == 2 || patternType == 4)    //Complement pattern
             {
@@ -55,7 +62,14 @@ public class EnemyWave {
             }
             if (patternType == 5)
             {
-                nextPattern = shiftPattern(enemyRows[enemyRows.Count - 1]);
+                if (CountNbOfEnemies(enemyRows[enemyRows.Count - 1]) == 0)   //create new pattern pattern to avoid repeating the same empty one
+                {
+                    nextPattern = createOrdinaryPattern(windowLength);
+                }
+                else
+                {
+                    nextPattern = shiftPattern(enemyRows[enemyRows.Count - 1]);
+                }
             }
             nbOfEnemies += CountNbOfEnemies(nextPattern);
             enemyRows.Add(nextPattern);

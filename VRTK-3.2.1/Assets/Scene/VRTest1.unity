@@ -28697,8 +28697,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 9.5
+  m_fontSizeBase: 9.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -28743,7 +28743,7 @@ MonoBehaviour:
     spaceCount: 1
     wordCount: 2
     linkCount: 0
-    lineCount: 2
+    lineCount: 1
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
@@ -29419,8 +29419,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4284699903
-  m_fontColor: {r: 1, g: 0.33088237, b: 0.39110082, a: 1}
+    rgba: 4286447495
+  m_fontColor: {r: 0.531136, g: 1, b: 0.49264705, a: 1}
   m_enableVertexGradient: 0
   m_fontColorGradient:
     topLeft: {r: 1, g: 1, b: 1, a: 1}
@@ -85162,7 +85162,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartTarget: {fileID: 405023346}
   RetryTarget: {fileID: 1436820445}
-  Score: {fileID: 2057469003}
+  WinTarget: {fileID: 1347083391}
+  RetryScore: {fileID: 2057469003}
+  WinScore: {fileID: 277418288}
   countSource: {fileID: 872228117}
   gameOverSource: {fileID: 872228118}
 --- !u!82 &872228117
