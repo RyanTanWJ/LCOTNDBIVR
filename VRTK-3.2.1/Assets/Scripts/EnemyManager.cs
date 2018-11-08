@@ -80,6 +80,13 @@ public class EnemyManager : MonoBehaviour {
 			Debug.Log(enemyWave.enemyRows.Count);
 		}
 
+        /*
+        if(waveCount == 20)
+        {
+            //TODO: Add GameOverEvent
+        }
+        */
+
         //we don't have a wave or we spawned all enemies in wave and the arena is clear of enemies
 		if ((enemyWave == null || enemyWave.enemyRows.Count == 0 ) && enemyHolder.childCount <= 0)
         {

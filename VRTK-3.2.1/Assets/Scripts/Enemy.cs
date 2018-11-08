@@ -85,6 +85,7 @@ public class Enemy : MonoBehaviour {
 			//Return and loop until sqrRemainingDistance is close enough to zero to end the function
 			yield return null;
 		}
+        yield return null;
 	}
 
 	public IEnumerator SmoothRotation (Quaternion endRot, float time)
@@ -98,7 +99,7 @@ public class Enemy : MonoBehaviour {
 			elapsedTime += Time.deltaTime;
 			yield return new WaitForEndOfFrame ();
 		}
-		yield return 0;
+		yield return null;
 	}
 
     /**
