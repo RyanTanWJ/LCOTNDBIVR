@@ -14,6 +14,8 @@ public class Player : MonoBehaviour {
 
     FlowController flow;
 
+    bool isTutorial = true;
+
 	void Awake () {
         //health = new HealthController (maxHealth);
         //flow = gameObject.AddComponent<FlowController>();
@@ -32,12 +34,20 @@ public class Player : MonoBehaviour {
 
     public void TakeDamage(int dmg)
     {
+        if (isTutorial)
+        {
+            return;
+        }
 		flow.TakeDamage(FlowMultiplier(dmg));
     }
 
     public void Heal(int health)
     {
-		flow.Heal(FlowMultiplier(health));
+        if (isTutorial)
+        {
+            return;
+        }
+        flow.Heal(FlowMultiplier(health));
     }
 
     public bool IsDead() {
@@ -56,6 +66,7 @@ public class Player : MonoBehaviour {
     {
         score = 0;
         flow.Reset(startingFlow);
+        OffTutorial();
     }
 
 	/// <summary>
@@ -65,4 +76,9 @@ public class Player : MonoBehaviour {
 	public void AddScore(int value){
 		score += ScoreMultiplier (value);
 	}
+
+    private void OffTutorial()
+    {
+        isTutorial = false;
+    }
 }
