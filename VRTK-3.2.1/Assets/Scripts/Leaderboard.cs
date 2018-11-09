@@ -10,17 +10,10 @@ public class Leaderboard : MonoBehaviour {
     [SerializeField]
     private LeaderboardScore LeaderboardScorePrefab;
 
-    private List<PlayerScoreData> Highscores = new List<PlayerScoreData>();
-
     //Only keeps track of this number of player scores
     const int TopX = 5;
 
-    void Start()
-    {
-        PopulateLeaderboard();
-    }
-
-    private void PopulateLeaderboard()
+    public void PopulateLeaderboard(List<PlayerScoreData> Highscores)
     {
         //Header
         Instantiate(LeaderboardScorePrefab, ScoresHolder.transform);

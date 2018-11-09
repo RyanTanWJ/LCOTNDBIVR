@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScoreData : IComparer<PlayerScoreData>
+[System.Serializable]
+public class PlayerScoreData : System.IComparable<PlayerScoreData>
 {
     private int playerScore;
     private string playerName;
@@ -15,13 +16,15 @@ public class PlayerScoreData : IComparer<PlayerScoreData>
         dateTimeScoreAchieved = dateTime;
     }
 
-    public int Compare(PlayerScoreData x, PlayerScoreData y)
+    public int CompareTo(PlayerScoreData other)
     {
-        if (x.playerScore == y.playerScore)
+        if (playerScore == other.playerScore)
         {
-            return x.dateTimeScoreAchieved.CompareTo(y.dateTimeScoreAchieved);
+            //Newer Score first
+            return -dateTimeScoreAchieved.CompareTo(other.dateTimeScoreAchieved);
         }
-        return x.playerScore.CompareTo(y.playerScore);
+        //Better score first
+        return -playerScore.CompareTo(other.playerScore);
     }
 
     public int Score

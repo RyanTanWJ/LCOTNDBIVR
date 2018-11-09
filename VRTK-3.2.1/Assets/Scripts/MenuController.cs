@@ -11,10 +11,12 @@ public class MenuController : MonoBehaviour {
     [SerializeField]
     GameObject WinTarget;
     [SerializeField]
+    GameObject SubmitScoreTarget;
+    [SerializeField]
     TMPro.TextMeshPro RetryScore, WinScore;
     [SerializeField]
     AudioSource countSource, gameOverSource;
-
+    
     public void GameOverMenu(int score)
     {
         StartTarget.SetActive(false);
@@ -26,7 +28,14 @@ public class MenuController : MonoBehaviour {
         StartTarget.SetActive(false);
         StartCoroutine(IncreaseScore(score, WinTarget, WinScore));
     }
-
+    
+    public void SubmitScoreMenu(int score)
+    {
+        RetryTarget.SetActive(false);
+        WinTarget.SetActive(false);
+        SubmitScoreTarget.SetActive(true);
+        SubmitScoreTarget.GetComponent<SubmitScoreMenu>().OpenMenu(score);
+    }
 
     IEnumerator GameOverTriggered()
     {
