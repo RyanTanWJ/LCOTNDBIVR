@@ -20,6 +20,12 @@ public class Shooting : MonoBehaviour
     public delegate void Back();
     public static event Back BackEvent;
 
+    public delegate void SubmitScoreMenu();
+    public static event SubmitScoreMenu SubmitScoreMenuEvent;
+
+    public delegate void Keyboard(string key);
+    public static event Keyboard KeyboardEvent;
+
     public VRTK.VRTK_ControllerEvents controllerEvents;
     public VRTK.AdditionalControllerInput extraInput;
 
@@ -174,6 +180,22 @@ public class Shooting : MonoBehaviour
                 PlayPulse(true);
 
                 HapticPulse(extraInput.TheController, 0.5f);
+                break;
+            case "SubmitScore":
+                buttonSource.Play();
+                PlayPulse(true);
+                
+                HapticPulse(extraInput.TheController, 0.5f);
+
+                SubmitScoreMenuEvent();
+                break;
+            case "Keyboard":
+                buttonSource.Play();
+                PlayPulse(true);
+
+                HapticPulse(extraInput.TheController, 0.5f);
+
+                KeyboardEvent(hitObject.GetComponentInChildren<TMPro.TextMeshProUGUI>().text);
                 break;
             case "Quit":
                 PlayPulse(false);

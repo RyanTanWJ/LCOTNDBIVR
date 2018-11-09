@@ -108,7 +108,7 @@ public class EnemyManager : MonoBehaviour {
 				maxBeforeCleanup = 32;
 			}
 
-			if (countBeats >= maxBeforeCleanup) {
+			if (countBeats >= maxBeforeCleanup || enemyHolder.childCount==0) {
 				for (int j = 0; j < sectorSize; j++)
 				{
 					enemyGrid [validColumns [j], spawnRowPosition] = false;
@@ -181,7 +181,7 @@ public class EnemyManager : MonoBehaviour {
             else
             {
                 //wait a bit longer
-                saturation -= averageRowSaturation;
+                saturation = Mathf.Max( 0.0f, saturation - averageRowSaturation);
 				Debug.Log("decreasing saturation normally to");
 				Debug.Log(saturation);
             }

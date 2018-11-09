@@ -11,6 +11,8 @@ TagManager:
   - Back
   - Credits
   - Quit
+  - SubmitScore
+  - Keyboard
   layers:
   - Default
   - TransparentFX

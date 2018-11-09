@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject menu;
     [SerializeField]
+    private Leaderboard leaderboard;
+    [SerializeField]
     private GameObject credits;
 
     [SerializeField]
@@ -47,6 +49,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject ArenaScoreDisplay;
 
+    [SerializeField]
+    private GameObject HighscoresListObj;
+
+    [SerializeField]
+    private HighscoresList highscoresList;
+
     private VRTK.VRTK_ControllerReference controller;
 
     void OnEnable()
@@ -57,10 +65,12 @@ public class GameManager : MonoBehaviour
         Shooting.GameRestartEvent += OnGameRestart;
         Shooting.CreditsEvent += OnCredits;
         Shooting.BackEvent += OnBack;
+        Shooting.SubmitScoreMenuEvent += OpenSubmitScoreMenu;
         EnemyManager.PlayerHurtEvent += HurtPlayer;
         EnemyManager.WinGameEvent += WinGame;
         EnemyWaveManager.TutorialEndEvent += ResetPlayer;
         FlowController.PlayerDeadEvent += OnPlayerDead;
+        SubmitScoreMenu.SubmitScoreToLeaderboardEvent += AddScore;
     }
 
     void OnDisable()
@@ -71,10 +81,12 @@ public class GameManager : MonoBehaviour
         Shooting.GameRestartEvent -= OnGameRestart;
         Shooting.CreditsEvent -= OnCredits;
         Shooting.BackEvent -= OnBack;
+        Shooting.SubmitScoreMenuEvent -= OpenSubmitScoreMenu;
         EnemyManager.PlayerHurtEvent -= HurtPlayer;
         EnemyManager.WinGameEvent -= WinGame;
         EnemyWaveManager.TutorialEndEvent -= ResetPlayer;
         FlowController.PlayerDeadEvent -= OnPlayerDead;
+        SubmitScoreMenu.SubmitScoreToLeaderboardEvent -= AddScore;
     }
 
     void Start()
@@ -83,6 +95,7 @@ public class GameManager : MonoBehaviour
         enemyManager = this.GetComponent<EnemyManager>();
         //beatSource = this.GetComponent<AudioSource>();
         ArenaScoreDisplay.SetActive(false);
+        leaderboard.PopulateLeaderboard(highscoresList.HIGHSCORES);
         credits.SetActive(false);
         /*
         if (rhythmController == null) {
@@ -162,7 +175,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            spawnText("Beat Missed", enemy.transform);
+            spawnText("Beat\nMissed\n", enemy.transform);
             player.TakeDamage(1);
             missSource.Play();
             PulseEvent(false, isLeft);
@@ -256,6 +269,11 @@ public class GameManager : MonoBehaviour
         menu.GetComponent<MenuController>().GameOverMenu(player.Score);
     }
 
+    private void OpenSubmitScoreMenu()
+    {
+        menu.GetComponent<MenuController>().SubmitScoreMenu(player.Score);
+    }
+
     private void OnBack()
     {
         menu.SetActive(true);
@@ -271,5 +289,12 @@ public class GameManager : MonoBehaviour
     public void HapticPulse(VRTK.VRTK_ControllerReference controllerReference, float strength, float duration, float interval)
     {
         VRTK.VRTK_ControllerHaptics.TriggerHapticPulse(controllerReference, Mathf.Clamp(strength, 0, 1.0f), duration, interval);
+    }
+
+    public void AddScore(PlayerScoreData playerScoreData)
+    {
+        highscoresList.AddToHighscoreList(playerScoreData);
+        //leaderboard.PopulateLeaderboard(highscoresList.HIGHSCORES);
+        OnGameRestart();
     }
 }
