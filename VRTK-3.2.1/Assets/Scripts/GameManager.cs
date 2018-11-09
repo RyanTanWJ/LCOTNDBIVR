@@ -202,12 +202,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnGameStart(VRTK.VRTK_ControllerReference CR)
+    private void OnGameStart(VRTK.VRTK_ControllerReference CR, bool normal)
     {
+        if (!normal)
+        {
+            enemyManager.HardMode();
+        }
         controller = CR;
         ArenaScoreDisplay.SetActive(true);
         menu.SetActive(false);
         rhythmController = Instantiate(rhythmControllerPrefab, this.transform).GetComponent<RhythmController>();
+        rhythmController.StartGame(normal);
     }
 
     private void OnGameRestart()

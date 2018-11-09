@@ -49,7 +49,7 @@ public class EnemyManager : MonoBehaviour {
     private int sectorSize;
 	private int countBeats = 0;
     //-------------------
-
+    private int winGameWave = 20;
 
     [SerializeField]
     AudioSource[] deathAudio;
@@ -83,7 +83,7 @@ public class EnemyManager : MonoBehaviour {
 			Debug.Log(enemyWave.enemyRows.Count);
 		}
         
-        if(waveCount > 20)
+        if(waveCount > winGameWave)
         {
             WinGameEvent();
             return;
@@ -495,5 +495,11 @@ public class EnemyManager : MonoBehaviour {
     public int CurrentWave()
     {
         return enemyWaveManager.CurrentWave();
+    }
+
+    public void HardMode()
+    {
+        enemyWaveManager.HardMode();
+        winGameWave = 15;
     }
 }

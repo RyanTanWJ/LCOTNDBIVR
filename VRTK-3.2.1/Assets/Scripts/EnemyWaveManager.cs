@@ -100,4 +100,11 @@ public class EnemyWaveManager : MonoBehaviour
     {
         return currentWave;
     }
+
+    public void HardMode()
+    {
+        //currentWave = 4;
+        tutorialEnded = true;
+        TutorialEndEvent();
+    }
 }
