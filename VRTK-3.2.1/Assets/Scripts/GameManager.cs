@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            spawnText("Beat Missed", enemy.transform);
+            spawnText("Beat\nMissed\n", enemy.transform);
             player.TakeDamage(1);
             missSource.Play();
             PulseEvent(false, isLeft);
