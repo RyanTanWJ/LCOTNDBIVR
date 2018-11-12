@@ -120,7 +120,7 @@ public class EnemyManager : MonoBehaviour {
 			//Debug.Log("checking spawninG locations ...");
             for (int j = 0; j < sectorSize; j++)
             {
-				Debug.Log(enemyGrid[validColumns[j], spawnRowPosition]);
+				//Debug.Log(enemyGrid[validColumns[j], spawnRowPosition]);
 				isSpawningLineOccupied = isSpawningLineOccupied || enemyGrid[validColumns[j], spawnRowPosition];
             }
 			//Debug.Log("isSpawningLineOccupied ? ");
@@ -319,9 +319,9 @@ public class EnemyManager : MonoBehaviour {
 
                 } else {
                     //Invalid movement tile
-                    Debug.Log(enemy.name + " cannot move.");
-                    Debug.Log(enemyCurrentPosition);
-                    Debug.Log(enemyNextPosition);
+                    //Debug.Log(enemy.name + " cannot move.");
+                    //Debug.Log(enemyCurrentPosition);
+                    //Debug.Log(enemyNextPosition);
                     bool randomPattern = false;
                     List<Vector2Int> pattern = patterns.RetrievePattern(enemy.movementPattern, out randomPattern);
                     enemy.UpdateNextPosition(pattern, currBeat, randomPattern);
