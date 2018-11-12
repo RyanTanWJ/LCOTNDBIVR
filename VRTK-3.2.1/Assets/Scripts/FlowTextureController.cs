@@ -18,21 +18,28 @@ public class FlowTextureController : MonoBehaviour {
 
     private void OnEnable() {
         RhythmController.BeatTriggeredEvent += UpdatePattern;
+        GameStart();
     }
 
     private void OnDisable() {
         RhythmController.BeatTriggeredEvent -= UpdatePattern;
     }
 
-    void Start() {
+    private void GameStart()
+    {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         renderMaterial = GetComponent<Renderer>();
-		rhythmController = GameObject.FindGameObjectWithTag("RhythmController").GetComponent<RhythmController>();
+        rhythmController = GameObject.FindGameObjectWithTag("RhythmController").GetComponent<RhythmController>();
     }
 
-	private void Update() {
-		rhythmState = rhythmController.GetCurrentBeat();
-		renderMaterial.material.color = beatToColor(rhythmState);
+    private void Update()
+    {
+        if (rhythmController != null)
+        {
+            rhythmState = rhythmController.GetCurrentBeat();
+            renderMaterial.material.color = beatToColor(rhythmState);
+            return;
+        }
 	}
 
 	private void UpdatePattern() {

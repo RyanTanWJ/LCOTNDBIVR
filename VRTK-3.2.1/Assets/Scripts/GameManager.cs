@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private HighscoresList highscoresList;
 
+    [SerializeField]
+    private GameObject FlowTextureRings;
+
     private VRTK.VRTK_ControllerReference controller;
 
     void OnEnable()
@@ -208,6 +211,7 @@ public class GameManager : MonoBehaviour
         ArenaScoreDisplay.SetActive(true);
         menu.SetActive(false);
         rhythmController = Instantiate(rhythmControllerPrefab, this.transform).GetComponent<RhythmController>();
+        FlowTextureRings.SetActive(true);
     }
 
     private void OnGameRestart()
