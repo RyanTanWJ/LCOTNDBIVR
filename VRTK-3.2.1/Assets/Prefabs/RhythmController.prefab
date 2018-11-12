@@ -216,7 +216,7 @@ MonoBehaviour:
   beatsPerMinute: 780000008c000000
   beatOffsets:
   - 0
-  - 0
+  - -0.22998334
   musicTracks:
   - {fileID: 82943865839885678}
   - {fileID: 82997425806669416}
