@@ -240,9 +240,9 @@ public class GameManager : MonoBehaviour
         player.TakeDamage(damage);
     }
 
-    private void ResetPlayer()
+    private void ResetPlayer(bool hardMode)
     {
-        player.ResetPlayer();
+        player.ResetPlayer(hardMode);
     }
 
     private void OnPlayerDead()
