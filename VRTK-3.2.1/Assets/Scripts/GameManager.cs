@@ -57,6 +57,9 @@ public class GameManager : MonoBehaviour
 
     private VRTK.VRTK_ControllerReference controller;
 
+    int perfectShot = 0;
+    float perfectRhythmStateCumulative = 0;
+
     void OnEnable()
     {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
@@ -151,6 +154,9 @@ public class GameManager : MonoBehaviour
 
         if (rhythmState < offsetPerfect || 1 - offsetPerfect < rhythmState)
         {
+            perfectRhythmStateCumulative += rhythmState;
+            perfectShot += 1;
+            Debug.Log("_______________________________Perfect RhythmState Avewrage = " + (perfectRhythmStateCumulative / (float)perfectShot));
             spawnText("Perfect", enemy.transform);
             flowMultiplier = flowPerfect;
             PulseEvent(true, isLeft);
