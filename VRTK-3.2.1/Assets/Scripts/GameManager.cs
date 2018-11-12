@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
         {
             perfectRhythmStateCumulative += rhythmState;
             perfectShot += 1;
-            Debug.Log("_______________________________Perfect RhythmState Avewrage = " + (perfectRhythmStateCumulative / (float)perfectShot));
+            Debug.Log("_______________________________Perfect RhythmState Average = " + (perfectRhythmStateCumulative / (float)perfectShot));
             spawnText("Perfect", enemy.transform);
             flowMultiplier = flowPerfect;
             PulseEvent(true, isLeft);
