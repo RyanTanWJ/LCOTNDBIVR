@@ -213,10 +213,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45943c7823d366e45a70a59dda308ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatsPerMinute: 780000008c000000
+  beatsPerMinute:
+  - 120
+  - 139.996
   beatOffsets:
   - 0
-  - -0.22998334
+  - 0
   musicTracks:
   - {fileID: 82943865839885678}
   - {fileID: 82997425806669416}

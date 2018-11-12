@@ -38,8 +38,8 @@ public class EnemyWaveManager : MonoBehaviour
 
     private void Start()
     {
-        hardDifficultyMaskMin = 2;
-        hardDifficultyMaskMax = EnemyTypes.Count / 2;
+        hardDifficultyMaskMin = 3;
+        hardDifficultyMaskMax = EnemyTypes.Count / 2 + 1;
     }
 
     public EnemyWave GetEnemyWave()

@@ -53,7 +53,7 @@ public class Shooting : MonoBehaviour
 
     public Gun gun;
     float nextFire = 0;
-    float fireDelay = 0.5f;
+    float fireDelay = 0.4f;
 
     void OnEnable()
     {
