@@ -13,10 +13,50 @@ public class MenuController : MonoBehaviour {
     [SerializeField]
     GameObject SubmitScoreTarget;
     [SerializeField]
+    List<GameObject> MainMenuOptions;
+    [SerializeField]
+    List<GameObject> DifficultyOptions;
+    [SerializeField]
     TMPro.TextMeshPro RetryScore, WinScore;
     [SerializeField]
     AudioSource countSource, gameOverSource;
     
+    void OnEnable()
+    {
+        Shooting.BackAltEvent += BackAlt;
+        Shooting.DifficultySelectEvent += DifficultySelectMenu;
+    }
+
+    void OnDisable()
+    {
+        Shooting.BackAltEvent -= BackAlt;
+        Shooting.DifficultySelectEvent -= DifficultySelectMenu;
+    }
+
+    private void BackAlt()
+    {
+        foreach(GameObject option in MainMenuOptions)
+        {
+            option.SetActive(true);
+        }
+        foreach (GameObject option in DifficultyOptions)
+        {
+            option.SetActive(false);
+        }
+    }
+
+    public void DifficultySelectMenu()
+    {
+        foreach (GameObject option in DifficultyOptions)
+        {
+            option.SetActive(true);
+        }
+        foreach (GameObject option in MainMenuOptions)
+        {
+            option.SetActive(false);
+        }
+    }
+
     public void GameOverMenu(int score)
     {
         StartTarget.SetActive(false);

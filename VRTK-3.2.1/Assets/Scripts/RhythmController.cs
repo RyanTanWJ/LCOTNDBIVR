@@ -8,10 +8,10 @@ public class RhythmController : MonoBehaviour {
     public static event BeatTriggered BeatTriggeredEvent;
 
     [SerializeField]
-    private int beatsPerMinute;
+    private List<float> beatsPerMinute;
 
     [SerializeField]
-    private float beatOffset;
+    private List<float> beatOffsets;
 
     private float secondsPerBeat;
     private float dpsStartTime;
@@ -20,12 +20,15 @@ public class RhythmController : MonoBehaviour {
 
     private int integerBeatPosition = 0;
 
-    private AudioSource musicTrack;
+    [SerializeField]
+    private List<AudioSource> musicTracks;
 
-	void Start () {
-        musicTrack = GetComponent<AudioSource>();
-
-        secondsPerBeat = 60.0f / (float) beatsPerMinute;
+	public void StartGame (bool normal) {
+        int accessor = normal ? 0 : 1;
+        AudioSource musicTrack = musicTracks[accessor];
+        float bpm = beatsPerMinute[accessor];
+        float beatOffset = beatOffsets[accessor];
+        secondsPerBeat = 60.0f / bpm;
         dpsStartTime = (float)AudioSettings.dspTime - beatOffset;
 
         Debug.Log(secondsPerBeat + "s per Beat");

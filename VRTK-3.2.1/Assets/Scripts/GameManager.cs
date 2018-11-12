@@ -57,6 +57,9 @@ public class GameManager : MonoBehaviour
 
     private VRTK.VRTK_ControllerReference controller;
 
+    int perfectShot = 0;
+    float perfectRhythmStateCumulative = 0;
+
     void OnEnable()
     {
         RhythmController.BeatTriggeredEvent += OnBeatTrigger;
@@ -151,6 +154,9 @@ public class GameManager : MonoBehaviour
 
         if (rhythmState < offsetPerfect || 1 - offsetPerfect < rhythmState)
         {
+            perfectRhythmStateCumulative += rhythmState;
+            perfectShot += 1;
+            Debug.Log("_______________________________Perfect RhythmState Average = " + (perfectRhythmStateCumulative / (float)perfectShot));
             spawnText("Perfect", enemy.transform);
             flowMultiplier = flowPerfect;
             PulseEvent(true, isLeft);
@@ -202,12 +208,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnGameStart(VRTK.VRTK_ControllerReference CR)
+    private void OnGameStart(VRTK.VRTK_ControllerReference CR, bool normal)
     {
+        if (!normal)
+        {
+            enemyManager.HardMode();
+        }
         controller = CR;
         ArenaScoreDisplay.SetActive(true);
         menu.SetActive(false);
         rhythmController = Instantiate(rhythmControllerPrefab, this.transform).GetComponent<RhythmController>();
+        rhythmController.StartGame(normal);
     }
 
     private void OnGameRestart()
@@ -229,9 +240,9 @@ public class GameManager : MonoBehaviour
         player.TakeDamage(damage);
     }
 
-    private void ResetPlayer()
+    private void ResetPlayer(bool hardMode)
     {
-        player.ResetPlayer();
+        player.ResetPlayer(hardMode);
     }
 
     private void OnPlayerDead()

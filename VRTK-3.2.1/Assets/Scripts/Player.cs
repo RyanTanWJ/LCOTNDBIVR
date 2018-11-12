@@ -16,6 +16,8 @@ public class Player : MonoBehaviour {
 
     bool isTutorial = true;
 
+    bool hardMode = false;
+
 	void Awake () {
         //health = new HealthController (maxHealth);
         //flow = gameObject.AddComponent<FlowController>();
@@ -59,11 +61,17 @@ public class Player : MonoBehaviour {
 	}
 		
 	private int ScoreMultiplier(int value){
-		return flow.Flow * value;
+        int scoreToAdd = flow.Flow * value;
+        if (hardMode)
+        {
+            scoreToAdd = Mathf.CeilToInt(scoreToAdd * 1.2f);
+        }
+		return scoreToAdd;
 	}
 
-    public void ResetPlayer()
+    public void ResetPlayer(bool hard)
     {
+        hardMode = hard;
         score = 0;
         flow.Reset(startingFlow);
         OffTutorial();

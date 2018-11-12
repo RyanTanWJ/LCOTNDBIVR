@@ -13,6 +13,9 @@ TagManager:
   - Quit
   - SubmitScore
   - Keyboard
+  - BackAlt
+  - Normal
+  - Hard
   layers:
   - Default
   - TransparentFX

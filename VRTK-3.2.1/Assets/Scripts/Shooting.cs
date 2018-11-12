@@ -8,8 +8,14 @@ public class Shooting : MonoBehaviour
     public delegate void ShotFired(GameObject enemy, Vector3 hitPoint, bool isLeft);
     public static event ShotFired ShotFiredEvent;
 
-    public delegate void GameStart(VRTK.VRTK_ControllerReference CR);
+    public delegate void DifficultySelect();
+    public static event DifficultySelect DifficultySelectEvent;
+
+    public delegate void GameStart(VRTK.VRTK_ControllerReference CR, bool normal);
     public static event GameStart GameStartEvent;
+
+    public delegate void BackAlt();
+    public static event BackAlt BackAltEvent;
 
     public delegate void GameRestart();
     public static event GameRestart GameRestartEvent;
@@ -47,7 +53,7 @@ public class Shooting : MonoBehaviour
 
     public Gun gun;
     float nextFire = 0;
-    float fireDelay = 0.5f;
+    float fireDelay = 0.4f;
 
     void OnEnable()
     {
@@ -150,7 +156,31 @@ public class Shooting : MonoBehaviour
                 HapticPulse(extraInput.TheController, 0.2f);
                 break;
             case "Start":
-                GameStartEvent(extraInput.TheController);
+                DifficultySelectEvent();
+                buttonSource.Play();
+
+                PlayPulse(true);
+
+                HapticPulse(extraInput.TheController, 0.5f);
+                break;
+            case "Normal":
+                GameStartEvent(extraInput.TheController, true);
+                buttonSource.Play();
+
+                PlayPulse(true);
+
+                HapticPulse(extraInput.TheController, 0.5f);
+                break;
+            case "Hard":
+                GameStartEvent(extraInput.TheController, false);
+                buttonSource.Play();
+
+                PlayPulse(true);
+
+                HapticPulse(extraInput.TheController, 0.5f);
+                break;
+            case "BackAlt":
+                BackAltEvent();
                 buttonSource.Play();
 
                 PlayPulse(true);

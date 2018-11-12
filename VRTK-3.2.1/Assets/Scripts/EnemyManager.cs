@@ -49,7 +49,7 @@ public class EnemyManager : MonoBehaviour {
     private int sectorSize;
 	private int countBeats = 0;
     //-------------------
-
+    private int winGameWave = 20;
 
     [SerializeField]
     AudioSource[] deathAudio;
@@ -83,7 +83,7 @@ public class EnemyManager : MonoBehaviour {
 			Debug.Log(enemyWave.enemyRows.Count);
 		}
         
-        if(waveCount > 20)
+        if(waveCount > winGameWave)
         {
             WinGameEvent();
             return;
@@ -120,7 +120,7 @@ public class EnemyManager : MonoBehaviour {
 			//Debug.Log("checking spawninG locations ...");
             for (int j = 0; j < sectorSize; j++)
             {
-				Debug.Log(enemyGrid[validColumns[j], spawnRowPosition]);
+				//Debug.Log(enemyGrid[validColumns[j], spawnRowPosition]);
 				isSpawningLineOccupied = isSpawningLineOccupied || enemyGrid[validColumns[j], spawnRowPosition];
             }
 			//Debug.Log("isSpawningLineOccupied ? ");
@@ -319,9 +319,9 @@ public class EnemyManager : MonoBehaviour {
 
                 } else {
                     //Invalid movement tile
-                    Debug.Log(enemy.name + " cannot move.");
-                    Debug.Log(enemyCurrentPosition);
-                    Debug.Log(enemyNextPosition);
+                    //Debug.Log(enemy.name + " cannot move.");
+                    //Debug.Log(enemyCurrentPosition);
+                    //Debug.Log(enemyNextPosition);
                     bool randomPattern = false;
                     List<Vector2Int> pattern = patterns.RetrievePattern(enemy.movementPattern, out randomPattern);
                     enemy.UpdateNextPosition(pattern, currBeat, randomPattern);
@@ -495,5 +495,11 @@ public class EnemyManager : MonoBehaviour {
     public int CurrentWave()
     {
         return enemyWaveManager.CurrentWave();
+    }
+
+    public void HardMode()
+    {
+        enemyWaveManager.HardMode();
+        winGameWave = 15;
     }
 }
