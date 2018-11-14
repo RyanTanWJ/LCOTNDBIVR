@@ -38,6 +38,8 @@ public class EnemyManager : MonoBehaviour {
 
     private int currBeat = 0;
 
+    private List<GameObject> destroyList = new List<GameObject>();
+
     //My modifications 
     private int waveCount = 0;
     private int endPhase1 = 6;
@@ -75,6 +77,14 @@ public class EnemyManager : MonoBehaviour {
 		sectorSize = 7;
     }
 
+    private void LateUpdate()
+    {
+        foreach(GameObject enemy in destroyList)
+        {
+            OnDestroyCommand(enemy);
+        }
+        destroyList.Clear();
+    }
 
     private void OnSpawnCommand2()
     {
@@ -297,10 +307,11 @@ public class EnemyManager : MonoBehaviour {
                     //TODO: Hurt the player
 					PlayerHurtEvent(1); //Replace with Enemy's damage
                     hitPlayerAudio.Play();
-                    
+
                     //TODO could turn barrier red on hurt , to make it more meaningful
 
-                    Destroy(enemy.gameObject);
+                    //Destroy(enemy.gameObject);
+                    destroyList.Add(enemy.gameObject);
 
                 } else if (!enemyGrid[(int)enemyNextPosition[0], (int)enemyNextPosition[1]]) { //next position is empty
                     //Valid movement tile
@@ -345,7 +356,7 @@ public class EnemyManager : MonoBehaviour {
 
     public void DestroyAllEnemies() {
         foreach(Transform enemy in enemyHolder) {
-            Destroy(enemy.gameObject);
+            destroyList.Add(enemy.gameObject);
         }
     }
 
@@ -484,7 +495,7 @@ public class EnemyManager : MonoBehaviour {
 
         Destroy(deathFX.gameObject, 3.0f);
 
-        OnDestroyCommand(enemy);
+        destroyList.Add(enemy);
     }
     
     public bool isTutorial()
