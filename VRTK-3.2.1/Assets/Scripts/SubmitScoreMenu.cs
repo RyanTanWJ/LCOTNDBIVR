@@ -14,7 +14,7 @@ public class SubmitScoreMenu : MonoBehaviour
     [SerializeField]
     TMPro.TextMeshPro scoreField;
 
-    private const int charLimit = 12;
+    private const int charLimit = 10;
 
     const string emptyName = "";
     int playerScore = 0;

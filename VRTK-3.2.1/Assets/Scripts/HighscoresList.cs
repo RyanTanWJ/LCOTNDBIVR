@@ -30,18 +30,19 @@ public class HighscoresList : MonoBehaviour
     {
         BinaryFormatter bf = new BinaryFormatter();
         //Application.persistentDataPath is a string, so if you wanted you can put that into debug.log if you want to know where save games are located
-        Debug.Log("__________Save Game is here: " + Application.persistentDataPath);
-        FileStream file = File.Create(Application.persistentDataPath + "/highscores.save"); //you can call it anything you want
+        Debug.Log("__________Save Game is here: " + Application.dataPath);
+        FileStream file = File.Create(Application.dataPath + "/highscores.save"); //you can call it anything you want
         bf.Serialize(file, Highscores);
         file.Close();
     }
 
     public void Load()
     {
-        if (File.Exists(Application.persistentDataPath + "/highscores.save"))
+        if (File.Exists(Application.dataPath + "/highscores.save"))
         {
+            Debug.Log("__________Save Game is here: " + Application.dataPath);
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/highscores.save", FileMode.Open);
+            FileStream file = File.Open(Application.dataPath + "/highscores.save", FileMode.Open);
             Highscores = (List<PlayerScoreData>)bf.Deserialize(file);
             file.Close();
             Highscores.Sort();
